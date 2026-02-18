@@ -83,7 +83,10 @@ pub fn generate_luau_with_full_config(
         "embedded" => generate_constructor_embedded(&mut code, analytics_config),
         "cloud" => generate_constructor_cloud(&mut code, analytics_config),
         "hybrid" => generate_constructor_hybrid(&mut code, analytics_config),
-        _ => generate_constructor(&mut code, analytics_config), // Fallback to default
+        _ => unreachable!(
+            "Invalid localization mode: {}. Expected 'embedded', 'cloud', or 'hybrid'",
+            mode
+        ),
     }
 
     // Locale detection methods (only for cloud and hybrid modes)
@@ -117,6 +120,7 @@ pub fn generate_luau_with_full_config(
 }
 
 /// Generate constructor method
+#[allow(dead_code)]
 fn generate_constructor(
     code: &mut String,
     analytics_config: Option<&crate::config::AnalyticsConfig>,
@@ -522,6 +526,261 @@ fn generate_plural_method(code: &mut String, base_key: &str, _translations: &[&T
     code.push_str("end\n\n");
 }
 
+/// Generate a plural method for embedded mode
+fn generate_plural_method_embedded(
+    code: &mut String,
+    base_key: &str,
+    _translations: &[&Translation],
+    base_locale: &str,
+) {
+    let method_name = base_key.replace(".", "_");
+
+    code.push_str(&format!(
+        "function Translations:{}(count, params)\n",
+        method_name
+    ));
+    code.push_str("    params = params or {}\n");
+    code.push_str("    params.count = count\n");
+    code.push_str("    \n");
+    code.push_str("    -- Determine plural category\n");
+    code.push_str("    local category = \"other\"\n");
+    code.push_str("    \n");
+
+    // Generate category selection logic
+    code.push_str("    if self._locale == \"en\" then\n");
+    code.push_str("        if count == 1 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str("        end\n");
+    code.push_str("    elseif self._locale == \"ru\" or self._locale == \"uk\" then\n");
+    code.push_str("        local mod10 = math.abs(count) % 10\n");
+    code.push_str("        local mod100 = math.abs(count) % 100\n");
+    code.push_str("        if mod10 == 1 and mod100 ~= 11 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str(
+        "        elseif mod10 >= 2 and mod10 <= 4 and (mod100 < 12 or mod100 > 14) then\n",
+    );
+    code.push_str("            category = \"few\"\n");
+    code.push_str("        else\n");
+    code.push_str("            category = \"many\"\n");
+    code.push_str("        end\n");
+    code.push_str("    elseif self._locale == \"ar\" then\n");
+    code.push_str("        local absCount = math.abs(count)\n");
+    code.push_str("        local mod100 = absCount % 100\n");
+    code.push_str("        if absCount == 0 then\n");
+    code.push_str("            category = \"zero\"\n");
+    code.push_str("        elseif absCount == 1 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str("        elseif absCount == 2 then\n");
+    code.push_str("            category = \"two\"\n");
+    code.push_str("        elseif mod100 >= 3 and mod100 <= 10 then\n");
+    code.push_str("            category = \"few\"\n");
+    code.push_str("        elseif mod100 >= 11 and mod100 <= 99 then\n");
+    code.push_str("            category = \"many\"\n");
+    code.push_str("        end\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+
+    // Get from embedded data
+    code.push_str("    -- Get translation from embedded data\n");
+    code.push_str(&format!(
+        "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+        base_locale
+    ));
+    code.push_str(&format!(
+        "    local key = \"{}(\" .. category .. \")\"\n",
+        base_key
+    ));
+    code.push_str("    local template = locale_data[key]\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fallback to 'other' category if specific category not found\n");
+    code.push_str("    if not template then\n");
+    code.push_str(&format!(
+        "        template = locale_data[\"{}(other)\"] or key\n",
+        base_key
+    ));
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    -- Simple parameter interpolation\n");
+    code.push_str("    local result = template\n");
+    code.push_str("    for key, value in pairs(params) do\n");
+    code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    return result\n");
+    code.push_str("end\n\n");
+}
+
+/// Generate a plural method for cloud mode
+fn generate_plural_method_cloud(code: &mut String, base_key: &str, _translations: &[&Translation]) {
+    let method_name = base_key.replace(".", "_");
+
+    code.push_str(&format!(
+        "function Translations:{}(count, params)\n",
+        method_name
+    ));
+    code.push_str("    params = params or {}\n");
+    code.push_str("    params.count = count\n");
+    code.push_str("    \n");
+    code.push_str("    -- Determine plural category\n");
+    code.push_str("    local category = \"other\"\n");
+    code.push_str("    \n");
+
+    // Generate category selection logic
+    code.push_str("    if self._locale == \"en\" then\n");
+    code.push_str("        if count == 1 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str("        end\n");
+    code.push_str("    elseif self._locale == \"ru\" or self._locale == \"uk\" then\n");
+    code.push_str("        local mod10 = math.abs(count) % 10\n");
+    code.push_str("        local mod100 = math.abs(count) % 100\n");
+    code.push_str("        if mod10 == 1 and mod100 ~= 11 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str(
+        "        elseif mod10 >= 2 and mod10 <= 4 and (mod100 < 12 or mod100 > 14) then\n",
+    );
+    code.push_str("            category = \"few\"\n");
+    code.push_str("        else\n");
+    code.push_str("            category = \"many\"\n");
+    code.push_str("        end\n");
+    code.push_str("    elseif self._locale == \"ar\" then\n");
+    code.push_str("        local absCount = math.abs(count)\n");
+    code.push_str("        local mod100 = absCount % 100\n");
+    code.push_str("        if absCount == 0 then\n");
+    code.push_str("            category = \"zero\"\n");
+    code.push_str("        elseif absCount == 1 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str("        elseif absCount == 2 then\n");
+    code.push_str("            category = \"two\"\n");
+    code.push_str("        elseif mod100 >= 3 and mod100 <= 10 then\n");
+    code.push_str("            category = \"few\"\n");
+    code.push_str("        elseif mod100 >= 11 and mod100 <= 99 then\n");
+    code.push_str("            category = \"many\"\n");
+    code.push_str("        end\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+
+    // Generate key lookup with fallback
+    code.push_str("    -- Try to get translation for category\n");
+    code.push_str(&format!(
+        "    local key = \"{}(\" .. category .. \")\"\n",
+        base_key
+    ));
+    code.push_str("    local success, result = pcall(function()\n");
+    code.push_str("        return self._translator:FormatByKey(key, params)\n");
+    code.push_str("    end)\n");
+    code.push_str("    \n");
+    code.push_str("    if success then\n");
+    code.push_str("        return result\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fallback to 'other' category\n");
+    code.push_str(&format!(
+        "    return self._translator:FormatByKey(\"{}(other)\", params)\n",
+        base_key
+    ));
+    code.push_str("end\n\n");
+}
+
+/// Generate a plural method for hybrid mode
+fn generate_plural_method_hybrid(
+    code: &mut String,
+    base_key: &str,
+    _translations: &[&Translation],
+    base_locale: &str,
+) {
+    let method_name = base_key.replace(".", "_");
+
+    code.push_str(&format!(
+        "function Translations:{}(count, params)\n",
+        method_name
+    ));
+    code.push_str("    params = params or {}\n");
+    code.push_str("    params.count = count\n");
+    code.push_str("    \n");
+    code.push_str("    -- Determine plural category\n");
+    code.push_str("    local category = \"other\"\n");
+    code.push_str("    \n");
+
+    // Generate category selection logic
+    code.push_str("    if self._locale == \"en\" then\n");
+    code.push_str("        if count == 1 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str("        end\n");
+    code.push_str("    elseif self._locale == \"ru\" or self._locale == \"uk\" then\n");
+    code.push_str("        local mod10 = math.abs(count) % 10\n");
+    code.push_str("        local mod100 = math.abs(count) % 100\n");
+    code.push_str("        if mod10 == 1 and mod100 ~= 11 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str(
+        "        elseif mod10 >= 2 and mod10 <= 4 and (mod100 < 12 or mod100 > 14) then\n",
+    );
+    code.push_str("            category = \"few\"\n");
+    code.push_str("        else\n");
+    code.push_str("            category = \"many\"\n");
+    code.push_str("        end\n");
+    code.push_str("    elseif self._locale == \"ar\" then\n");
+    code.push_str("        local absCount = math.abs(count)\n");
+    code.push_str("        local mod100 = absCount % 100\n");
+    code.push_str("        if absCount == 0 then\n");
+    code.push_str("            category = \"zero\"\n");
+    code.push_str("        elseif absCount == 1 then\n");
+    code.push_str("            category = \"one\"\n");
+    code.push_str("        elseif absCount == 2 then\n");
+    code.push_str("            category = \"two\"\n");
+    code.push_str("        elseif mod100 >= 3 and mod100 <= 10 then\n");
+    code.push_str("            category = \"few\"\n");
+    code.push_str("        elseif mod100 >= 11 and mod100 <= 99 then\n");
+    code.push_str("            category = \"many\"\n");
+    code.push_str("        end\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+
+    // Try cloud first
+    code.push_str("    -- Try cloud first\n");
+    code.push_str("    if self._translator then\n");
+    code.push_str(&format!(
+        "        local key = \"{}(\" .. category .. \")\"\n",
+        base_key
+    ));
+    code.push_str("        local success, result = pcall(function()\n");
+    code.push_str("            return self._translator:FormatByKey(key, params)\n");
+    code.push_str("        end)\n");
+    code.push_str("        if success and result ~= \"\" then\n");
+    code.push_str("            return result\n");
+    code.push_str("        end\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+
+    // Fallback to embedded
+    code.push_str("    -- Fallback to embedded data\n");
+    code.push_str(&format!(
+        "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+        base_locale
+    ));
+    code.push_str(&format!(
+        "    local key = \"{}(\" .. category .. \")\"\n",
+        base_key
+    ));
+    code.push_str("    local template = locale_data[key]\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fallback to 'other' category if specific category not found\n");
+    code.push_str("    if not template then\n");
+    code.push_str(&format!(
+        "        template = locale_data[\"{}(other)\"] or key\n",
+        base_key
+    ));
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    -- Simple parameter interpolation\n");
+    code.push_str("    local result = template\n");
+    code.push_str("    for key, value in pairs(params) do\n");
+    code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    return result\n");
+    code.push_str("end\n\n");
+}
+
 /// Generate flat methods with mode-aware generation
 fn generate_flat_methods_with_mode(
     code: &mut String,
@@ -556,17 +815,32 @@ fn generate_flat_methods_with_mode(
             }
             "cloud" => generate_method_cloud(code, translation, analytics_config),
             "hybrid" => generate_method_hybrid(code, translation, base_locale, analytics_config),
-            _ => generate_method_cloud(code, translation, analytics_config), // Fallback to cloud
+            _ => unreachable!(
+                "Invalid localization mode: {}. Expected 'embedded', 'cloud', or 'hybrid'",
+                mode
+            ),
         }
     }
 
-    // Generate plural methods (TODO: mode-aware plural methods in future)
+    // Generate plural methods (mode-aware)
     let mut plural_keys_sorted: Vec<_> = plural_groups.keys().collect();
     plural_keys_sorted.sort();
 
     for base_key in plural_keys_sorted {
         let plural_translations = &plural_groups[base_key];
-        generate_plural_method(code, base_key, plural_translations);
+        match mode {
+            "embedded" => {
+                generate_plural_method_embedded(code, base_key, plural_translations, base_locale)
+            }
+            "cloud" => generate_plural_method_cloud(code, base_key, plural_translations),
+            "hybrid" => {
+                generate_plural_method_hybrid(code, base_key, plural_translations, base_locale)
+            }
+            _ => unreachable!(
+                "Invalid localization mode: {}. Expected 'embedded', 'cloud', or 'hybrid'",
+                mode
+            ),
+        }
     }
 }
 

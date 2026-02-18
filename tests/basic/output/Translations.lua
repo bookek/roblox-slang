@@ -1303,18 +1303,23 @@ function Translations:ui_messages_items(count, params)
         end
     end
     
-    -- Try to get translation for category
+    -- Get translation from embedded data
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
     local key = "ui.messages.items(" .. category .. ")"
-    local success, result = pcall(function()
-        return self._translator:FormatByKey(key, params)
-    end)
+    local template = locale_data[key]
     
-    if success then
-        return result
+    -- Fallback to 'other' category if specific category not found
+    if not template then
+        template = locale_data["ui.messages.items(other)"] or key
     end
     
-    -- Fallback to 'other' category
-    return self._translator:FormatByKey("ui.messages.items(other)", params)
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 -- Namespace structure (syntax sugar)
