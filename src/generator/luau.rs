@@ -915,7 +915,7 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
             code.push_str(&format!("    return self:{}(params)\n", flat_method));
         } else {
             code.push_str(&format!(
-                "function Translations.{}.{}(self)\n",
+                "function Translations.{}:{}()\n",
                 namespace, method
             ));
             code.push_str(&format!("    return self:{}()\n", flat_method));
@@ -935,7 +935,7 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
         let flat_method = base_key.replace(".", "_");
 
         code.push_str(&format!(
-            "function Translations.{}.{}(self, count, params)\n",
+            "function Translations.{}:{}(count, params)\n",
             namespace, method
         ));
         code.push_str(&format!("    return self:{}(count, params)\n", flat_method));
@@ -1428,7 +1428,9 @@ fn generate_method_embedded(
         code.push_str("    -- Simple parameter interpolation\n");
         code.push_str("    local result = template\n");
         code.push_str("    for paramKey, value in pairs(params) do\n");
-        code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
+        code.push_str(
+            "        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
+        );
         code.push_str("    end\n");
         code.push_str("    \n");
         code.push_str("    return result\n");
@@ -1638,7 +1640,9 @@ fn generate_method_hybrid(
 
         code.push_str("    local result = template\n");
         code.push_str("    for paramKey, value in pairs(params) do\n");
-        code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
+        code.push_str(
+            "        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
+        );
         code.push_str("    end\n");
         code.push_str("    return result\n");
     } else {
@@ -2211,7 +2215,7 @@ mod tests {
 
         // Should generate only ONE namespace method for plural
         let count = code
-            .matches("function Translations.ui.messages.items")
+            .matches("function Translations.ui.messages:items")
             .count();
         assert_eq!(
             count, 1,
@@ -2219,7 +2223,7 @@ mod tests {
         );
 
         // Should have correct signature with count parameter
-        assert!(code.contains("function Translations.ui.messages.items(self, count, params)"));
+        assert!(code.contains("function Translations.ui.messages:items(count, params)"));
 
         // Should NOT have invalid syntax like items(one) or items(other)
         assert!(!code.contains("items(one)"));
@@ -2300,8 +2304,8 @@ mod tests {
 
         // Should have namespace structure
         assert!(code.contains("Translations.ui = {}"));
-        assert!(code.contains("function Translations.ui.button(self)"));
-        assert!(code.contains("function Translations.ui.messages.items(self, count, params)"));
+        assert!(code.contains("function Translations.ui:button()"));
+        assert!(code.contains("function Translations.ui.messages:items(count, params)"));
 
         // Should return module
         assert!(code.contains("return Translations"));

@@ -1350,83 +1350,83 @@ Translations.ui.labels = {}
 Translations.ui.messages = {}
 Translations.ui.tooltips = {}
 
-function Translations.game.menu.about(self)
+function Translations.game.menu:about()
     return self:game_menu_about()
 end
 
-function Translations.game.menu.achievements(self)
+function Translations.game.menu:achievements()
     return self:game_menu_achievements()
 end
 
-function Translations.game.menu.credits(self)
+function Translations.game.menu:credits()
     return self:game_menu_credits()
 end
 
-function Translations.game.menu.friends(self)
+function Translations.game.menu:friends()
     return self:game_menu_friends()
 end
 
-function Translations.game.menu.help(self)
+function Translations.game.menu:help()
     return self:game_menu_help()
 end
 
-function Translations.game.menu.leaderboard(self)
+function Translations.game.menu:leaderboard()
     return self:game_menu_leaderboard()
 end
 
-function Translations.game.menu.play(self)
+function Translations.game.menu:play()
     return self:game_menu_play()
 end
 
-function Translations.game.menu.profile(self)
+function Translations.game.menu:profile()
     return self:game_menu_profile()
 end
 
-function Translations.game.menu.quit(self)
+function Translations.game.menu:quit()
     return self:game_menu_quit()
 end
 
-function Translations.game.menu.settings(self)
+function Translations.game.menu:settings()
     return self:game_menu_settings()
 end
 
-function Translations.game.modes.arena(self)
+function Translations.game.modes:arena()
     return self:game_modes_arena()
 end
 
-function Translations.game.modes.campaign(self)
+function Translations.game.modes:campaign()
     return self:game_modes_campaign()
 end
 
-function Translations.game.modes.coop(self)
+function Translations.game.modes:coop()
     return self:game_modes_coop()
 end
 
-function Translations.game.modes.multiplayer(self)
+function Translations.game.modes:multiplayer()
     return self:game_modes_multiplayer()
 end
 
-function Translations.game.modes.practice(self)
+function Translations.game.modes:practice()
     return self:game_modes_practice()
 end
 
-function Translations.game.modes.raid(self)
+function Translations.game.modes:raid()
     return self:game_modes_raid()
 end
 
-function Translations.game.modes.singleplayer(self)
+function Translations.game.modes:singleplayer()
     return self:game_modes_singleplayer()
 end
 
-function Translations.game.modes.survival(self)
+function Translations.game.modes:survival()
     return self:game_modes_survival()
 end
 
-function Translations.game.modes.tutorial(self)
+function Translations.game.modes:tutorial()
     return self:game_modes_tutorial()
 end
 
-function Translations.game.modes.versus(self)
+function Translations.game.modes:versus()
     return self:game_modes_versus()
 end
 
@@ -1454,83 +1454,83 @@ function Translations.game.notifications.tradeRequest(self, params)
     return self:game_notifications_tradeRequest(params)
 end
 
-function Translations.game.status.away(self)
+function Translations.game.status:away()
     return self:game_status_away()
 end
 
-function Translations.game.status.busy(self)
+function Translations.game.status:busy()
     return self:game_status_busy()
 end
 
-function Translations.game.status.connected(self)
+function Translations.game.status:connected()
     return self:game_status_connected()
 end
 
-function Translations.game.status.connecting(self)
+function Translations.game.status:connecting()
     return self:game_status_connecting()
 end
 
-function Translations.game.status.disconnected(self)
+function Translations.game.status:disconnected()
     return self:game_status_disconnected()
 end
 
-function Translations.game.status.inGame(self)
+function Translations.game.status:inGame()
     return self:game_status_inGame()
 end
 
-function Translations.game.status.inLobby(self)
+function Translations.game.status:inLobby()
     return self:game_status_inLobby()
 end
 
-function Translations.game.status.offline(self)
+function Translations.game.status:offline()
     return self:game_status_offline()
 end
 
-function Translations.game.status.online(self)
+function Translations.game.status:online()
     return self:game_status_online()
 end
 
-function Translations.game.status.searching(self)
+function Translations.game.status:searching()
     return self:game_status_searching()
 end
 
-function Translations.inventory.actions.destroy(self)
+function Translations.inventory.actions:destroy()
     return self:inventory_actions_destroy()
 end
 
-function Translations.inventory.actions.drop(self)
+function Translations.inventory.actions:drop()
     return self:inventory_actions_drop()
 end
 
-function Translations.inventory.actions.enchant(self)
+function Translations.inventory.actions:enchant()
     return self:inventory_actions_enchant()
 end
 
-function Translations.inventory.actions.equip(self)
+function Translations.inventory.actions:equip()
     return self:inventory_actions_equip()
 end
 
-function Translations.inventory.actions.gift(self)
+function Translations.inventory.actions:gift()
     return self:inventory_actions_gift()
 end
 
-function Translations.inventory.actions.repair(self)
+function Translations.inventory.actions:repair()
     return self:inventory_actions_repair()
 end
 
-function Translations.inventory.actions.trade(self)
+function Translations.inventory.actions:trade()
     return self:inventory_actions_trade()
 end
 
-function Translations.inventory.actions.unequip(self)
+function Translations.inventory.actions:unequip()
     return self:inventory_actions_unequip()
 end
 
-function Translations.inventory.actions.upgrade(self)
+function Translations.inventory.actions:upgrade()
     return self:inventory_actions_upgrade()
 end
 
-function Translations.inventory.actions.use(self)
+function Translations.inventory.actions:use()
     return self:inventory_actions_use()
 end
 
@@ -1558,223 +1558,223 @@ function Translations.inventory.info.weight(self, params)
     return self:inventory_info_weight(params)
 end
 
-function Translations.inventory.tabs.all(self)
+function Translations.inventory.tabs:all()
     return self:inventory_tabs_all()
 end
 
-function Translations.inventory.tabs.armor(self)
+function Translations.inventory.tabs:armor()
     return self:inventory_tabs_armor()
 end
 
-function Translations.inventory.tabs.consumables(self)
+function Translations.inventory.tabs:consumables()
     return self:inventory_tabs_consumables()
 end
 
-function Translations.inventory.tabs.materials(self)
+function Translations.inventory.tabs:materials()
     return self:inventory_tabs_materials()
 end
 
-function Translations.inventory.tabs.pets(self)
+function Translations.inventory.tabs:pets()
     return self:inventory_tabs_pets()
 end
 
-function Translations.inventory.tabs.quest(self)
+function Translations.inventory.tabs:quest()
     return self:inventory_tabs_quest()
 end
 
-function Translations.inventory.tabs.vehicles(self)
+function Translations.inventory.tabs:vehicles()
     return self:inventory_tabs_vehicles()
 end
 
-function Translations.inventory.tabs.weapons(self)
+function Translations.inventory.tabs:weapons()
     return self:inventory_tabs_weapons()
 end
 
-function Translations.settings.categories.accessibility(self)
+function Translations.settings.categories:accessibility()
     return self:settings_categories_accessibility()
 end
 
-function Translations.settings.categories.audio(self)
+function Translations.settings.categories:audio()
     return self:settings_categories_audio()
 end
 
-function Translations.settings.categories.controls(self)
+function Translations.settings.categories:controls()
     return self:settings_categories_controls()
 end
 
-function Translations.settings.categories.gameplay(self)
+function Translations.settings.categories:gameplay()
     return self:settings_categories_gameplay()
 end
 
-function Translations.settings.categories.general(self)
+function Translations.settings.categories:general()
     return self:settings_categories_general()
 end
 
-function Translations.settings.categories.graphics(self)
+function Translations.settings.categories:graphics()
     return self:settings_categories_graphics()
 end
 
-function Translations.settings.options.brightness(self)
+function Translations.settings.options:brightness()
     return self:settings_options_brightness()
 end
 
-function Translations.settings.options.fov(self)
+function Translations.settings.options:fov()
     return self:settings_options_fov()
 end
 
-function Translations.settings.options.fullscreen(self)
+function Translations.settings.options:fullscreen()
     return self:settings_options_fullscreen()
 end
 
-function Translations.settings.options.invertY(self)
+function Translations.settings.options:invertY()
     return self:settings_options_invertY()
 end
 
-function Translations.settings.options.language(self)
+function Translations.settings.options:language()
     return self:settings_options_language()
 end
 
-function Translations.settings.options.mouseSensitivity(self)
+function Translations.settings.options:mouseSensitivity()
     return self:settings_options_mouseSensitivity()
 end
 
-function Translations.settings.options.musicVolume(self)
+function Translations.settings.options:musicVolume()
     return self:settings_options_musicVolume()
 end
 
-function Translations.settings.options.particles(self)
+function Translations.settings.options:particles()
     return self:settings_options_particles()
 end
 
-function Translations.settings.options.quality(self)
+function Translations.settings.options:quality()
     return self:settings_options_quality()
 end
 
-function Translations.settings.options.sfxVolume(self)
+function Translations.settings.options:sfxVolume()
     return self:settings_options_sfxVolume()
 end
 
-function Translations.settings.options.shadows(self)
+function Translations.settings.options:shadows()
     return self:settings_options_shadows()
 end
 
-function Translations.settings.options.volume(self)
+function Translations.settings.options:volume()
     return self:settings_options_volume()
 end
 
-function Translations.settings.options.vsync(self)
+function Translations.settings.options:vsync()
     return self:settings_options_vsync()
 end
 
-function Translations.shop.actions.addToCart(self)
+function Translations.shop.actions:addToCart()
     return self:shop_actions_addToCart()
 end
 
-function Translations.shop.actions.checkout(self)
+function Translations.shop.actions:checkout()
     return self:shop_actions_checkout()
 end
 
-function Translations.shop.actions.clearCart(self)
+function Translations.shop.actions:clearCart()
     return self:shop_actions_clearCart()
 end
 
-function Translations.shop.actions.compare(self)
+function Translations.shop.actions:compare()
     return self:shop_actions_compare()
 end
 
-function Translations.shop.actions.preview(self)
+function Translations.shop.actions:preview()
     return self:shop_actions_preview()
 end
 
-function Translations.shop.actions.purchase(self)
+function Translations.shop.actions:purchase()
     return self:shop_actions_purchase()
 end
 
-function Translations.shop.actions.removeFromCart(self)
+function Translations.shop.actions:removeFromCart()
     return self:shop_actions_removeFromCart()
 end
 
-function Translations.shop.actions.viewCart(self)
+function Translations.shop.actions:viewCart()
     return self:shop_actions_viewCart()
 end
 
-function Translations.shop.categories.accessories(self)
+function Translations.shop.categories:accessories()
     return self:shop_categories_accessories()
 end
 
-function Translations.shop.categories.armor(self)
+function Translations.shop.categories:armor()
     return self:shop_categories_armor()
 end
 
-function Translations.shop.categories.bundles(self)
+function Translations.shop.categories:bundles()
     return self:shop_categories_bundles()
 end
 
-function Translations.shop.categories.consumables(self)
+function Translations.shop.categories:consumables()
     return self:shop_categories_consumables()
 end
 
-function Translations.shop.categories.emotes(self)
+function Translations.shop.categories:emotes()
     return self:shop_categories_emotes()
 end
 
-function Translations.shop.categories.equipment(self)
+function Translations.shop.categories:equipment()
     return self:shop_categories_equipment()
 end
 
-function Translations.shop.categories.featured(self)
+function Translations.shop.categories:featured()
     return self:shop_categories_featured()
 end
 
-function Translations.shop.categories.gamepasses(self)
+function Translations.shop.categories:gamepasses()
     return self:shop_categories_gamepasses()
 end
 
-function Translations.shop.categories.materials(self)
+function Translations.shop.categories:materials()
     return self:shop_categories_materials()
 end
 
-function Translations.shop.categories.pets(self)
+function Translations.shop.categories:pets()
     return self:shop_categories_pets()
 end
 
-function Translations.shop.categories.potions(self)
+function Translations.shop.categories:potions()
     return self:shop_categories_potions()
 end
 
-function Translations.shop.categories.vehicles(self)
+function Translations.shop.categories:vehicles()
     return self:shop_categories_vehicles()
 end
 
-function Translations.shop.categories.weapons(self)
+function Translations.shop.categories:weapons()
     return self:shop_categories_weapons()
 end
 
-function Translations.shop.messages.cartEmpty(self)
+function Translations.shop.messages:cartEmpty()
     return self:shop_messages_cartEmpty()
 end
 
-function Translations.shop.messages.insufficientFunds(self)
+function Translations.shop.messages:insufficientFunds()
     return self:shop_messages_insufficientFunds()
 end
 
-function Translations.shop.messages.insufficientRobux(self)
+function Translations.shop.messages:insufficientRobux()
     return self:shop_messages_insufficientRobux()
 end
 
-function Translations.shop.messages.itemAdded(self)
+function Translations.shop.messages:itemAdded()
     return self:shop_messages_itemAdded()
 end
 
-function Translations.shop.messages.itemRemoved(self)
+function Translations.shop.messages:itemRemoved()
     return self:shop_messages_itemRemoved()
 end
 
-function Translations.shop.messages.purchaseFailed(self)
+function Translations.shop.messages:purchaseFailed()
     return self:shop_messages_purchaseFailed()
 end
 
-function Translations.shop.messages.purchaseSuccess(self)
+function Translations.shop.messages:purchaseSuccess()
     return self:shop_messages_purchaseSuccess()
 end
 
@@ -1782,195 +1782,195 @@ function Translations.shop.messages.requiresGamepass(self, params)
     return self:shop_messages_requiresGamepass(params)
 end
 
-function Translations.social.chat.globalChat(self)
+function Translations.social.chat:globalChat()
     return self:social_chat_globalChat()
 end
 
-function Translations.social.chat.mute(self)
+function Translations.social.chat:mute()
     return self:social_chat_mute()
 end
 
-function Translations.social.chat.report(self)
+function Translations.social.chat:report()
     return self:social_chat_report()
 end
 
-function Translations.social.chat.send(self)
+function Translations.social.chat:send()
     return self:social_chat_send()
 end
 
-function Translations.social.chat.teamChat(self)
+function Translations.social.chat:teamChat()
     return self:social_chat_teamChat()
 end
 
-function Translations.social.chat.unmute(self)
+function Translations.social.chat:unmute()
     return self:social_chat_unmute()
 end
 
-function Translations.social.chat.whisper(self)
+function Translations.social.chat:whisper()
     return self:social_chat_whisper()
 end
 
-function Translations.social.friends.add(self)
+function Translations.social.friends:add()
     return self:social_friends_add()
 end
 
-function Translations.social.friends.block(self)
+function Translations.social.friends:block()
     return self:social_friends_block()
 end
 
-function Translations.social.friends.invite(self)
+function Translations.social.friends:invite()
     return self:social_friends_invite()
 end
 
-function Translations.social.friends.offline(self)
+function Translations.social.friends:offline()
     return self:social_friends_offline()
 end
 
-function Translations.social.friends.online(self)
+function Translations.social.friends:online()
     return self:social_friends_online()
 end
 
-function Translations.social.friends.remove(self)
+function Translations.social.friends:remove()
     return self:social_friends_remove()
 end
 
-function Translations.social.friends.requests(self)
+function Translations.social.friends:requests()
     return self:social_friends_requests()
 end
 
-function Translations.social.friends.unblock(self)
+function Translations.social.friends:unblock()
     return self:social_friends_unblock()
 end
 
-function Translations.social.party.create(self)
+function Translations.social.party:create()
     return self:social_party_create()
 end
 
-function Translations.social.party.invite(self)
+function Translations.social.party:invite()
     return self:social_party_invite()
 end
 
-function Translations.social.party.join(self)
+function Translations.social.party:join()
     return self:social_party_join()
 end
 
-function Translations.social.party.kick(self)
+function Translations.social.party:kick()
     return self:social_party_kick()
 end
 
-function Translations.social.party.leave(self)
+function Translations.social.party:leave()
     return self:social_party_leave()
 end
 
-function Translations.social.party.promote(self)
+function Translations.social.party:promote()
     return self:social_party_promote()
 end
 
-function Translations.ui.buttons.apply(self)
+function Translations.ui.buttons:apply()
     return self:ui_buttons_apply()
 end
 
-function Translations.ui.buttons.back(self)
+function Translations.ui.buttons:back()
     return self:ui_buttons_back()
 end
 
-function Translations.ui.buttons.buy(self)
+function Translations.ui.buttons:buy()
     return self:ui_buttons_buy()
 end
 
-function Translations.ui.buttons.cancel(self)
+function Translations.ui.buttons:cancel()
     return self:ui_buttons_cancel()
 end
 
-function Translations.ui.buttons.close(self)
+function Translations.ui.buttons:close()
     return self:ui_buttons_close()
 end
 
-function Translations.ui.buttons.confirm(self)
+function Translations.ui.buttons:confirm()
     return self:ui_buttons_confirm()
 end
 
-function Translations.ui.buttons.create(self)
+function Translations.ui.buttons:create()
     return self:ui_buttons_create()
 end
 
-function Translations.ui.buttons.delete(self)
+function Translations.ui.buttons:delete()
     return self:ui_buttons_delete()
 end
 
-function Translations.ui.buttons.edit(self)
+function Translations.ui.buttons:edit()
     return self:ui_buttons_edit()
 end
 
-function Translations.ui.buttons.load(self)
+function Translations.ui.buttons:load()
     return self:ui_buttons_load()
 end
 
-function Translations.ui.buttons.next(self)
+function Translations.ui.buttons:next()
     return self:ui_buttons_next()
 end
 
-function Translations.ui.buttons.reset(self)
+function Translations.ui.buttons:reset()
     return self:ui_buttons_reset()
 end
 
-function Translations.ui.buttons.save(self)
+function Translations.ui.buttons:save()
     return self:ui_buttons_save()
 end
 
-function Translations.ui.buttons.sell(self)
+function Translations.ui.buttons:sell()
     return self:ui_buttons_sell()
 end
 
-function Translations.ui.buttons.submit(self)
+function Translations.ui.buttons:submit()
     return self:ui_buttons_submit()
 end
 
-function Translations.ui.labels.coins(self)
+function Translations.ui.labels:coins()
     return self:ui_labels_coins()
 end
 
-function Translations.ui.labels.displayName(self)
+function Translations.ui.labels:displayName()
     return self:ui_labels_displayName()
 end
 
-function Translations.ui.labels.experience(self)
+function Translations.ui.labels:experience()
     return self:ui_labels_experience()
 end
 
-function Translations.ui.labels.gems(self)
+function Translations.ui.labels:gems()
     return self:ui_labels_gems()
 end
 
-function Translations.ui.labels.health(self)
+function Translations.ui.labels:health()
     return self:ui_labels_health()
 end
 
-function Translations.ui.labels.level(self)
+function Translations.ui.labels:level()
     return self:ui_labels_level()
 end
 
-function Translations.ui.labels.mana(self)
+function Translations.ui.labels:mana()
     return self:ui_labels_mana()
 end
 
-function Translations.ui.labels.player(self)
+function Translations.ui.labels:player()
     return self:ui_labels_player()
 end
 
-function Translations.ui.labels.robux(self)
+function Translations.ui.labels:robux()
     return self:ui_labels_robux()
 end
 
-function Translations.ui.labels.stamina(self)
+function Translations.ui.labels:stamina()
     return self:ui_labels_stamina()
 end
 
-function Translations.ui.labels.welcome(self)
+function Translations.ui.labels:welcome()
     return self:ui_labels_welcome()
 end
 
-function Translations.ui.messages.error(self)
+function Translations.ui.messages:error()
     return self:ui_messages_error()
 end
 
@@ -1982,7 +1982,7 @@ function Translations.ui.messages.itemCount(self, params)
     return self:ui_messages_itemCount(params)
 end
 
-function Translations.ui.messages.loading(self)
+function Translations.ui.messages:loading()
     return self:ui_messages_loading()
 end
 
@@ -1998,7 +1998,7 @@ function Translations.ui.messages.price(self, params)
     return self:ui_messages_price(params)
 end
 
-function Translations.ui.messages.saving(self)
+function Translations.ui.messages:saving()
     return self:ui_messages_saving()
 end
 
@@ -2006,35 +2006,35 @@ function Translations.ui.messages.score(self, params)
     return self:ui_messages_score(params)
 end
 
-function Translations.ui.messages.success(self)
+function Translations.ui.messages:success()
     return self:ui_messages_success()
 end
 
-function Translations.ui.messages.warning(self)
+function Translations.ui.messages:warning()
     return self:ui_messages_warning()
 end
 
-function Translations.ui.tooltips.buyItem(self)
+function Translations.ui.tooltips:buyItem()
     return self:ui_tooltips_buyItem()
 end
 
-function Translations.ui.tooltips.equipItem(self)
+function Translations.ui.tooltips:equipItem()
     return self:ui_tooltips_equipItem()
 end
 
-function Translations.ui.tooltips.sellItem(self)
+function Translations.ui.tooltips:sellItem()
     return self:ui_tooltips_sellItem()
 end
 
-function Translations.ui.tooltips.unequipItem(self)
+function Translations.ui.tooltips:unequipItem()
     return self:ui_tooltips_unequipItem()
 end
 
-function Translations.ui.tooltips.upgradeItem(self)
+function Translations.ui.tooltips:upgradeItem()
     return self:ui_tooltips_upgradeItem()
 end
 
-function Translations.ui.messages.items(self, count, params)
+function Translations.ui.messages:items(count, params)
     return self:ui_messages_items(count, params)
 end
 
