@@ -30,7 +30,7 @@ rokit add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.1"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
 ```
 
 #### Option B: Aftman
@@ -51,7 +51,7 @@ aftman add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.1"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
 ```
 
 #### Option C: Foreman
@@ -62,7 +62,7 @@ roblox-slang = "mathtechstudio/roblox-slang@2.0.1"
 
 ```toml
 [tools]
-roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.1" }
+roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.2" }
 ```
 
 ```bash
@@ -73,12 +73,12 @@ foreman install
 
 Download pre-built binaries from [GitHub Releases](https://github.com/mathtechstudio/roblox-slang/releases):
 
-- `roblox-slang-2.0.1-linux-x86_64.zip`
-- `roblox-slang-2.0.1-linux-aarch64.zip`
-- `roblox-slang-2.0.1-windows-x86_64.zip`
-- `roblox-slang-2.0.1-windows-aarch64.zip`
-- `roblox-slang-2.0.1-macos-x86_64.zip`
-- `roblox-slang-2.0.1-macos-aarch64.zip`
+- `roblox-slang-2.0.2-linux-x86_64.zip`
+- `roblox-slang-2.0.2-linux-aarch64.zip`
+- `roblox-slang-2.0.2-windows-x86_64.zip`
+- `roblox-slang-2.0.2-windows-aarch64.zip`
+- `roblox-slang-2.0.2-macos-x86_64.zip`
+- `roblox-slang-2.0.2-macos-aarch64.zip`
 
 Extract the archive and add the binary to your PATH.
 
@@ -137,7 +137,7 @@ input_directory: translations
 # Where to generate Luau code
 output_directory: src/shared/Translations
 
-# Localization mode (NEW in v2.0.1)
+# Localization mode (NEW in v2.0.2)
 localization:
   # embedded: Translations embedded in code (default, no cloud dependency)
   # cloud: Use Roblox Cloud LocalizationService only
@@ -276,7 +276,7 @@ This will report:
 
 ## Choosing a Localization Mode
 
-**NEW in v2.0.1:** Roblox Slang supports three localization modes:
+**NEW in v2.0.2:** Roblox Slang supports three localization modes:
 
 ### Embedded Mode (Default)
 

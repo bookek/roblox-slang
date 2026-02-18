@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2026-02-19
+
+### Fixed
+
+- Namespace methods now use method syntax (`:`) instead of static function syntax requiring explicit self parameter
+- Generated namespace functions like `Translations.ui.buttons:buy()` now work correctly without passing self
+- Loop variable renamed from `key` to `paramKey` in parameter interpolation to avoid variable shadow warnings
+- All namespace methods (regular and plural) now consistently use method syntax for better DX
+
+### Changed
+
+- Documentation updated to reflect correct method syntax usage with colon (`:`) for namespace methods
+- All examples and guides now show proper method call syntax
+
 ## [2.0.1] - 2026-02-18
 
 ### Fixed

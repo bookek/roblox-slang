@@ -77,7 +77,7 @@ rokit add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.1"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
 ```
 
 ### Via Aftman
@@ -98,7 +98,7 @@ aftman add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.1"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
 ```
 
 ### Via Foreman
@@ -109,7 +109,7 @@ roblox-slang = "mathtechstudio/roblox-slang@2.0.1"
 
 ```toml
 [tools]
-roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.1" }
+roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.2" }
 ```
 
 ```bash
@@ -120,12 +120,12 @@ foreman install
 
 Download pre-built binaries for your platform:
 
-- `roblox-slang-2.0.1-linux-x86_64.zip`
-- `roblox-slang-2.0.1-linux-aarch64.zip`
-- `roblox-slang-2.0.1-windows-x86_64.zip`
-- `roblox-slang-2.0.1-windows-aarch64.zip`
-- `roblox-slang-2.0.1-macos-x86_64.zip`
-- `roblox-slang-2.0.1-macos-aarch64.zip`
+- `roblox-slang-2.0.2-linux-x86_64.zip`
+- `roblox-slang-2.0.2-linux-aarch64.zip`
+- `roblox-slang-2.0.2-windows-x86_64.zip`
+- `roblox-slang-2.0.2-windows-aarch64.zip`
+- `roblox-slang-2.0.2-macos-x86_64.zip`
+- `roblox-slang-2.0.2-macos-aarch64.zip`
 
 Extract and add to your PATH, or use a tool manager for automatic updates.
 
@@ -145,7 +145,7 @@ cargo install --locked --path .
 
 ```bash
 roblox-slang --version
-# Output: roblox-slang 2.0.1
+# Output: roblox-slang 2.0.2
 ```
 
 ## Quick Start
@@ -311,7 +311,7 @@ output_directory: output
 # Optional: Namespace for generated module (null = no namespace)
 namespace: null
 
-# Localization mode (NEW in v2.0.1)
+# Localization mode (NEW in v2.0.2)
 # Controls how translations are loaded at runtime
 localization:
   # Mode: embedded (default) - Translations embedded in generated code, no cloud dependency
@@ -336,7 +336,7 @@ analytics:
 
 ### Localization Modes
 
-**NEW in v2.0.1:** Choose how translations are loaded at runtime.
+**NEW in v2.0.2:** Choose how translations are loaded at runtime.
 
 #### Embedded Mode (Default)
 
