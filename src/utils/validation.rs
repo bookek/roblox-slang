@@ -431,6 +431,7 @@ pub fn validate_safe_path(path: &Path) -> Result<()> {
 ///     overrides: None,
 ///     analytics: None,
 ///     cloud: None,
+///     localization: None,
 /// };
 ///
 /// validate_config(&config).unwrap();
@@ -638,6 +639,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         assert!(validate_config(&config).is_ok());
@@ -654,6 +656,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         assert!(validate_config(&config).is_ok());
@@ -670,6 +673,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = validate_config(&config);
@@ -691,6 +695,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = validate_config(&config);
@@ -712,6 +717,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = validate_config(&config);
@@ -731,6 +737,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = validate_config(&config);
@@ -750,6 +757,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = validate_config(&config);
@@ -769,6 +777,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = validate_config(&config);

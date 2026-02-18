@@ -10,6 +10,14 @@ Roblox Slang provides bidirectional synchronization between your local translati
 - **Download**: Pull cloud translations to local files
 - **Sync**: Bidirectional sync with conflict resolution
 
+**NEW in v2.0.0:** You can now choose how translations are loaded at runtime:
+
+- **Embedded mode** (default): Translations embedded in code, no cloud dependency
+- **Cloud mode**: Uses Roblox Cloud LocalizationService exclusively
+- **Hybrid mode**: Tries cloud first, falls back to embedded
+
+This guide focuses on cloud sync commands. For runtime localization modes, see [Configuration Guide](configuration.md#localization).
+
 ## Prerequisites
 
 Before using cloud sync features, you need:
@@ -116,7 +124,70 @@ output_directory: output
 cloud:
   table_id: "your_table_id_here"
   strategy: "merge"  # overwrite, merge, or skip-conflicts
+
+# Localization mode (NEW in v2.0.0)
+# Use "cloud" mode to load translations from LocalizationService at runtime
+localization:
+  mode: embedded  # or "cloud" or "hybrid"
 ```
+
+**Note:** The `cloud` configuration above is for sync commands (upload/download/sync). The `localization.mode` controls how translations are loaded at runtime in your game. See [Using Cloud Mode](#using-cloud-mode) below.
+
+## Using Cloud Mode
+
+**NEW in v2.0.0:** After uploading translations to Roblox Cloud, you can configure your game to load translations from LocalizationService at runtime.
+
+### Cloud Mode Configuration
+
+```yaml
+localization:
+  mode: cloud
+```
+
+**Benefits:**
+
+- Automatic Text Capture (ATC) integration
+- Automatic translation via Roblox AI
+- Translator Portal collaboration
+- Analytics via Roblox Dashboard
+
+**Requirements:**
+
+1. Upload translations to Roblox Cloud first: `roblox-slang upload`
+2. Set `localization.mode: cloud` in config
+3. Rebuild: `roblox-slang build`
+
+**Generated code will use LocalizationService:**
+
+```lua
+-- Generated Translations.lua uses LocalizationService
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Fetches from LocalizationService
+```
+
+### Hybrid Mode (Recommended)
+
+For best reliability, use hybrid mode which tries cloud first, falls back to embedded:
+
+```yaml
+localization:
+  mode: hybrid
+```
+
+**Benefits:**
+
+- Cloud features when available
+- Embedded fallback for reliability
+- Works in Studio and production
+
+**Workflow:**
+
+1. Upload to cloud: `roblox-slang upload`
+2. Set hybrid mode in config
+3. Build: `roblox-slang build`
+4. Game tries cloud first, uses embedded if cloud fails
+
+See [Configuration Guide](configuration.md#localization) for complete localization mode documentation.
 
 ## Commands
 

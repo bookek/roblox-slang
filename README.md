@@ -11,7 +11,7 @@
 [![Rust](https://img.shields.io/badge/Built_with-Rust-orange?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org)
 [![Generates](https://img.shields.io/badge/Generates-Luau-00A2FF?style=for-the-badge&logo=lua&logoColor=white)](https://luau-lang.org)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-168_passing-success?style=for-the-badge)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-681_passing-success?style=for-the-badge)](tests/)
 
 </div>
 
@@ -46,6 +46,7 @@ local text = t.ui.buttns.confirm() -- ERROR: Property doesn't exist (caught at b
 ## Features
 
 - **Type-safe translation access** - Autocomplete and type checking in your IDE
+- **Three localization modes** - Embedded (default), Cloud, or Hybrid for flexibility
 - **String interpolation** - `{name}`, `{count:int}` with parameter validation
 - **Pluralization** - CLDR rules (zero/one/two/few/many/other)
 - **Nested namespaces** - Clean syntax: `t.ui.buttons.buy()`
@@ -307,6 +308,18 @@ input_directory: translations
 # For manual users: Keep as "output" and copy to Studio manually
 output_directory: output
 
+# Optional: Namespace for generated module (null = no namespace)
+namespace: null
+
+# Localization mode (NEW in v2.0.0)
+# Controls how translations are loaded at runtime
+localization:
+  # Mode: embedded (default) - Translations embedded in generated code, no cloud dependency
+  # Other options:
+  #   - cloud: Use Roblox Cloud LocalizationService only (requires cloud upload)
+  #   - hybrid: Try cloud first, fallback to embedded (best of both worlds)
+  mode: embedded
+
 # Optional: Translation overrides (for A/B testing, seasonal events)
 overrides:
   enabled: true
@@ -320,6 +333,90 @@ analytics:
 ```
 
 ## Main Features
+
+### Localization Modes
+
+**NEW in v2.0.0:** Choose how translations are loaded at runtime.
+
+#### Embedded Mode (Default)
+
+Translations are embedded directly in the generated Luau code. No cloud dependency required.
+
+```yaml
+localization:
+  mode: embedded
+```
+
+**Benefits:**
+
+- Works offline (no LocalizationService dependency)
+- Fastest performance (direct table lookup)
+- No cloud setup required
+- Perfect for single-player or offline games
+
+**Usage:**
+
+```lua
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Direct lookup from embedded data
+```
+
+#### Cloud Mode
+
+Uses Roblox Cloud LocalizationService exclusively. Requires uploading translations to Roblox Cloud.
+
+```yaml
+localization:
+  mode: cloud
+```
+
+**Benefits:**
+
+- Automatic Text Capture (ATC) integration
+- Automatic translation via Roblox AI
+- Translator Portal collaboration
+- Analytics via Roblox Dashboard
+
+**Usage:**
+
+```lua
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Fetches from LocalizationService
+```
+
+**Requirements:**
+
+- Must run `roblox-slang upload` to sync translations to cloud
+- Requires cloud configuration in `slang-roblox.yaml`
+
+#### Hybrid Mode
+
+Best of both worlds: tries cloud first, falls back to embedded on error.
+
+```yaml
+localization:
+  mode: hybrid
+```
+
+**Benefits:**
+
+- Cloud features when available (ATC, auto-translation)
+- Embedded fallback for reliability
+- Graceful degradation on cloud errors
+- Works in Studio and production
+
+**Usage:**
+
+```lua
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Tries cloud, falls back to embedded
+```
+
+**Use Cases:**
+
+- Games transitioning from embedded to cloud
+- Games that need offline support with cloud benefits
+- Development (Studio) vs production (cloud) workflows
 
 ### String Interpolation
 

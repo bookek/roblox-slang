@@ -127,6 +127,15 @@ output_directory: output
 # Optional: Namespace for generated module (null = no namespace)
 namespace: null
 
+# Localization mode
+# Controls how translations are loaded at runtime
+localization:
+  # Mode: embedded (default) - Translations embedded in generated code, no cloud dependency
+  # Other options:
+  #   - cloud: Use Roblox Cloud LocalizationService only (requires cloud upload)
+  #   - hybrid: Try cloud first, fallback to embedded (best of both worlds)
+  mode: embedded
+
 # Optional: Translation overrides
 # overrides:
 #   enabled: true

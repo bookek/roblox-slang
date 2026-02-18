@@ -35,6 +35,10 @@ pub struct Config {
     /// Cloud sync configuration
     #[serde(default)]
     pub cloud: Option<CloudConfig>,
+
+    /// Localization configuration
+    #[serde(default)]
+    pub localization: Option<LocalizationConfig>,
 }
 
 /// Override configuration
@@ -67,6 +71,36 @@ pub struct AnalyticsConfig {
     /// Optional custom callback module path
     #[serde(default)]
     pub callback: Option<String>,
+}
+
+/// Localization configuration
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct LocalizationConfig {
+    /// Localization mode: "embedded", "cloud", or "hybrid"
+    #[serde(default = "default_localization_mode")]
+    pub mode: String,
+}
+
+impl LocalizationConfig {
+    /// Validate localization configuration
+    pub fn validate(&self) -> Result<()> {
+        match self.mode.as_str() {
+            "embedded" | "cloud" | "hybrid" => Ok(()),
+            _ => bail!(
+                "Invalid localization mode: '{}'\n\
+                 \n\
+                 Valid modes:\n\
+                 - embedded: Use only embedded translations (default)\n\
+                 - cloud: Use only LocalizationService (requires upload)\n\
+                 - hybrid: Try LocalizationService first, fallback to embedded\n\
+                 \n\
+                 Example:\n\
+                 localization:\n\
+                   mode: embedded",
+                self.mode
+            ),
+        }
+    }
 }
 
 impl Config {
@@ -190,6 +224,11 @@ impl Config {
             );
         }
 
+        // Validate localization config if present
+        if let Some(ref localization) = self.localization {
+            localization.validate()?;
+        }
+
         Ok(())
     }
 }
@@ -210,6 +249,10 @@ fn default_true() -> bool {
     true
 }
 
+fn default_localization_mode() -> String {
+    "embedded".to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -225,6 +268,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         assert!(config.validate().is_ok());
@@ -241,6 +285,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -262,6 +307,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -283,6 +329,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -304,6 +351,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -325,6 +373,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -346,6 +395,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -367,6 +417,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         let result = config.validate();
@@ -388,6 +439,7 @@ mod tests {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         };
 
         assert!(config.validate().is_ok());
@@ -442,5 +494,106 @@ mod tests {
         assert_eq!(default_output_directory(), "output");
         assert_eq!(default_override_file(), "overrides.yaml");
         assert!(default_true());
+        assert_eq!(default_localization_mode(), "embedded");
+    }
+
+    #[test]
+    fn test_localization_config_default() {
+        let config = Config {
+            base_locale: "en".to_string(),
+            supported_locales: vec!["en".to_string()],
+            input_directory: "translations".to_string(),
+            output_directory: "output".to_string(),
+            namespace: None,
+            overrides: None,
+            analytics: None,
+            cloud: None,
+            localization: None,
+        };
+
+        assert!(config.localization.is_none());
+        assert!(config.validate().is_ok());
+    }
+
+    #[test]
+    fn test_localization_config_embedded() {
+        let config = Config {
+            base_locale: "en".to_string(),
+            supported_locales: vec!["en".to_string()],
+            input_directory: "translations".to_string(),
+            output_directory: "output".to_string(),
+            namespace: None,
+            overrides: None,
+            analytics: None,
+            cloud: None,
+            localization: Some(LocalizationConfig {
+                mode: "embedded".to_string(),
+            }),
+        };
+
+        assert!(config.validate().is_ok());
+        assert_eq!(config.localization.unwrap().mode, "embedded");
+    }
+
+    #[test]
+    fn test_localization_config_cloud() {
+        let config = Config {
+            base_locale: "en".to_string(),
+            supported_locales: vec!["en".to_string()],
+            input_directory: "translations".to_string(),
+            output_directory: "output".to_string(),
+            namespace: None,
+            overrides: None,
+            analytics: None,
+            cloud: None,
+            localization: Some(LocalizationConfig {
+                mode: "cloud".to_string(),
+            }),
+        };
+
+        assert!(config.validate().is_ok());
+    }
+
+    #[test]
+    fn test_localization_config_hybrid() {
+        let config = Config {
+            base_locale: "en".to_string(),
+            supported_locales: vec!["en".to_string()],
+            input_directory: "translations".to_string(),
+            output_directory: "output".to_string(),
+            namespace: None,
+            overrides: None,
+            analytics: None,
+            cloud: None,
+            localization: Some(LocalizationConfig {
+                mode: "hybrid".to_string(),
+            }),
+        };
+
+        assert!(config.validate().is_ok());
+    }
+
+    #[test]
+    fn test_localization_config_invalid_mode() {
+        let config = Config {
+            base_locale: "en".to_string(),
+            supported_locales: vec!["en".to_string()],
+            input_directory: "translations".to_string(),
+            output_directory: "output".to_string(),
+            namespace: None,
+            overrides: None,
+            analytics: None,
+            cloud: None,
+            localization: Some(LocalizationConfig {
+                mode: "invalid".to_string(),
+            }),
+        };
+
+        let result = config.validate();
+        assert!(result.is_err());
+        assert!(result
+            .unwrap_err()
+            .to_string()
+            .contains("Invalid localization mode"));
     }
 }

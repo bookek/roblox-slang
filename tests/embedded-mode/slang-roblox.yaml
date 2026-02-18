@@ -1,0 +1,61 @@
+# Roblox Slang Configuration
+# Documentation: https://github.com/mathtechstudio/roblox-slang
+
+# Base locale (fallback when translation is missing)
+base_locale: en
+
+# Supported locales for your game
+supported_locales:
+  - en
+
+# Directory containing translation files (JSON/YAML)
+input_directory: translations
+
+# Directory for generated Luau code
+output_directory: output
+
+# Optional: Namespace for generated module (null = no namespace)
+namespace: null
+
+# Localization mode
+# Controls how translations are loaded at runtime
+localization:
+  # Mode: embedded (default) - Translations embedded in generated code, no cloud dependency
+  # Other options:
+  #   - cloud: Use Roblox Cloud LocalizationService only (requires cloud upload)
+  #   - hybrid: Try cloud first, fallback to embedded (best of both worlds)
+  mode: embedded
+
+# Optional: Translation overrides
+# overrides:
+#   enabled: true
+#   file: overrides.yaml
+
+# Optional: Analytics for tracking missing translations
+# analytics:
+#   enabled: true
+#   track_missing: true
+#   track_usage: true
+
+# Optional: Roblox Cloud integration for syncing translations
+# Enables upload, download, and bidirectional sync with Roblox Cloud Localization Tables
+# cloud:
+#   # Localization table ID (UUID format)
+#   # Get from: Creator Dashboard > Localization > Table Settings
+#   table_id: "your-table-id-here"
+#   
+#   # Game/Universe ID (numeric)
+#   # Get from: Creator Dashboard > Game Settings > Basic Info
+#   game_id: "your-game-id-here"
+#   
+#   # API Key (RECOMMENDED: Use environment variable instead)
+#   # Set via: export ROBLOX_CLOUD_API_KEY=your_key_here
+#   # Get from: https://create.roblox.com/credentials
+#   # api_key: "your-api-key-here"
+#   
+#   # Default merge strategy for sync command
+#   # Options:
+#   #   - merge: Upload local-only, download cloud-only, prefer cloud for conflicts (recommended)
+#   #   - overwrite: Replace all cloud translations with local (destructive)
+#   #   - skip-conflicts: Only sync non-conflicting entries
+#   strategy: merge

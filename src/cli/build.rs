@@ -95,18 +95,14 @@ pub fn build(config_path: &Path) -> Result<()> {
     let output_dir = Path::new(&config.output_directory);
     std::fs::create_dir_all(output_dir).context("Failed to create output directory")?;
 
-    // Generate Luau code with analytics config
-    let luau_code = if let Some(analytics_config) = &config.analytics {
-        generator::generate_luau_with_config(
-            &all_translations,
-            &config.base_locale,
-            Some(analytics_config),
-        )
-        .context("Failed to generate Luau code")?
-    } else {
-        generator::generate_luau(&all_translations, &config.base_locale)
-            .context("Failed to generate Luau code")?
-    };
+    // Generate Luau code with analytics and localization config
+    let luau_code = generator::generate_luau_with_full_config(
+        &all_translations,
+        &config.base_locale,
+        config.analytics.as_ref(),
+        config.localization.as_ref(),
+    )
+    .context("Failed to generate Luau code")?;
 
     let output_file = output_dir.join("Translations.lua");
     std::fs::write(&output_file, luau_code).context("Failed to write Luau file")?;

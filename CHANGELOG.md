@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.2] - 2025-02-09
+## [1.1.3] - 2026-02-11
+
+### Added
+
+- 64 new unit tests across core modules (config, parser, roblox, utils, migrator, validator)
+- Test coverage for config schema validation and loader error handling
+- Test coverage for Translation and CloudSync type structures
+- Test coverage for plural key detection and edge cases
+- Test coverage for flatten/unflatten operations with edge cases
+- Test coverage for migration format detection and key transformations
+- Test coverage for validator coverage info structures
+
+### Fixed
+
+- Override test now correctly validates CSV output instead of Luau (overrides are uploaded to Roblox Cloud, not embedded in Luau)
+- Override test format corrected to match parser expectations (locale-first structure)
+- Test count increased from 178 to 242 unit tests in lib (36% increase)
+
+## [1.1.2] - 2026-02-09
 
 ### Fixed
 
@@ -13,14 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type definition generation now produces deterministic, alphabetically sorted output to reduce git diff noise (#6)
 - Luau code generation now produces deterministic, alphabetically sorted output to reduce git diff noise (#7)
 
-## [1.1.1] - 2025-02-09
+## [1.1.1] - 2026-02-09
 
 ### Fixed
 
 - Rate limit handling now respects `Retry-After` header from Roblox API instead of hardcoding 1 second backoff
 - Upload command now performs comprehensive validation (parsing, missing keys, conflicts) instead of only config validation
 
-## [1.1.0] - 2025-02-09
+## [1.1.0] - 2026-02-09
 
 ### Added
 
@@ -40,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Config field renamed: `default_merge_strategy` → `strategy`
 
-## [1.0.0] - 2025-02-08
+## [1.0.0] - 2026-02-08
 
 ### Added
 

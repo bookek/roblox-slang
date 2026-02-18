@@ -12,6 +12,10 @@ supported_locales:
   - id
 input_directory: translations
 output_directory: output
+
+# Localization mode (NEW in v2.0.0)
+localization:
+  mode: embedded
 ```
 
 ## Configuration Options
@@ -118,6 +122,137 @@ local MyTranslations = require(ReplicatedStorage.MyTranslations)
 local t = MyTranslations.new("en")
 ```
 
+### `localization` (optional)
+
+**NEW in v2.0.0:** Configure how translations are loaded at runtime.
+
+**Type:** `object`  
+**Default:** `{ mode: "embedded" }`
+
+```yaml
+localization:
+  mode: embedded
+```
+
+#### `localization.mode`
+
+**Type:** `string`  
+**Options:** `embedded`, `cloud`, `hybrid`  
+**Default:** `embedded`
+
+Controls how translations are loaded at runtime:
+
+**`embedded` (Default)**
+
+Translations are embedded directly in the generated Luau code. No cloud dependency.
+
+```yaml
+localization:
+  mode: embedded
+```
+
+**Pros:**
+
+- Works offline (no LocalizationService dependency)
+- Fastest performance (direct table lookup)
+- No cloud setup required
+- Perfect for single-player or offline games
+
+**Cons:**
+
+- No Automatic Text Capture (ATC)
+- No automatic translation via Roblox AI
+- Manual translation management
+
+**Generated code:**
+
+```lua
+-- Translations embedded in EMBEDDED_TRANSLATIONS table
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Direct lookup from embedded data
+```
+
+**`cloud`**
+
+Uses Roblox Cloud LocalizationService exclusively. Requires uploading translations to Roblox Cloud.
+
+```yaml
+localization:
+  mode: cloud
+```
+
+**Pros:**
+
+- Automatic Text Capture (ATC) integration
+- Automatic translation via Roblox AI
+- Translator Portal collaboration
+- Analytics via Roblox Dashboard
+
+**Cons:**
+
+- Requires cloud setup and upload
+- Depends on LocalizationService availability
+- Requires internet connection
+
+**Generated code:**
+
+```lua
+-- Uses LocalizationService:GetTranslatorForLocaleAsync()
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Fetches from LocalizationService
+```
+
+**Requirements:**
+
+- Must run `roblox-slang upload` to sync translations to cloud
+- Requires cloud configuration in `slang-roblox.yaml`
+
+**`hybrid`**
+
+Best of both worlds: tries cloud first, falls back to embedded on error.
+
+```yaml
+localization:
+  mode: hybrid
+```
+
+**Pros:**
+
+- Cloud features when available (ATC, auto-translation)
+- Embedded fallback for reliability
+- Graceful degradation on cloud errors
+- Works in Studio and production
+
+**Cons:**
+
+- Slightly larger generated file size (includes embedded data)
+- More complex setup
+
+**Generated code:**
+
+```lua
+-- Tries LocalizationService with pcall, falls back to embedded
+local t = Translations.new("en")
+print(t.ui.buttons.buy())  -- Tries cloud, falls back to embedded
+```
+
+**Use Cases:**
+
+- Games transitioning from embedded to cloud
+- Games that need offline support with cloud benefits
+- Development (Studio) vs production (cloud) workflows
+
+**Comparison:**
+
+| Feature | Embedded | Cloud | Hybrid |
+|---------|----------|-------|--------|
+| Offline support | ✅ Yes | ❌ No | ✅ Yes |
+| Cloud features (ATC, auto-translate) | ❌ No | ✅ Yes | ✅ Yes |
+| Performance | ⚡ Fastest | 🐢 Slower | 🚀 Fast |
+| Setup complexity | 🟢 Simple | 🔴 Complex | 🟡 Medium |
+| File size | 📦 Larger | 📄 Smaller | 📦 Larger |
+| Reliability | ✅ High | ⚠️ Depends on cloud | ✅ High |
+
 ## Advanced Configuration
 
 ### Translation Overrides
@@ -222,6 +357,10 @@ output_directory: src/shared/Translations
 
 # Custom namespace (optional)
 namespace: null
+
+# Localization mode (NEW in v2.0.0)
+localization:
+  mode: embedded  # or "cloud" or "hybrid"
 
 # Translation overrides (for A/B testing, seasonal events)
 overrides:
