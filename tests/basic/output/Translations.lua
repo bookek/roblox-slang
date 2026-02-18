@@ -341,8 +341,8 @@ function Translations:game_notifications_achievementUnlocked(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -355,8 +355,8 @@ function Translations:game_notifications_friendRequest(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -369,8 +369,8 @@ function Translations:game_notifications_levelUp(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -383,8 +383,8 @@ function Translations:game_notifications_partyInvite(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -397,8 +397,8 @@ function Translations:game_notifications_questComplete(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -411,8 +411,8 @@ function Translations:game_notifications_tradeRequest(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -526,8 +526,8 @@ function Translations:inventory_info_damage(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -541,8 +541,8 @@ function Translations:inventory_info_defense(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -555,8 +555,8 @@ function Translations:inventory_info_durability(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -570,8 +570,8 @@ function Translations:inventory_info_quantity(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -584,8 +584,8 @@ function Translations:inventory_info_rarity(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -599,8 +599,8 @@ function Translations:inventory_info_weight(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -888,8 +888,8 @@ function Translations:shop_messages_requiresGamepass(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1142,8 +1142,8 @@ function Translations:ui_messages_greeting(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1156,8 +1156,8 @@ function Translations:ui_messages_itemCount(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1175,8 +1175,8 @@ function Translations:ui_messages_playerJoined(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1189,8 +1189,8 @@ function Translations:ui_messages_playerLeft(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1204,8 +1204,8 @@ function Translations:ui_messages_price(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1224,8 +1224,8 @@ function Translations:ui_messages_score(params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
@@ -1315,8 +1315,8 @@ function Translations:ui_messages_items(count, params)
     
     -- Simple parameter interpolation
     local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
+    for paramKey, value in pairs(params) do
+        result = result:gsub("{" .. paramKey .. "}", tostring(value))
     end
     
     return result
