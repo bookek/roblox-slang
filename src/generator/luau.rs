@@ -4,15 +4,33 @@ use anyhow::Result;
 use std::collections::{HashMap, HashSet};
 
 /// Generate Luau code from translations
+///
+/// This function is kept for backward compatibility.
+/// Use generate_luau_with_full_config for new code.
+#[allow(dead_code)]
 pub fn generate_luau(translations: &[Translation], base_locale: &str) -> Result<String> {
     generate_luau_with_config(translations, base_locale, None)
 }
 
 /// Generate Luau code with analytics config
+///
+/// This function is kept for backward compatibility.
+/// Use generate_luau_with_full_config for new code.
+#[allow(dead_code)]
 pub fn generate_luau_with_config(
     translations: &[Translation],
     base_locale: &str,
     analytics_config: Option<&crate::config::AnalyticsConfig>,
+) -> Result<String> {
+    generate_luau_with_full_config(translations, base_locale, analytics_config, None)
+}
+
+/// Generate Luau code with full configuration including localization mode
+pub fn generate_luau_with_full_config(
+    translations: &[Translation],
+    base_locale: &str,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+    localization_config: Option<&crate::config::LocalizationConfig>,
 ) -> Result<String> {
     let mut code = String::new();
 
@@ -40,15 +58,38 @@ pub fn generate_luau_with_config(
         return Ok(code + "-- No translations found\nreturn {}\n");
     }
 
+    // Determine localization mode
+    let mode = localization_config
+        .map(|c| c.mode.as_str())
+        .unwrap_or("embedded");
+
+    // Generate embedded data if needed (for embedded or hybrid mode)
+    if mode == "embedded" || mode == "hybrid" {
+        let supported_locales: Vec<String> = translations
+            .iter()
+            .map(|t| t.locale.clone())
+            .collect::<std::collections::HashSet<_>>()
+            .into_iter()
+            .collect();
+        generate_embedded_data(&mut code, translations, &supported_locales);
+    }
+
     // Class definition
     code.push_str("local Translations = {}\n");
     code.push_str("Translations.__index = Translations\n\n");
 
-    // Constructor
-    generate_constructor(&mut code, analytics_config);
+    // Constructor (mode-aware)
+    match mode {
+        "embedded" => generate_constructor_embedded(&mut code, analytics_config),
+        "cloud" => generate_constructor_cloud(&mut code, analytics_config),
+        "hybrid" => generate_constructor_hybrid(&mut code, analytics_config),
+        _ => generate_constructor(&mut code, analytics_config), // Fallback to default
+    }
 
-    // Locale detection methods
-    generate_locale_detection(&mut code);
+    // Locale detection methods (only for cloud and hybrid modes)
+    if mode == "cloud" || mode == "hybrid" {
+        generate_locale_detection(&mut code);
+    }
 
     // Analytics methods (if enabled)
     if let Some(config) = analytics_config {
@@ -57,8 +98,14 @@ pub fn generate_luau_with_config(
         }
     }
 
-    // Generate flat methods (internal)
-    generate_flat_methods(&mut code, &base_translations, analytics_config);
+    // Generate flat methods (internal) - mode-aware
+    generate_flat_methods_with_mode(
+        &mut code,
+        &base_translations,
+        base_locale,
+        analytics_config,
+        mode,
+    );
 
     // Generate namespace structure (syntax sugar)
     generate_namespace_structure(&mut code, &base_translations);
@@ -277,6 +324,9 @@ fn generate_analytics_methods(code: &mut String, config: &crate::config::Analyti
 }
 
 /// Generate flat methods (internal, using underscores)
+/// This function is kept for backward compatibility but is no longer used.
+/// Use generate_flat_methods_with_mode instead.
+#[allow(dead_code)]
 fn generate_flat_methods(
     code: &mut String,
     translations: &[&Translation],
@@ -472,6 +522,54 @@ fn generate_plural_method(code: &mut String, base_key: &str, _translations: &[&T
     code.push_str("end\n\n");
 }
 
+/// Generate flat methods with mode-aware generation
+fn generate_flat_methods_with_mode(
+    code: &mut String,
+    translations: &[&Translation],
+    base_locale: &str,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+    mode: &str,
+) {
+    code.push_str("-- Internal methods (flat keys)\n\n");
+
+    // Separate plural and non-plural translations
+    let mut plural_groups: HashMap<String, Vec<&Translation>> = HashMap::new();
+    let mut regular_translations = Vec::new();
+
+    for translation in translations {
+        if plurals::is_plural_key(&translation.key) {
+            let base_key = plurals::extract_base_key(&translation.key);
+            plural_groups.entry(base_key).or_default().push(translation);
+        } else {
+            regular_translations.push(*translation);
+        }
+    }
+
+    // Sort for deterministic output
+    regular_translations.sort_by(|a, b| a.key.cmp(&b.key));
+
+    // Generate regular methods using mode-specific generation
+    for translation in regular_translations {
+        match mode {
+            "embedded" => {
+                generate_method_embedded(code, translation, base_locale, analytics_config)
+            }
+            "cloud" => generate_method_cloud(code, translation, analytics_config),
+            "hybrid" => generate_method_hybrid(code, translation, base_locale, analytics_config),
+            _ => generate_method_cloud(code, translation, analytics_config), // Fallback to cloud
+        }
+    }
+
+    // Generate plural methods (TODO: mode-aware plural methods in future)
+    let mut plural_keys_sorted: Vec<_> = plural_groups.keys().collect();
+    plural_keys_sorted.sort();
+
+    for base_key in plural_keys_sorted {
+        let plural_translations = &plural_groups[base_key];
+        generate_plural_method(code, base_key, plural_translations);
+    }
+}
+
 /// Generate namespace structure (syntax sugar for nested access)
 fn generate_namespace_structure(code: &mut String, translations: &[&Translation]) {
     code.push_str("-- Namespace structure (syntax sugar)\n\n");
@@ -610,6 +708,716 @@ pub fn extract_parameters(text: &str) -> Vec<String> {
     params
 }
 
+/// Escape special characters for Lua string literals
+///
+/// Converts special characters to their escaped equivalents to ensure
+/// the string can be safely embedded in Lua code.
+///
+/// # Arguments
+///
+/// * `s` - The string to escape
+///
+/// # Returns
+///
+/// A new string with all special characters properly escaped
+///
+/// # Examples
+///
+/// ```
+/// use roblox_slang::generator::luau::escape_lua_string;
+///
+/// assert_eq!(escape_lua_string("Hello"), "Hello");
+/// assert_eq!(escape_lua_string("Hello \"World\""), "Hello \\\"World\\\"");
+/// assert_eq!(escape_lua_string("Line1\nLine2"), "Line1\\nLine2");
+/// ```
+pub fn escape_lua_string(s: &str) -> String {
+    s.replace('\\', "\\\\")
+        .replace('"', "\\\"")
+        .replace('\n', "\\n")
+        .replace('\r', "\\r")
+        .replace('\t', "\\t")
+}
+
+/// Generate embedded translation data table
+///
+/// Creates a Lua table containing all translations for all locales,
+/// embedded directly in the generated code.
+///
+/// # Arguments
+///
+/// * `code` - The string buffer to append the generated code to
+/// * `translations` - All translations from all locales
+/// * `supported_locales` - List of locale codes to include
+///
+/// # Generated Structure
+///
+/// ```lua
+/// local EMBEDDED_TRANSLATIONS = {
+///     ["en"] = {
+///         ["ui.button"] = "Buy",
+///         ["ui.message"] = "Hello, {name}!",
+///     },
+///     ["id"] = {
+///         ["ui.button"] = "Beli",
+///         ["ui.message"] = "Halo, {name}!",
+///     },
+/// }
+/// ```
+fn generate_embedded_data(
+    code: &mut String,
+    translations: &[Translation],
+    supported_locales: &[String],
+) {
+    code.push_str("-- Embedded translation data (generated at build time)\n");
+    code.push_str("local EMBEDDED_TRANSLATIONS = {\n");
+
+    for locale in supported_locales {
+        code.push_str(&format!("    [\"{}\"] = {{\n", locale));
+
+        // Get translations for this locale
+        let mut locale_translations: Vec<_> = translations
+            .iter()
+            .filter(|t| t.locale == *locale)
+            .collect();
+
+        // Sort keys for deterministic output
+        locale_translations.sort_by(|a, b| a.key.cmp(&b.key));
+
+        for translation in locale_translations {
+            // Escape special characters in value
+            let escaped_value = escape_lua_string(&translation.value);
+            code.push_str(&format!(
+                "        [\"{}\"] = \"{}\",\n",
+                translation.key, escaped_value
+            ));
+        }
+
+        code.push_str("    },\n");
+    }
+
+    code.push_str("}\n\n");
+}
+
+/// Generate constructor for embedded mode (no LocalizationService)
+fn generate_constructor_embedded(
+    code: &mut String,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+) {
+    code.push_str("--- Create a new Translations instance\n");
+    code.push_str("--- @param locale string The locale to use (e.g., \"en\", \"id\")\n");
+    code.push_str("--- @return Translations\n");
+    code.push_str("function Translations.new(locale)\n");
+    code.push_str("    local self = setmetatable({}, Translations)\n");
+    code.push_str("    self._locale = locale or \"en\"\n");
+    code.push_str("    self._localeChangedCallbacks = {}\n");
+
+    // Add analytics initialization if enabled
+    if let Some(config) = analytics_config {
+        if config.enabled {
+            code.push_str("    \n");
+            code.push_str("    -- Analytics initialization\n");
+            code.push_str("    self._analytics_enabled = true\n");
+            code.push_str(&format!(
+                "    self._track_missing = {}\n",
+                config.track_missing
+            ));
+            code.push_str(&format!("    self._track_usage = {}\n", config.track_usage));
+            code.push_str("    self._usage_stats = {}\n");
+
+            if let Some(callback_path) = &config.callback {
+                code.push_str(&format!(
+                    "    self._analytics_callback = require({})\n",
+                    callback_path
+                ));
+            } else {
+                code.push_str("    self._analytics_callback = nil\n");
+            }
+        }
+    }
+
+    code.push_str("    \n");
+    code.push_str("    return self\n");
+    code.push_str("end\n\n");
+
+    // Add locale switching methods
+    code.push_str("--- Switch to a different locale\n");
+    code.push_str("--- @param locale string The new locale to use\n");
+    code.push_str("function Translations:setLocale(locale)\n");
+    code.push_str("    if self._locale == locale then\n");
+    code.push_str("        return\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    local oldLocale = self._locale\n");
+    code.push_str("    self._locale = locale\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fire locale changed callbacks\n");
+    code.push_str("    for _, callback in ipairs(self._localeChangedCallbacks) do\n");
+    code.push_str("        task.spawn(callback, locale, oldLocale)\n");
+    code.push_str("    end\n");
+    code.push_str("end\n\n");
+
+    code.push_str("--- Get current locale\n");
+    code.push_str("--- @return string\n");
+    code.push_str("function Translations:getLocale()\n");
+    code.push_str("    return self._locale\n");
+    code.push_str("end\n\n");
+
+    code.push_str("--- Register a callback for locale changes\n");
+    code.push_str("--- @param callback function(newLocale: string, oldLocale: string)\n");
+    code.push_str("function Translations:onLocaleChanged(callback)\n");
+    code.push_str("    table.insert(self._localeChangedCallbacks, callback)\n");
+    code.push_str("end\n\n");
+}
+
+/// Generate constructor for cloud mode (LocalizationService only)
+fn generate_constructor_cloud(
+    code: &mut String,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+) {
+    code.push_str("--- Create a new Translations instance\n");
+    code.push_str("--- @param locale string The locale to use (e.g., \"en\", \"id\")\n");
+    code.push_str("--- @return Translations\n");
+    code.push_str("function Translations.new(locale)\n");
+    code.push_str("    local self = setmetatable({}, Translations)\n");
+    code.push_str("    self._locale = locale or \"en\"\n");
+    code.push_str("    self._localeChangedCallbacks = {}\n");
+
+    // Add analytics initialization if enabled
+    if let Some(config) = analytics_config {
+        if config.enabled {
+            code.push_str("    \n");
+            code.push_str("    -- Analytics initialization\n");
+            code.push_str("    self._analytics_enabled = true\n");
+            code.push_str(&format!(
+                "    self._track_missing = {}\n",
+                config.track_missing
+            ));
+            code.push_str(&format!("    self._track_usage = {}\n", config.track_usage));
+            code.push_str("    self._usage_stats = {}\n");
+
+            if let Some(callback_path) = &config.callback {
+                code.push_str(&format!(
+                    "    self._analytics_callback = require({})\n",
+                    callback_path
+                ));
+            } else {
+                code.push_str("    self._analytics_callback = nil\n");
+            }
+        }
+    }
+
+    code.push_str("    \n");
+    code.push_str("    -- Get LocalizationService translator (required)\n");
+    code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
+    code.push_str("    local success, translator = pcall(function()\n");
+    code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(self._locale)\n");
+    code.push_str("    end)\n");
+    code.push_str("    \n");
+    code.push_str("    if not success then\n");
+    code.push_str("        error(\n");
+    code.push_str(
+        "            \"Failed to get translator for locale: \" .. self._locale .. \"\\n\" ..\n",
+    );
+    code.push_str(
+        "            \"\\nHint: Make sure you've uploaded translations to Roblox Cloud.\" ..\n",
+    );
+    code.push_str("            \"\\nRun: roblox-slang upload --table-id YOUR_TABLE_ID\"\n");
+    code.push_str("        )\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    self._translator = translator\n");
+    code.push_str("    \n");
+    code.push_str("    return self\n");
+    code.push_str("end\n\n");
+
+    // Add locale switching methods
+    code.push_str("--- Switch to a different locale\n");
+    code.push_str("--- @param locale string The new locale to use\n");
+    code.push_str("function Translations:setLocale(locale)\n");
+    code.push_str("    if self._locale == locale then\n");
+    code.push_str("        return\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    local oldLocale = self._locale\n");
+    code.push_str("    self._locale = locale\n");
+    code.push_str("    \n");
+    code.push_str("    -- Get new translator\n");
+    code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
+    code.push_str("    local success, translator = pcall(function()\n");
+    code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(locale)\n");
+    code.push_str("    end)\n");
+    code.push_str("    \n");
+    code.push_str("    if success then\n");
+    code.push_str("        self._translator = translator\n");
+    code.push_str("    else\n");
+    code.push_str("        warn(\"Failed to switch to locale: \" .. locale)\n");
+    code.push_str("        self._locale = oldLocale\n");
+    code.push_str("        return\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fire locale changed callbacks\n");
+    code.push_str("    for _, callback in ipairs(self._localeChangedCallbacks) do\n");
+    code.push_str("        task.spawn(callback, locale, oldLocale)\n");
+    code.push_str("    end\n");
+    code.push_str("end\n\n");
+
+    code.push_str("--- Get current locale\n");
+    code.push_str("--- @return string\n");
+    code.push_str("function Translations:getLocale()\n");
+    code.push_str("    return self._locale\n");
+    code.push_str("end\n\n");
+
+    code.push_str("--- Register a callback for locale changes\n");
+    code.push_str("--- @param callback function(newLocale: string, oldLocale: string)\n");
+    code.push_str("function Translations:onLocaleChanged(callback)\n");
+    code.push_str("    table.insert(self._localeChangedCallbacks, callback)\n");
+    code.push_str("end\n\n");
+
+    // Add asset localization methods
+    code.push_str("--- Get localized asset ID\n");
+    code.push_str("--- @param assetKey string The asset key\n");
+    code.push_str("--- @return string The asset ID for current locale\n");
+    code.push_str("function Translations:getAsset(assetKey)\n");
+    code.push_str("    local key = \"assets.\" .. assetKey .. \".\" .. self._locale\n");
+    code.push_str("    local success, result = pcall(function()\n");
+    code.push_str("        return self._translator:FormatByKey(key)\n");
+    code.push_str("    end)\n");
+    code.push_str("    \n");
+    code.push_str("    if success then\n");
+    code.push_str("        return result\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fallback to base locale\n");
+    code.push_str("    local fallbackKey = \"assets.\" .. assetKey .. \".en\"\n");
+    code.push_str("    return self._translator:FormatByKey(fallbackKey)\n");
+    code.push_str("end\n\n");
+}
+
+/// Generate constructor for hybrid mode (try cloud, fallback to embedded)
+fn generate_constructor_hybrid(
+    code: &mut String,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+) {
+    code.push_str("--- Create a new Translations instance\n");
+    code.push_str("--- @param locale string The locale to use (e.g., \"en\", \"id\")\n");
+    code.push_str("--- @return Translations\n");
+    code.push_str("function Translations.new(locale)\n");
+    code.push_str("    local self = setmetatable({}, Translations)\n");
+    code.push_str("    self._locale = locale or \"en\"\n");
+    code.push_str("    self._localeChangedCallbacks = {}\n");
+
+    // Add analytics initialization if enabled
+    if let Some(config) = analytics_config {
+        if config.enabled {
+            code.push_str("    \n");
+            code.push_str("    -- Analytics initialization\n");
+            code.push_str("    self._analytics_enabled = true\n");
+            code.push_str(&format!(
+                "    self._track_missing = {}\n",
+                config.track_missing
+            ));
+            code.push_str(&format!("    self._track_usage = {}\n", config.track_usage));
+            code.push_str("    self._usage_stats = {}\n");
+
+            if let Some(callback_path) = &config.callback {
+                code.push_str(&format!(
+                    "    self._analytics_callback = require({})\n",
+                    callback_path
+                ));
+            } else {
+                code.push_str("    self._analytics_callback = nil\n");
+            }
+        }
+    }
+
+    code.push_str("    \n");
+    code.push_str("    -- Try to get LocalizationService translator (optional)\n");
+    code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
+    code.push_str("    local success, translator = pcall(function()\n");
+    code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(self._locale)\n");
+    code.push_str("    end)\n");
+    code.push_str("    \n");
+    code.push_str("    if success then\n");
+    code.push_str("        self._translator = translator\n");
+    code.push_str("    else\n");
+    code.push_str(
+        "        warn(\"LocalizationService unavailable, using embedded translations\")\n",
+    );
+    code.push_str("        self._translator = nil\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    return self\n");
+    code.push_str("end\n\n");
+
+    // Add locale switching methods
+    code.push_str("--- Switch to a different locale\n");
+    code.push_str("--- @param locale string The new locale to use\n");
+    code.push_str("function Translations:setLocale(locale)\n");
+    code.push_str("    if self._locale == locale then\n");
+    code.push_str("        return\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    local oldLocale = self._locale\n");
+    code.push_str("    self._locale = locale\n");
+    code.push_str("    \n");
+    code.push_str("    -- Try to get new translator\n");
+    code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
+    code.push_str("    local success, translator = pcall(function()\n");
+    code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(locale)\n");
+    code.push_str("    end)\n");
+    code.push_str("    \n");
+    code.push_str("    if success then\n");
+    code.push_str("        self._translator = translator\n");
+    code.push_str("    else\n");
+    code.push_str("        self._translator = nil\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    -- Fire locale changed callbacks\n");
+    code.push_str("    for _, callback in ipairs(self._localeChangedCallbacks) do\n");
+    code.push_str("        task.spawn(callback, locale, oldLocale)\n");
+    code.push_str("    end\n");
+    code.push_str("end\n\n");
+
+    code.push_str("--- Get current locale\n");
+    code.push_str("--- @return string\n");
+    code.push_str("function Translations:getLocale()\n");
+    code.push_str("    return self._locale\n");
+    code.push_str("end\n\n");
+
+    code.push_str("--- Register a callback for locale changes\n");
+    code.push_str("--- @param callback function(newLocale: string, oldLocale: string)\n");
+    code.push_str("function Translations:onLocaleChanged(callback)\n");
+    code.push_str("    table.insert(self._localeChangedCallbacks, callback)\n");
+    code.push_str("end\n\n");
+}
+
+/// Generate translation method for embedded mode
+fn generate_method_embedded(
+    code: &mut String,
+    translation: &Translation,
+    base_locale: &str,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+) {
+    let method_name = translation.key.replace(".", "_");
+    let params_with_format = format::extract_parameters_with_format(&translation.value);
+
+    let analytics_enabled = analytics_config.map(|c| c.enabled).unwrap_or(false);
+    let track_usage = analytics_config.map(|c| c.track_usage).unwrap_or(false);
+    let track_missing = analytics_config.map(|c| c.track_missing).unwrap_or(false);
+
+    if !params_with_format.is_empty() {
+        // Method with parameters
+        code.push_str(&format!("function Translations:{}(params)\n", method_name));
+        code.push_str("    params = params or {}\n");
+
+        // Track usage if enabled
+        if analytics_enabled && track_usage {
+            code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
+        }
+
+        // Apply format specifiers
+        for (param_name, specifier) in &params_with_format {
+            if *specifier != format::FormatSpecifier::None {
+                let format_code = format::generate_format_code(param_name, specifier);
+                if !format_code.is_empty() {
+                    code.push_str("    ");
+                    code.push_str(&format_code);
+                    code.push('\n');
+                }
+            }
+        }
+
+        // Get from embedded data with fallback
+        code.push_str(&format!(
+            "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+            base_locale
+        ));
+        code.push_str(&format!(
+            "    local template = locale_data[\"{}\"] or \"{}\"\n",
+            translation.key, translation.key
+        ));
+
+        // Track missing if enabled
+        if analytics_enabled && track_missing {
+            code.push_str(&format!(
+                "    if not locale_data[\"{}\"] then\n",
+                translation.key
+            ));
+            code.push_str(&format!(
+                "        self:_trackMissing(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str("    end\n");
+        }
+
+        code.push_str("    \n");
+        code.push_str("    -- Simple parameter interpolation\n");
+        code.push_str("    local result = template\n");
+        code.push_str("    for key, value in pairs(params) do\n");
+        code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+        code.push_str("    end\n");
+        code.push_str("    \n");
+        code.push_str("    return result\n");
+    } else {
+        // Simple method
+        code.push_str(&format!("function Translations:{}()\n", method_name));
+
+        // Track usage if enabled
+        if analytics_enabled && track_usage {
+            code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
+        }
+
+        code.push_str(&format!(
+            "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+            base_locale
+        ));
+
+        // Track missing if enabled
+        if analytics_enabled && track_missing {
+            code.push_str(&format!(
+                "    if not locale_data[\"{}\"] then\n",
+                translation.key
+            ));
+            code.push_str(&format!(
+                "        self:_trackMissing(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str("    end\n");
+        }
+
+        code.push_str(&format!(
+            "    return locale_data[\"{}\"] or \"{}\"\n",
+            translation.key, translation.key
+        ));
+    }
+
+    code.push_str("end\n\n");
+}
+
+/// Generate translation method for cloud mode (backward compatible)
+fn generate_method_cloud(
+    code: &mut String,
+    translation: &Translation,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+) {
+    let method_name = translation.key.replace(".", "_");
+    let params_with_format = format::extract_parameters_with_format(&translation.value);
+
+    let analytics_enabled = analytics_config.map(|c| c.enabled).unwrap_or(false);
+    let track_usage = analytics_config.map(|c| c.track_usage).unwrap_or(false);
+    let track_missing = analytics_config.map(|c| c.track_missing).unwrap_or(false);
+
+    if !params_with_format.is_empty() {
+        // Method with parameters
+        code.push_str(&format!("function Translations:{}(params)\n", method_name));
+        code.push_str("    params = params or {}\n");
+
+        // Track usage if enabled
+        if analytics_enabled && track_usage {
+            code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
+        }
+
+        // Apply format specifiers
+        for (param_name, specifier) in &params_with_format {
+            if *specifier != format::FormatSpecifier::None {
+                let format_code = format::generate_format_code(param_name, specifier);
+                if !format_code.is_empty() {
+                    code.push_str("    ");
+                    code.push_str(&format_code);
+                    code.push('\n');
+                }
+            }
+        }
+
+        // Get translation with missing tracking
+        if analytics_enabled && track_missing {
+            code.push_str(&format!(
+                "    local value = self._translator:FormatByKey(\"{}\", params)\n",
+                translation.key
+            ));
+            code.push_str("    if value == \"\" or value == \"{}\" then\n");
+            code.push_str(&format!(
+                "        self:_trackMissing(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str(&format!(
+                "        return \"{}\"  -- Return key as fallback\n",
+                translation.key
+            ));
+            code.push_str("    end\n");
+            code.push_str("    return value\n");
+        } else {
+            code.push_str(&format!(
+                "    return self._translator:FormatByKey(\"{}\", params)\n",
+                translation.key
+            ));
+        }
+    } else {
+        // Simple method
+        code.push_str(&format!("function Translations:{}()\n", method_name));
+
+        // Track usage if enabled
+        if analytics_enabled && track_usage {
+            code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
+        }
+
+        // Get translation with missing tracking
+        if analytics_enabled && track_missing {
+            code.push_str(&format!(
+                "    local value = self._translator:FormatByKey(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str("    if value == \"\" or value == \"{}\" then\n");
+            code.push_str(&format!(
+                "        self:_trackMissing(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str(&format!(
+                "        return \"{}\"  -- Return key as fallback\n",
+                translation.key
+            ));
+            code.push_str("    end\n");
+            code.push_str("    return value\n");
+        } else {
+            code.push_str(&format!(
+                "    return self._translator:FormatByKey(\"{}\")\n",
+                translation.key
+            ));
+        }
+    }
+
+    code.push_str("end\n\n");
+}
+
+/// Generate translation method for hybrid mode
+fn generate_method_hybrid(
+    code: &mut String,
+    translation: &Translation,
+    base_locale: &str,
+    analytics_config: Option<&crate::config::AnalyticsConfig>,
+) {
+    let method_name = translation.key.replace(".", "_");
+    let params_with_format = format::extract_parameters_with_format(&translation.value);
+
+    let analytics_enabled = analytics_config.map(|c| c.enabled).unwrap_or(false);
+    let track_usage = analytics_config.map(|c| c.track_usage).unwrap_or(false);
+    let track_missing = analytics_config.map(|c| c.track_missing).unwrap_or(false);
+
+    if !params_with_format.is_empty() {
+        // Method with parameters
+        code.push_str(&format!("function Translations:{}(params)\n", method_name));
+        code.push_str("    params = params or {}\n");
+
+        // Track usage if enabled
+        if analytics_enabled && track_usage {
+            code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
+        }
+
+        // Apply format specifiers
+        for (param_name, specifier) in &params_with_format {
+            if *specifier != format::FormatSpecifier::None {
+                let format_code = format::generate_format_code(param_name, specifier);
+                if !format_code.is_empty() {
+                    code.push_str("    ");
+                    code.push_str(&format_code);
+                    code.push('\n');
+                }
+            }
+        }
+
+        // Try cloud first
+        code.push_str("    if self._translator then\n");
+        code.push_str("        local success, result = pcall(function()\n");
+        code.push_str(&format!(
+            "            return self._translator:FormatByKey(\"{}\", params)\n",
+            translation.key
+        ));
+        code.push_str("        end)\n");
+        code.push_str("        if success and result ~= \"\" then\n");
+        code.push_str("            return result\n");
+        code.push_str("        end\n");
+        code.push_str("    end\n");
+        code.push_str("    \n");
+
+        // Fallback to embedded
+        code.push_str(&format!(
+            "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+            base_locale
+        ));
+        code.push_str(&format!(
+            "    local template = locale_data[\"{}\"] or \"{}\"\n",
+            translation.key, translation.key
+        ));
+
+        // Track missing if enabled
+        if analytics_enabled && track_missing {
+            code.push_str(&format!(
+                "    if not locale_data[\"{}\"] then\n",
+                translation.key
+            ));
+            code.push_str(&format!(
+                "        self:_trackMissing(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str("    end\n");
+        }
+
+        code.push_str("    local result = template\n");
+        code.push_str("    for key, value in pairs(params) do\n");
+        code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+        code.push_str("    end\n");
+        code.push_str("    return result\n");
+    } else {
+        // Simple method
+        code.push_str(&format!("function Translations:{}()\n", method_name));
+
+        // Track usage if enabled
+        if analytics_enabled && track_usage {
+            code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
+        }
+
+        // Try cloud first
+        code.push_str("    if self._translator then\n");
+        code.push_str("        local success, result = pcall(function()\n");
+        code.push_str(&format!(
+            "            return self._translator:FormatByKey(\"{}\")\n",
+            translation.key
+        ));
+        code.push_str("        end)\n");
+        code.push_str("        if success and result ~= \"\" then\n");
+        code.push_str("            return result\n");
+        code.push_str("        end\n");
+        code.push_str("    end\n");
+        code.push_str("    \n");
+
+        // Fallback to embedded
+        code.push_str(&format!(
+            "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+            base_locale
+        ));
+
+        // Track missing if enabled
+        if analytics_enabled && track_missing {
+            code.push_str(&format!(
+                "    if not locale_data[\"{}\"] then\n",
+                translation.key
+            ));
+            code.push_str(&format!(
+                "        self:_trackMissing(\"{}\")\n",
+                translation.key
+            ));
+            code.push_str("    end\n");
+        }
+
+        code.push_str(&format!(
+            "    return locale_data[\"{}\"] or \"{}\"\n",
+            translation.key, translation.key
+        ));
+    }
+
+    code.push_str("end\n\n");
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -624,6 +1432,473 @@ mod tests {
     fn test_extract_parameters_no_params() {
         let params = extract_parameters("Hello world");
         assert!(params.is_empty());
+    }
+
+    #[test]
+    fn test_escape_lua_string_basic() {
+        assert_eq!(escape_lua_string("Hello"), "Hello");
+        assert_eq!(escape_lua_string("Simple text"), "Simple text");
+    }
+
+    #[test]
+    fn test_escape_lua_string_quotes() {
+        assert_eq!(escape_lua_string("Hello \"World\""), "Hello \\\"World\\\"");
+        assert_eq!(escape_lua_string("Say \"Hi\""), "Say \\\"Hi\\\"");
+    }
+
+    #[test]
+    fn test_escape_lua_string_newlines() {
+        assert_eq!(escape_lua_string("Line1\nLine2"), "Line1\\nLine2");
+        assert_eq!(
+            escape_lua_string("First\nSecond\nThird"),
+            "First\\nSecond\\nThird"
+        );
+    }
+
+    #[test]
+    fn test_escape_lua_string_tabs() {
+        assert_eq!(escape_lua_string("Tab\there"), "Tab\\there");
+        assert_eq!(escape_lua_string("A\tB\tC"), "A\\tB\\tC");
+    }
+
+    #[test]
+    fn test_escape_lua_string_backslashes() {
+        assert_eq!(escape_lua_string("Back\\slash"), "Back\\\\slash");
+        assert_eq!(escape_lua_string("Path\\to\\file"), "Path\\\\to\\\\file");
+    }
+
+    #[test]
+    fn test_escape_lua_string_carriage_return() {
+        assert_eq!(escape_lua_string("Line1\rLine2"), "Line1\\rLine2");
+    }
+
+    #[test]
+    fn test_escape_lua_string_complex() {
+        let input = "He said: \"Hello\"\nNext line\tTabbed\\Backslash";
+        let expected = "He said: \\\"Hello\\\"\\nNext line\\tTabbed\\\\Backslash";
+        assert_eq!(escape_lua_string(input), expected);
+    }
+
+    #[test]
+    fn test_escape_lua_string_multiple_special_chars() {
+        let input = "\"Quote\"\n\\Backslash\\\t\tDouble Tab\r\nWindows Line";
+        let expected = "\\\"Quote\\\"\\n\\\\Backslash\\\\\\t\\tDouble Tab\\r\\nWindows Line";
+        assert_eq!(escape_lua_string(input), expected);
+    }
+
+    #[test]
+    fn test_generate_embedded_data_single_locale() {
+        let translations = vec![
+            Translation {
+                key: "ui.button".to_string(),
+                value: "Buy".to_string(),
+                locale: "en".to_string(),
+                context: None,
+            },
+            Translation {
+                key: "ui.message".to_string(),
+                value: "Hello".to_string(),
+                locale: "en".to_string(),
+                context: None,
+            },
+        ];
+
+        let mut code = String::new();
+        generate_embedded_data(&mut code, &translations, &["en".to_string()]);
+
+        assert!(code.contains("local EMBEDDED_TRANSLATIONS = {"));
+        assert!(code.contains("[\"en\"] = {"));
+        assert!(code.contains("[\"ui.button\"] = \"Buy\""));
+        assert!(code.contains("[\"ui.message\"] = \"Hello\""));
+    }
+
+    #[test]
+    fn test_generate_embedded_data_multiple_locales() {
+        let translations = vec![
+            Translation {
+                key: "ui.button".to_string(),
+                value: "Buy".to_string(),
+                locale: "en".to_string(),
+                context: None,
+            },
+            Translation {
+                key: "ui.button".to_string(),
+                value: "Beli".to_string(),
+                locale: "id".to_string(),
+                context: None,
+            },
+            Translation {
+                key: "ui.button".to_string(),
+                value: "Comprar".to_string(),
+                locale: "es".to_string(),
+                context: None,
+            },
+        ];
+
+        let mut code = String::new();
+        generate_embedded_data(
+            &mut code,
+            &translations,
+            &["en".to_string(), "id".to_string(), "es".to_string()],
+        );
+
+        assert!(code.contains("[\"en\"] = {"));
+        assert!(code.contains("[\"id\"] = {"));
+        assert!(code.contains("[\"es\"] = {"));
+        assert!(code.contains("[\"ui.button\"] = \"Buy\""));
+        assert!(code.contains("[\"ui.button\"] = \"Beli\""));
+        assert!(code.contains("[\"ui.button\"] = \"Comprar\""));
+    }
+
+    #[test]
+    fn test_generate_embedded_data_with_special_chars() {
+        let translations = vec![Translation {
+            key: "ui.message".to_string(),
+            value: "Hello \"World\"\nNew line".to_string(),
+            locale: "en".to_string(),
+            context: None,
+        }];
+
+        let mut code = String::new();
+        generate_embedded_data(&mut code, &translations, &["en".to_string()]);
+
+        // Should escape special characters
+        assert!(code.contains("Hello \\\"World\\\"\\nNew line"));
+    }
+
+    #[test]
+    fn test_generate_embedded_data_sorted_keys() {
+        let translations = vec![
+            Translation {
+                key: "ui.zebra".to_string(),
+                value: "Z".to_string(),
+                locale: "en".to_string(),
+                context: None,
+            },
+            Translation {
+                key: "ui.apple".to_string(),
+                value: "A".to_string(),
+                locale: "en".to_string(),
+                context: None,
+            },
+            Translation {
+                key: "ui.banana".to_string(),
+                value: "B".to_string(),
+                locale: "en".to_string(),
+                context: None,
+            },
+        ];
+
+        let mut code = String::new();
+        generate_embedded_data(&mut code, &translations, &["en".to_string()]);
+
+        // Keys should be sorted alphabetically
+        let apple_pos = code.find("ui.apple").unwrap();
+        let banana_pos = code.find("ui.banana").unwrap();
+        let zebra_pos = code.find("ui.zebra").unwrap();
+
+        assert!(apple_pos < banana_pos);
+        assert!(banana_pos < zebra_pos);
+    }
+
+    #[test]
+    fn test_generate_embedded_data_empty_locale() {
+        let translations = vec![];
+
+        let mut code = String::new();
+        generate_embedded_data(&mut code, &translations, &["en".to_string()]);
+
+        // Should still generate structure even with no translations
+        assert!(code.contains("local EMBEDDED_TRANSLATIONS = {"));
+        assert!(code.contains("[\"en\"] = {"));
+    }
+
+    #[test]
+    fn test_generate_constructor_embedded_no_localization_service() {
+        let mut code = String::new();
+        generate_constructor_embedded(&mut code, None);
+
+        // Should NOT contain LocalizationService
+        assert!(!code.contains("LocalizationService"));
+        assert!(!code.contains("GetTranslatorForLocaleAsync"));
+        assert!(!code.contains("_translator"));
+
+        // Should contain basic constructor
+        assert!(code.contains("function Translations.new(locale)"));
+        assert!(code.contains("self._locale = locale or \"en\""));
+        assert!(code.contains("self._localeChangedCallbacks = {}"));
+
+        // Should contain locale methods
+        assert!(code.contains("function Translations:setLocale(locale)"));
+        assert!(code.contains("function Translations:getLocale()"));
+        assert!(code.contains("function Translations:onLocaleChanged(callback)"));
+    }
+
+    #[test]
+    fn test_generate_constructor_cloud_has_localization_service() {
+        let mut code = String::new();
+        generate_constructor_cloud(&mut code, None);
+
+        // Should contain LocalizationService
+        assert!(code.contains("LocalizationService"));
+        assert!(code.contains("GetTranslatorForLocaleAsync"));
+        assert!(code.contains("self._translator = translator"));
+
+        // Should contain error handling
+        assert!(code.contains("if not success then"));
+        assert!(code.contains("error("));
+        assert!(code.contains("Make sure you've uploaded translations"));
+
+        // Should contain asset localization
+        assert!(code.contains("function Translations:getAsset(assetKey)"));
+    }
+
+    #[test]
+    fn test_generate_constructor_hybrid_optional_cloud() {
+        let mut code = String::new();
+        generate_constructor_hybrid(&mut code, None);
+
+        // Should contain LocalizationService with pcall
+        assert!(code.contains("LocalizationService"));
+        assert!(code.contains("GetTranslatorForLocaleAsync"));
+        assert!(code.contains("pcall(function()"));
+
+        // Should handle both success and failure
+        assert!(code.contains("if success then"));
+        assert!(code.contains("self._translator = translator"));
+        assert!(code.contains("else"));
+        assert!(code.contains("warn(\"LocalizationService unavailable"));
+        assert!(code.contains("self._translator = nil"));
+
+        // Should NOT error on failure (unlike cloud mode)
+        assert!(!code.contains("error("));
+    }
+
+    #[test]
+    fn test_generate_constructor_embedded_with_analytics() {
+        use crate::config::AnalyticsConfig;
+
+        let analytics_config = AnalyticsConfig {
+            enabled: true,
+            track_missing: true,
+            track_usage: true,
+            callback: None,
+        };
+
+        let mut code = String::new();
+        generate_constructor_embedded(&mut code, Some(&analytics_config));
+
+        // Should contain analytics initialization
+        assert!(code.contains("self._analytics_enabled = true"));
+        assert!(code.contains("self._track_missing = true"));
+        assert!(code.contains("self._track_usage = true"));
+        assert!(code.contains("self._usage_stats = {}"));
+
+        // Should NOT contain LocalizationService
+        assert!(!code.contains("LocalizationService"));
+    }
+
+    #[test]
+    fn test_generate_constructor_cloud_with_analytics() {
+        use crate::config::AnalyticsConfig;
+
+        let analytics_config = AnalyticsConfig {
+            enabled: true,
+            track_missing: false,
+            track_usage: true,
+            callback: Some("game.Analytics".to_string()),
+        };
+
+        let mut code = String::new();
+        generate_constructor_cloud(&mut code, Some(&analytics_config));
+
+        // Should contain both analytics and LocalizationService
+        assert!(code.contains("self._analytics_enabled = true"));
+        assert!(code.contains("self._analytics_callback = require(game.Analytics)"));
+        assert!(code.contains("LocalizationService"));
+    }
+
+    #[test]
+    fn test_generate_constructor_hybrid_with_analytics() {
+        use crate::config::AnalyticsConfig;
+
+        let analytics_config = AnalyticsConfig {
+            enabled: true,
+            track_missing: true,
+            track_usage: false,
+            callback: None,
+        };
+
+        let mut code = String::new();
+        generate_constructor_hybrid(&mut code, Some(&analytics_config));
+
+        // Should contain analytics
+        assert!(code.contains("self._analytics_enabled = true"));
+        assert!(code.contains("self._track_missing = true"));
+
+        // Should contain optional LocalizationService
+        assert!(code.contains("pcall(function()"));
+        assert!(code.contains("self._translator = nil"));
+    }
+
+    // Property-based tests
+    #[cfg(test)]
+    mod property_tests {
+        use super::*;
+        use quickcheck::{quickcheck, TestResult};
+
+        #[test]
+        fn prop_escape_no_unescaped_special_chars() {
+            fn property(s: String) -> TestResult {
+                let escaped = escape_lua_string(&s);
+
+                // Verify no unescaped special characters remain
+                // (except for escaped sequences like \\n, \\t, etc.)
+                let has_unescaped_newline = escaped.contains('\n');
+                let has_unescaped_tab = escaped.contains('\t');
+                let has_unescaped_carriage = escaped.contains('\r');
+                let has_unescaped_quote = escaped.contains('"') && !escaped.contains("\\\"");
+
+                if has_unescaped_newline
+                    || has_unescaped_tab
+                    || has_unescaped_carriage
+                    || has_unescaped_quote
+                {
+                    return TestResult::failed();
+                }
+
+                TestResult::passed()
+            }
+
+            quickcheck(property as fn(String) -> TestResult);
+        }
+
+        #[test]
+        fn prop_escape_idempotent_on_safe_strings() {
+            fn property(s: String) -> TestResult {
+                // Only test with strings that don't contain special chars
+                if s.contains('\\')
+                    || s.contains('"')
+                    || s.contains('\n')
+                    || s.contains('\r')
+                    || s.contains('\t')
+                {
+                    return TestResult::discard();
+                }
+
+                let escaped = escape_lua_string(&s);
+                TestResult::from_bool(escaped == s)
+            }
+
+            quickcheck(property as fn(String) -> TestResult);
+        }
+
+        #[test]
+        fn prop_escape_length_increases_or_stays_same() {
+            fn property(s: String) -> bool {
+                let escaped = escape_lua_string(&s);
+                escaped.len() >= s.len()
+            }
+
+            quickcheck(property as fn(String) -> bool);
+        }
+
+        #[test]
+        fn prop_escape_preserves_safe_characters() {
+            fn property(s: String) -> TestResult {
+                // Only test with alphanumeric strings
+                if !s.chars().all(|c| c.is_alphanumeric() || c == ' ') {
+                    return TestResult::discard();
+                }
+
+                let escaped = escape_lua_string(&s);
+                TestResult::from_bool(escaped == s)
+            }
+
+            quickcheck(property as fn(String) -> TestResult);
+        }
+
+        #[test]
+        fn prop_embedded_data_completeness() {
+            fn property(keys: Vec<String>, values: Vec<String>, locale: String) -> TestResult {
+                if keys.is_empty() || values.is_empty() || locale.is_empty() {
+                    return TestResult::discard();
+                }
+
+                // Filter invalid keys and locale
+                let valid_keys: Vec<String> = keys
+                    .into_iter()
+                    .filter(|k| !k.is_empty() && k.chars().all(|c| c.is_alphanumeric() || c == '.'))
+                    .collect();
+
+                if valid_keys.is_empty() || !locale.chars().all(|c| c.is_alphanumeric() || c == '-')
+                {
+                    return TestResult::discard();
+                }
+
+                // Create translations
+                let translations: Vec<Translation> = valid_keys
+                    .iter()
+                    .zip(values.iter().cycle())
+                    .map(|(key, value)| Translation {
+                        key: key.clone(),
+                        value: value.clone(),
+                        locale: locale.clone(),
+                        context: None,
+                    })
+                    .collect();
+
+                let mut code = String::new();
+                generate_embedded_data(&mut code, &translations, std::slice::from_ref(&locale));
+
+                // Check that all translations are present in generated code
+                for translation in &translations {
+                    let key_pattern = format!("[\"{}\"]", translation.key);
+                    if !code.contains(&key_pattern) {
+                        return TestResult::failed();
+                    }
+                }
+
+                TestResult::passed()
+            }
+
+            quickcheck(property as fn(Vec<String>, Vec<String>, String) -> TestResult);
+        }
+
+        #[test]
+        fn prop_embedded_data_all_locales_present() {
+            fn property(locales: Vec<String>) -> TestResult {
+                if locales.is_empty() {
+                    return TestResult::discard();
+                }
+
+                // Filter out invalid locale strings
+                let valid_locales: Vec<String> = locales
+                    .into_iter()
+                    .filter(|l| !l.is_empty() && l.chars().all(|c| c.is_alphanumeric() || c == '-'))
+                    .collect();
+
+                if valid_locales.is_empty() {
+                    return TestResult::discard();
+                }
+
+                let translations = vec![];
+                let mut code = String::new();
+                generate_embedded_data(&mut code, &translations, &valid_locales);
+
+                // Check that all locales are present in generated code
+                for locale in &valid_locales {
+                    let locale_pattern = format!("[\"{}\"] = {{", locale);
+                    if !code.contains(&locale_pattern) {
+                        return TestResult::failed();
+                    }
+                }
+
+                TestResult::passed()
+            }
+
+            quickcheck(property as fn(Vec<String>) -> TestResult);
+        }
     }
 
     #[test]
@@ -866,4 +2141,356 @@ fn test_analytics_with_custom_callback() {
     // Should NOT contain usage tracking (disabled)
     assert!(!code.contains("function Translations:_trackUsage"));
     assert!(!code.contains("function Translations:getUsageStats"));
+}
+
+#[test]
+fn test_generate_method_embedded_simple() {
+    let translation = Translation {
+        key: "ui.button".to_string(),
+        value: "Buy".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let mut code = String::new();
+    generate_method_embedded(&mut code, &translation, "en", None);
+
+    // Should use embedded data lookup
+    assert!(code.contains("function Translations:ui_button()"));
+    assert!(code.contains("EMBEDDED_TRANSLATIONS[self._locale]"));
+    assert!(code.contains("EMBEDDED_TRANSLATIONS[\"en\"]"));
+    assert!(code.contains("[\"ui.button\"]"));
+
+    // Should NOT use LocalizationService
+    assert!(!code.contains("FormatByKey"));
+    assert!(!code.contains("_translator"));
+}
+
+#[test]
+fn test_generate_method_embedded_with_params() {
+    let translation = Translation {
+        key: "ui.greeting".to_string(),
+        value: "Hello, {name}!".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let mut code = String::new();
+    generate_method_embedded(&mut code, &translation, "en", None);
+
+    // Should have params parameter
+    assert!(code.contains("function Translations:ui_greeting(params)"));
+    assert!(code.contains("params = params or {}"));
+
+    // Should use embedded data lookup
+    assert!(code.contains("EMBEDDED_TRANSLATIONS[self._locale]"));
+    assert!(code.contains("local template = locale_data[\"ui.greeting\"]"));
+
+    // Should have parameter interpolation
+    assert!(code.contains("Simple parameter interpolation"));
+    assert!(code.contains("for key, value in pairs(params) do"));
+    assert!(code.contains("result:gsub(\"{\" .. key .. \"}\", tostring(value))"));
+}
+
+#[test]
+fn test_generate_method_cloud_simple() {
+    let translation = Translation {
+        key: "ui.button".to_string(),
+        value: "Buy".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let mut code = String::new();
+    generate_method_cloud(&mut code, &translation, None);
+
+    // Should use LocalizationService
+    assert!(code.contains("function Translations:ui_button()"));
+    assert!(code.contains("self._translator:FormatByKey(\"ui.button\")"));
+
+    // Should NOT use embedded data
+    assert!(!code.contains("EMBEDDED_TRANSLATIONS"));
+}
+
+#[test]
+fn test_generate_method_cloud_with_params() {
+    let translation = Translation {
+        key: "ui.greeting".to_string(),
+        value: "Hello, {name}!".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let mut code = String::new();
+    generate_method_cloud(&mut code, &translation, None);
+
+    // Should have params parameter
+    assert!(code.contains("function Translations:ui_greeting(params)"));
+    assert!(code.contains("params = params or {}"));
+
+    // Should use LocalizationService with params
+    assert!(code.contains("self._translator:FormatByKey(\"ui.greeting\", params)"));
+}
+
+#[test]
+fn test_generate_method_hybrid_simple() {
+    let translation = Translation {
+        key: "ui.button".to_string(),
+        value: "Buy".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let mut code = String::new();
+    generate_method_hybrid(&mut code, &translation, "en", None);
+
+    // Should try cloud first
+    assert!(code.contains("if self._translator then"));
+    assert!(code.contains("pcall(function()"));
+    assert!(code.contains("self._translator:FormatByKey(\"ui.button\")"));
+
+    // Should fallback to embedded
+    assert!(code.contains("EMBEDDED_TRANSLATIONS[self._locale]"));
+    assert!(code.contains("EMBEDDED_TRANSLATIONS[\"en\"]"));
+}
+
+#[test]
+fn test_generate_method_hybrid_with_params() {
+    let translation = Translation {
+        key: "ui.greeting".to_string(),
+        value: "Hello, {name}!".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let mut code = String::new();
+    generate_method_hybrid(&mut code, &translation, "en", None);
+
+    // Should have params parameter
+    assert!(code.contains("function Translations:ui_greeting(params)"));
+
+    // Should try cloud first with params
+    assert!(code.contains("self._translator:FormatByKey(\"ui.greeting\", params)"));
+
+    // Should fallback to embedded with interpolation
+    assert!(code.contains("local template = locale_data[\"ui.greeting\"]"));
+    assert!(code.contains("for key, value in pairs(params) do"));
+}
+
+#[test]
+fn test_generate_method_embedded_with_analytics() {
+    use crate::config::AnalyticsConfig;
+
+    let translation = Translation {
+        key: "ui.button".to_string(),
+        value: "Buy".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let analytics_config = AnalyticsConfig {
+        enabled: true,
+        track_missing: true,
+        track_usage: true,
+        callback: None,
+    };
+
+    let mut code = String::new();
+    generate_method_embedded(&mut code, &translation, "en", Some(&analytics_config));
+
+    // Should track usage
+    assert!(code.contains("self:_trackUsage(\"ui.button\")"));
+
+    // Should track missing
+    assert!(code.contains("self:_trackMissing(\"ui.button\")"));
+}
+
+#[test]
+fn test_generate_method_cloud_with_analytics() {
+    use crate::config::AnalyticsConfig;
+
+    let translation = Translation {
+        key: "ui.button".to_string(),
+        value: "Buy".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let analytics_config = AnalyticsConfig {
+        enabled: true,
+        track_missing: true,
+        track_usage: true,
+        callback: None,
+    };
+
+    let mut code = String::new();
+    generate_method_cloud(&mut code, &translation, Some(&analytics_config));
+
+    // Should track usage
+    assert!(code.contains("self:_trackUsage(\"ui.button\")"));
+
+    // Should track missing
+    assert!(code.contains("local value = self._translator:FormatByKey"));
+    assert!(code.contains("if value == \"\" or value == \"{}\" then"));
+    assert!(code.contains("self:_trackMissing(\"ui.button\")"));
+}
+
+#[test]
+fn test_generate_method_hybrid_with_analytics() {
+    use crate::config::AnalyticsConfig;
+
+    let translation = Translation {
+        key: "ui.button".to_string(),
+        value: "Buy".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    };
+
+    let analytics_config = AnalyticsConfig {
+        enabled: true,
+        track_missing: true,
+        track_usage: true,
+        callback: None,
+    };
+
+    let mut code = String::new();
+    generate_method_hybrid(&mut code, &translation, "en", Some(&analytics_config));
+
+    // Should track usage
+    assert!(code.contains("self:_trackUsage(\"ui.button\")"));
+
+    // Should track missing in embedded fallback
+    assert!(code.contains("self:_trackMissing(\"ui.button\")"));
+}
+
+#[test]
+fn test_generate_luau_with_full_config_embedded() {
+    use crate::config::LocalizationConfig;
+
+    let translations = vec![Translation {
+        key: "test.key".to_string(),
+        value: "Test Value".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    }];
+
+    let localization_config = LocalizationConfig {
+        mode: "embedded".to_string(),
+    };
+
+    let code =
+        generate_luau_with_full_config(&translations, "en", None, Some(&localization_config))
+            .unwrap();
+
+    // Should contain embedded data
+    assert!(code.contains("EMBEDDED_TRANSLATIONS"));
+    assert!(code.contains("[\"test.key\"] = \"Test Value\""));
+
+    // Should NOT contain LocalizationService
+    assert!(!code.contains("LocalizationService"));
+    assert!(!code.contains("FormatByKey"));
+}
+
+#[test]
+fn test_generate_luau_with_full_config_cloud() {
+    use crate::config::LocalizationConfig;
+
+    let translations = vec![Translation {
+        key: "test.key".to_string(),
+        value: "Test Value".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    }];
+
+    let localization_config = LocalizationConfig {
+        mode: "cloud".to_string(),
+    };
+
+    let code =
+        generate_luau_with_full_config(&translations, "en", None, Some(&localization_config))
+            .unwrap();
+
+    // Should NOT contain embedded data
+    assert!(!code.contains("EMBEDDED_TRANSLATIONS"));
+
+    // Should contain LocalizationService
+    assert!(code.contains("LocalizationService"));
+    assert!(code.contains("FormatByKey"));
+}
+
+#[test]
+fn test_generate_luau_with_full_config_hybrid() {
+    use crate::config::LocalizationConfig;
+
+    let translations = vec![Translation {
+        key: "test.key".to_string(),
+        value: "Test Value".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    }];
+
+    let localization_config = LocalizationConfig {
+        mode: "hybrid".to_string(),
+    };
+
+    let code =
+        generate_luau_with_full_config(&translations, "en", None, Some(&localization_config))
+            .unwrap();
+
+    // Should contain BOTH embedded data and LocalizationService
+    assert!(code.contains("EMBEDDED_TRANSLATIONS"));
+    assert!(code.contains("LocalizationService"));
+    assert!(code.contains("FormatByKey"));
+    assert!(code.contains("pcall"));
+}
+
+#[test]
+fn test_generate_luau_with_full_config_default_mode() {
+    let translations = vec![Translation {
+        key: "test.key".to_string(),
+        value: "Test Value".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    }];
+
+    // No localization config - should default to embedded
+    let code = generate_luau_with_full_config(&translations, "en", None, None).unwrap();
+
+    // Should contain embedded data (default mode)
+    assert!(code.contains("EMBEDDED_TRANSLATIONS"));
+    assert!(!code.contains("LocalizationService"));
+}
+
+#[test]
+fn test_generate_luau_with_full_config_multiple_locales() {
+    use crate::config::LocalizationConfig;
+
+    let translations = vec![
+        Translation {
+            key: "test.key".to_string(),
+            value: "Test Value".to_string(),
+            locale: "en".to_string(),
+            context: None,
+        },
+        Translation {
+            key: "test.key".to_string(),
+            value: "Nilai Test".to_string(),
+            locale: "id".to_string(),
+            context: None,
+        },
+    ];
+
+    let localization_config = LocalizationConfig {
+        mode: "embedded".to_string(),
+    };
+
+    let code =
+        generate_luau_with_full_config(&translations, "en", None, Some(&localization_config))
+            .unwrap();
+
+    // Should contain both locales in embedded data
+    assert!(code.contains("[\"en\"]"));
+    assert!(code.contains("[\"id\"]"));
+    assert!(code.contains("\"Test Value\""));
+    assert!(code.contains("\"Nilai Test\""));
 }
