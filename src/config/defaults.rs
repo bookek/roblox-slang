@@ -11,6 +11,7 @@ impl Default for Config {
             overrides: None,
             analytics: None,
             cloud: None,
+            localization: None,
         }
     }
 }
