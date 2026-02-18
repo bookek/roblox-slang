@@ -104,7 +104,7 @@ impl SyncOrchestrator {
             // Upload to cloud in batches (Roblox API has a limit per request)
             // Based on testing, the API fails with 500 error when uploading too many entries at once
             const BATCH_SIZE: usize = 20;
-            
+
             let game_id = self
                 .config
                 .cloud

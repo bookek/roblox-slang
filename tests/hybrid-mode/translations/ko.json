@@ -1,0 +1,131 @@
+{
+  "confirmation": {
+    "cancel": "취소",
+    "code": "코드: {roomId}",
+    "confirm": "확인",
+    "failed": "실패",
+    "guest": "게스트",
+    "host": "Host ",
+    "invite": "플레이어 초대",
+    "kick": "플레이어 추방",
+    "layout": "레이아웃: {layout}",
+    "need_more": "{count} 추가 필요",
+    "player_count": "{current}/{max} ",
+    "ready": "준비",
+    "room_title_placeholder": "{playerName}'의 방",
+    "saved": "저장 완료!",
+    "settings": "설정",
+    "starting": "시작..."
+  },
+  "errors": {
+    "connection_lost": "연결 실패",
+    "failed_to_connect": "연결 불가",
+    "invalid_code": "房间코드 무효",
+    "permission_denied": "권한 거부",
+    "room_full": "객실 가득",
+    "timeout": "요청 만료",
+    "unknown": "알 수 없는 오류 발생"
+  },
+  "loading": {
+    "connecting": "서버 연결 중...",
+    "discovering": "자원 발견 중...",
+    "downloading": "콘텐츠 다운로드 중...",
+    "finalizing": "완료 중...",
+    "initializing": "초기화 중...",
+    "joining_room": "Podcast Room에 参加중...",
+    "loading_room": "방송실 로딩 중...",
+    "preparing_controls": "컨트롤 준비중...",
+    "preparing_room": "방송실 준비 중...",
+    "ready": "준비 완료! 100%",
+    "starting_room": "방송실 시작...",
+    "subtitle": "究極의 방송경험",
+    "title": "BloSOCast",
+    "verifying": "파일 확인 중..."
+  },
+  "lobby": {
+    "create_room": "방 만들기",
+    "failed_load": "객실 불러오기 실패\n재부팅 시도",
+    "filter_by": "필터 조건: {filter}",
+    "join_room": "방 들어가기",
+    "no_rooms": "사용할 수 있는 객실 없음\n1개 생성!",
+    "refresh": "업데이트",
+    "room_count": "{count} 객실 사용 가능",
+    "search_placeholder": "객실 검색...",
+    "sort_by": "정렬 방식: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "채팅 지우기",
+      "joined": "{player}가 방에 들어왔",
+      "left": "{player}가 방을 나갔다",
+      "muted": "채팅 차단",
+      "placeholder": "메시지 입력...",
+      "send": "전송",
+      "system": "시스템 메시지"
+    },
+    "controls": {
+      "mute": "무음",
+      "pause": "일시 중지",
+      "resume": "재시작",
+      "settings": "오디오 설정",
+      "start": "recording 시작",
+      "stop": "録画 중지",
+      "unmute": "음소거 해제"
+    },
+    "info": {
+      "duration": "지속 시간: {time}",
+      "layout": "레이아웃: {layout}",
+      "leave_failed": "退出 불가",
+      "leaving": "출발...",
+      "live": "라이브",
+      "paused": "일시 중지",
+      "recording": "录音중...",
+      "title": "방송실: {roomId}",
+      "unknown": "미지수",
+      "viewers": "{count} 시청자"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "음향 취소",
+      "input_device": "장치 입력",
+      "noise_suppression": "소음 제거",
+      "output_device": "출력 장치",
+      "quality": "품질",
+      "title": "오디오 설정",
+      "volume": "Volume "
+    },
+    "general": {
+      "auto_join": "자동 연결",
+      "language": "언어",
+      "notifications": "알림",
+      "theme": "테마",
+      "title": "일반 설정"
+    },
+    "video": {
+      "brightness": "亮度",
+      "camera": "카메라",
+      "framerate": "프레임 속도",
+      "resolution": "해상도",
+      "title": "비디오 설정"
+    }
+  },
+  "test": {
+    "farewell": "안녕",
+    "greeting": "안녕"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "구매",
+      "cancel": "취소",
+      "sell": "판매"
+    },
+    "labels": {
+      "another_multiline": "사용할 수 있는 객실 없음\n1개 생성!",
+      "multiline_test": "객실 불러오기 실패\n재부팅 시도",
+      "player_count": "{current}/{max} ",
+      "room_code": "코드: {roomId}",
+      "welcome": "게임へようこそ！"
+    }
+  }
+}

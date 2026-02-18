@@ -1,0 +1,125 @@
+{
+  "confirmation": {
+    "cancel": "إلغاء",
+    "code": "رمز: {roomId}",
+    "confirm": "أكد",
+    "failed": "غير منجح",
+    "guest": "الضيف",
+    "host": "مضيف",
+    "invite": "ادعو اللاعبين",
+    "kick": "طرد اللاعب",
+    "ready": "جاهز",
+    "room_title_placeholder": "غرفة {playerName}",
+    "saved": "تم الحفظ!",
+    "settings": "إعدادات",
+    "starting": "جاري التشغيل..."
+  },
+  "errors": {
+    "connection_lost": "تم فقد الاتصل",
+    "failed_to_connect": "لم يتم التمكن من الاتصل",
+    "invalid_code": "رمز الغرفة غير صالح",
+    "permission_denied": "تم رفض الإذن",
+    "room_full": "الغرفة مزدحمة",
+    "timeout": "تم انتهاء وقت الطلب",
+    "unknown": "حدث خطأ غير معروف"
+  },
+  "loading": {
+    "connecting": "جاري الاتصل بالخادم...",
+    "discovering": "جار اكتشاف الموارد...",
+    "downloading": "جار تحميل المحتوى...",
+    "finalizing": "جار الإنهاء...",
+    "initializing": "جار التمهيد...",
+    "joining_room": "جاري الانضمام إلى غرفة البث...",
+    "loading_room": "جاري تحميل غرفة البث...",
+    "preparing_controls": "جاري إعداد التحكمات...",
+    "preparing_room": "جاري تحضير غرفة البث...",
+    "ready": "تم الاستعداد! 100%",
+    "starting_room": "جاري تشغيل غرفة البث...",
+    "subtitle": "تجربة البث النهائية",
+    "title": "بث الدم",
+    "verifying": "جار فحص الملفات..."
+  },
+  "lobby": {
+    "create_room": "إنشاء غرفة",
+    "failed_load": "لم يتم تحميل الغرف بنجاح\nجرب إعادة التحديث",
+    "filter_by": "ترشيح بواسطة: {filter}",
+    "join_room": "ادخل الغرفة",
+    "no_rooms": "لا توجد غرف متاحة\nاصنع واحدة!",
+    "refresh": "تحديث",
+    "room_count": "{count} غرف متاحة",
+    "search_placeholder": "بحث عن غرف...",
+    "sort_by": "ترتيب حسب: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "تنظيف الدردشة",
+      "joined": "دخل {player} إلى الغرفة",
+      "muted": "الدردشة معطلة",
+      "placeholder": "اكتب رسالة...",
+      "send": "إرسال",
+      "system": "رسالة النظام"
+    },
+    "controls": {
+      "mute": "إغلاق",
+      "pause": "توقف",
+      "resume": "استكمال",
+      "settings": "إعدادات الصوت",
+      "start": "بدء التصوير",
+      "stop": "وقف التصوير",
+      "unmute": "تفعيل",
+      "volume": "الصوت: {level}%"
+    },
+    "info": {
+      "leave_failed": "لم تتمكن من الخروج",
+      "leaving": "الخروج...",
+      "live": "حي",
+      "paused": "تم تعليق",
+      "recording": "جار التصوير...",
+      "title": "غرفة البث: {roomId}",
+      "unknown": "مجهول",
+      "viewers": "{count} مشاهدين"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "إلغاء الضوضاء",
+      "input_device": "جهاز الدخول",
+      "noise_suppression": "تخفيض الضوضاء",
+      "output_device": "جهاز الإخراج",
+      "quality": "جودة",
+      "title": "إعدادات الصوت",
+      "volume": "الصوت"
+    },
+    "general": {
+      "auto_join": "الدخول الآلي",
+      "language": "لغة",
+      "notifications": "إشعارات",
+      "theme": "موضوع",
+      "title": "إعدادات عامة"
+    },
+    "video": {
+      "brightness": "سطوع",
+      "camera": "كاميرا",
+      "framerate": "معدل الإطار",
+      "resolution": "دقة",
+      "title": "إعدادات الفيديو"
+    }
+  },
+  "test": {
+    "farewell": "وداع",
+    "greeting": "مرحبًا"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "اشتري",
+      "cancel": "إلغاء",
+      "sell": "بيع"
+    },
+    "labels": {
+      "another_multiline": "لا توجد غرف متاحة\nاصنع واحدة!",
+      "multiline_test": "لم يتم تحميل الغرف بنجاح\nجرب إعادة التحديث",
+      "room_code": "رمز: {roomId}",
+      "welcome": "أهلا بكم في اللعبة!"
+    }
+  }
+}

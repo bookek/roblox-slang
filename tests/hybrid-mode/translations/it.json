@@ -1,0 +1,133 @@
+{
+  "confirmation": {
+    "cancel": "Annulla",
+    "code": "Codice: {roomId}",
+    "confirm": "Conferma",
+    "failed": "Fallito",
+    "guest": "Ospite",
+    "host": "Anfitrione",
+    "invite": "Invita i giocatori",
+    "kick": "Elimina il giocatore",
+    "layout": "Disposizione: {layout}",
+    "player_count": "{current}/{max}",
+    "ready": "Pronto",
+    "room_title_placeholder": "Stanza di {playerName}",
+    "saved": "Salvato!",
+    "settings": "Impostazioni",
+    "starting": "Inizio..."
+  },
+  "errors": {
+    "connection_lost": "Connessione persa",
+    "failed_to_connect": "Non è stato possibile connettere",
+    "invalid_code": "Codice di stanza non valido",
+    "permission_denied": "Autorizzazione negata",
+    "room_full": "La stanza è piena",
+    "timeout": "La richiesta è scaduta",
+    "unknown": "Si è verificato un errore sconosciuto"
+  },
+  "loading": {
+    "connecting": "In collegamento al server...",
+    "discovering": "Scoprire le risorse...",
+    "downloading": "Caricamento del contenuto...",
+    "finalizing": "Finalizzazione...",
+    "initializing": "Inizializzazione...",
+    "joining_room": "Ingresso nella Sala Podcast...",
+    "loading_assets": "Caricamento delle risorse... {percent}%",
+    "loading_room": "Caricamento della Sala Podcast...",
+    "preparing_controls": "Preparazione dei controlli...",
+    "preparing_room": "Preparazione della sala di trasmissione...",
+    "ready": "Pronto! 100%",
+    "starting_room": "Inizio della sala podcast...",
+    "subtitle": "L'esperienza di podcasting definitiva",
+    "title": "BloSOCast",
+    "verifying": "Verifica dei file..."
+  },
+  "lobby": {
+    "create_room": "Creare Camera",
+    "failed_load": "Non è stato possibile caricare le stanze\nProva a aggiornare",
+    "filter_by": "Filtra per: {filter}",
+    "join_room": "Entra nella stanza",
+    "no_rooms": "Nessuna stanza disponibile\nCrea uno!",
+    "refresh": "Aggiorna",
+    "room_count": "{count} stanze disponibili",
+    "search_placeholder": "Cerca stanze...",
+    "sort_by": "Ordina per: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Cancella il chat",
+      "joined": "{player} è entrato nella stanza",
+      "left": "{player} ha lasciato la stanza",
+      "muted": "Il chat è silenziato",
+      "placeholder": "Scrivi un messaggio...",
+      "send": "Invia",
+      "system": "Messaggio del sistema"
+    },
+    "controls": {
+      "mute": "Silenziare",
+      "pause": "Pausa",
+      "resume": "Riprendere",
+      "settings": "Impostazioni audio",
+      "start": "Iniziare a registrare",
+      "stop": "Interrompi la registrazione",
+      "unmute": "Attiva",
+      "volume": "Volume: {level}%"
+    },
+    "info": {
+      "duration": "Durata: {time}",
+      "layout": "Disposizione: {layout}",
+      "leave_failed": "Impossibile uscire",
+      "leaving": "In partenza...",
+      "live": "Diretta",
+      "paused": "In pausa",
+      "recording": "Registrazione...",
+      "title": "Stanza di trasmissione: {roomId}",
+      "unknown": "Sconosciuto",
+      "viewers": "{count} spettatori"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Cancelazione dell'eco",
+      "input_device": "Dispositivo di inputo",
+      "noise_suppression": "Eliminazione dei rumori",
+      "output_device": "Dispositivo di uscita",
+      "quality": "Qualità",
+      "title": "Impostazioni audio",
+      "volume": "Volume"
+    },
+    "general": {
+      "auto_join": "Registrazione automatica",
+      "language": "Lingua",
+      "notifications": "Notificazioni",
+      "theme": "Tema",
+      "title": "Impostazioni generali"
+    },
+    "video": {
+      "brightness": "Luminosità",
+      "camera": "Telecamera",
+      "framerate": "Tasso di incubazione",
+      "resolution": "Resoluzione",
+      "title": "Impostazioni video"
+    }
+  },
+  "test": {
+    "farewell": "Addio",
+    "greeting": "Ciao"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Acquista",
+      "cancel": "Annulla",
+      "sell": "Vendere"
+    },
+    "labels": {
+      "another_multiline": "Nessuna stanza disponibile\nCrea uno!",
+      "loading": "Caricamento delle risorse... {percent}%",
+      "multiline_test": "Non è stato possibile caricare le stanze\nProva a aggiornare",
+      "player_count": "{current}/{max}",
+      "room_code": "Codice: {roomId}",
+      "welcome": "Benvenuti nel gioco!"
+    }
+  }
+}

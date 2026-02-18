@@ -1,0 +1,134 @@
+{
+  "confirmation": {
+    "cancel": "Batal",
+    "code": "Kode: {roomId}",
+    "confirm": "Konfirmasi",
+    "failed": "Gagal",
+    "guest": "Tamu",
+    "host": "Host",
+    "invite": "Undang Pemain",
+    "kick": "Keluarkan Pemain",
+    "layout": "Tata Letak: {layout}",
+    "need_more": "Butuh {count} lagi",
+    "player_count": "{current}/{max}",
+    "ready": "Siap",
+    "room_title_placeholder": "Ruangan {playerName}",
+    "saved": "Tersimpan!",
+    "settings": "Pengaturan",
+    "starting": "Memulai..."
+  },
+  "errors": {
+    "connection_lost": "Koneksi terputus",
+    "failed_to_connect": "Gagal terhubung",
+    "invalid_code": "Kode ruangan tidak valid",
+    "permission_denied": "Izin ditolak",
+    "room_full": "Ruangan penuh",
+    "timeout": "Permintaan timeout",
+    "unknown": "Terjadi kesalahan tidak diketahui"
+  },
+  "loading": {
+    "connecting": "Menghubungkan ke server...",
+    "discovering": "Menemukan aset...",
+    "downloading": "Mengunduh konten...",
+    "finalizing": "Menyelesaikan...",
+    "initializing": "Menginisialisasi...",
+    "joining_room": "Bergabung ke Ruang Podcast...",
+    "loading_assets": "Memuat aset... {percent}%",
+    "loading_room": "Memuat Ruang Podcast...",
+    "preparing_controls": "Menyiapkan kontrol...",
+    "preparing_room": "Menyiapkan Ruang Podcast...",
+    "ready": "Siap! 100%",
+    "starting_room": "Memulai ruang podcast...",
+    "subtitle": "Pengalaman Podcast Terbaik",
+    "title": "BloxCast",
+    "verifying": "Memverifikasi file..."
+  },
+  "lobby": {
+    "create_room": "Buat Ruangan",
+    "failed_load": "Gagal memuat ruangan\nCoba refresh",
+    "filter_by": "Filter: {filter}",
+    "join_room": "Gabung Ruangan",
+    "no_rooms": "Tidak ada ruangan tersedia\nBuat sekarang!",
+    "refresh": "Refresh",
+    "room_count": "{count} ruangan tersedia",
+    "search_placeholder": "Cari ruangan...",
+    "sort_by": "Urutkan: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Hapus Chat",
+      "joined": "{player} bergabung ke ruangan",
+      "left": "{player} meninggalkan ruangan",
+      "muted": "Chat dibisukan",
+      "placeholder": "Ketik pesan...",
+      "send": "Kirim",
+      "system": "Pesan Sistem"
+    },
+    "controls": {
+      "mute": "Bisukan",
+      "pause": "Jeda",
+      "resume": "Lanjutkan",
+      "settings": "Pengaturan Audio",
+      "start": "Mulai Rekaman",
+      "stop": "Hentikan Rekaman",
+      "unmute": "Suarakan",
+      "volume": "Volume: {level}%"
+    },
+    "info": {
+      "duration": "Durasi: {time}",
+      "layout": "Tata Letak: {layout}",
+      "leave_failed": "Gagal Keluar",
+      "leaving": "Keluar...",
+      "live": "Langsung",
+      "paused": "Dijeda",
+      "recording": "Merekam...",
+      "title": "Ruang Podcast: {roomId}",
+      "unknown": "Tidak Diketahui",
+      "viewers": "{count} penonton"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Pembatalan Gema",
+      "input_device": "Perangkat Input",
+      "noise_suppression": "Peredam Kebisingan",
+      "output_device": "Perangkat Output",
+      "quality": "Kualitas",
+      "title": "Pengaturan Audio",
+      "volume": "Volume"
+    },
+    "general": {
+      "auto_join": "Gabung Otomatis",
+      "language": "Bahasa",
+      "notifications": "Notifikasi",
+      "theme": "Tema",
+      "title": "Pengaturan Umum"
+    },
+    "video": {
+      "brightness": "Kecerahan",
+      "camera": "Kamera",
+      "framerate": "Frame Rate",
+      "resolution": "Resolusi",
+      "title": "Pengaturan Video"
+    }
+  },
+  "test": {
+    "farewell": "Selamat tinggal",
+    "greeting": "Halo"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Beli",
+      "cancel": "Batal",
+      "sell": "Jual"
+    },
+    "labels": {
+      "another_multiline": "Tidak ada ruangan tersedia\nBuat sekarang!",
+      "loading": "Memuat aset... {percent}%",
+      "multiline_test": "Gagal memuat ruangan\nCoba refresh",
+      "player_count": "{current}/{max}",
+      "room_code": "Kode: {roomId}",
+      "welcome": "Selamat datang di game!"
+    }
+  }
+}

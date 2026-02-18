@@ -1,11 +1,133 @@
 {
+  "confirmation": {
+    "cancel": "Cancel",
+    "code": "Code: {roomId}",
+    "confirm": "Confirm",
+    "failed": "Failed",
+    "guest": "Guest",
+    "host": "Host",
+    "invite": "Invite Players",
+    "kick": "Kick Player",
+    "layout": "Layout: {layout}",
+    "need_more": "Need {count} more",
+    "player_count": "{current}/{max}",
+    "ready": "Ready",
+    "room_title_placeholder": "{playerName}'s Room",
+    "saved": "Saved!",
+    "settings": "Settings",
+    "starting": "Starting..."
+  },
+  "errors": {
+    "connection_lost": "Connection lost",
+    "failed_to_connect": "Failed to connect",
+    "invalid_code": "Invalid room code",
+    "permission_denied": "Permission denied",
+    "room_full": "Room is full",
+    "timeout": "Request timed out",
+    "unknown": "Unknown error occurred"
+  },
+  "loading": {
+    "connecting": "Connecting to server...",
+    "discovering": "Discovering assets...",
+    "downloading": "Downloading content...",
+    "finalizing": "Finalizing...",
+    "initializing": "Initializing...",
+    "joining_room": "Joining Podcast Room...",
+    "loading_assets": "Loading assets... {percent}%",
+    "loading_room": "Loading Podcast Room...",
+    "preparing_controls": "Preparing controls...",
+    "preparing_room": "Preparing Podcast Room...",
+    "ready": "Ready! 100%",
+    "starting_room": "Starting podcast room...",
+    "subtitle": "The Ultimate Podcast Experience",
+    "title": "BloxCast",
+    "verifying": "Verifying files..."
+  },
+  "lobby": {
+    "create_room": "Create Room",
+    "failed_load": "Failed to load rooms\nTry refreshing",
+    "filter_by": "Filter by: {filter}",
+    "join_room": "Join Room",
+    "no_rooms": "No rooms available\nCreate one!",
+    "refresh": "Refresh",
+    "room_count": "{count} rooms available",
+    "search_placeholder": "Search rooms...",
+    "sort_by": "Sort by: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Clear Chat",
+      "joined": "{player} joined the room",
+      "left": "{player} left the room",
+      "muted": "Chat is muted",
+      "placeholder": "Type a message...",
+      "send": "Send",
+      "system": "System Message"
+    },
+    "controls": {
+      "mute": "Mute",
+      "pause": "Pause",
+      "resume": "Resume",
+      "settings": "Audio Settings",
+      "start": "Start Recording",
+      "stop": "Stop Recording",
+      "unmute": "Unmute",
+      "volume": "Volume: {level}%"
+    },
+    "info": {
+      "duration": "Duration: {time}",
+      "layout": "Layout: {layout}",
+      "leave_failed": "Failed to Leave",
+      "leaving": "Leaving...",
+      "live": "Live",
+      "paused": "Paused",
+      "recording": "Recording...",
+      "title": "Podcast Room: {roomId}",
+      "unknown": "Unknown",
+      "viewers": "{count} viewers"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Echo Cancellation",
+      "input_device": "Input Device",
+      "noise_suppression": "Noise Suppression",
+      "output_device": "Output Device",
+      "quality": "Quality",
+      "title": "Audio Settings",
+      "volume": "Volume"
+    },
+    "general": {
+      "auto_join": "Auto Join",
+      "language": "Language",
+      "notifications": "Notifications",
+      "theme": "Theme",
+      "title": "General Settings"
+    },
+    "video": {
+      "brightness": "Brightness",
+      "camera": "Camera",
+      "framerate": "Frame Rate",
+      "resolution": "Resolution",
+      "title": "Video Settings"
+    }
+  },
+  "test": {
+    "farewell": "Goodbye",
+    "greeting": "Hello"
+  },
   "ui": {
     "buttons": {
       "buy": "Buy",
-      "sell": "Sell",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "sell": "Sell"
     },
     "labels": {
+      "another_multiline": "No rooms available\nCreate one!",
+      "loading": "Loading assets... {percent}%",
+      "multiline_test": "Failed to load rooms\nTry refreshing",
+      "player_count": "{current}/{max}",
+      "room_code": "Code: {roomId}",
       "welcome": "Welcome to the game!"
     }
   }

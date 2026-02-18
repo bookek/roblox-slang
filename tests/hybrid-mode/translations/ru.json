@@ -1,0 +1,134 @@
+{
+  "confirmation": {
+    "cancel": "Отменить",
+    "code": "Код: {roomId}",
+    "confirm": "Подтвердить",
+    "failed": "Не удалось",
+    "guest": "Гость",
+    "host": "Провести",
+    "invite": "Пригласить игроков",
+    "kick": "Выгнать игрока",
+    "layout": "Макет: {layout}",
+    "need_more": "Нужно еще {count}",
+    "player_count": "{current}/{max}",
+    "ready": "Готово",
+    "room_title_placeholder": "Комната игрока {playerName}",
+    "saved": "Сохранено!",
+    "settings": "Настройки",
+    "starting": "Начинаем..."
+  },
+  "errors": {
+    "connection_lost": "Связь прерван",
+    "failed_to_connect": "Не удалось подключиться",
+    "invalid_code": "Неверный код комнаты",
+    "permission_denied": "Доступ запрещен",
+    "room_full": "Комната наполнена",
+    "timeout": "Время ожидания запроса истекло",
+    "unknown": "Произошла неизвестная ошибка"
+  },
+  "loading": {
+    "connecting": "Подключение к серверу...",
+    "discovering": "Обнаружение资源...",
+    "downloading": "Загрузка контента...",
+    "finalizing": "Завершение...",
+    "initializing": "Запуск...",
+    "joining_room": "Подключение к комнате для вещания...",
+    "loading_assets": "Подгрузка ресурсов... {percent}%",
+    "loading_room": "Загрузка трансляционной комнаты...",
+    "preparing_controls": "Подготовка элементов управления...",
+    "preparing_room": "Подготовка комнаты для вещания...",
+    "ready": "Готово! 100%",
+    "starting_room": "Запуск комнаты для вещания...",
+    "subtitle": "Ультимативное опыт вещания",
+    "title": "БлокоCAST",
+    "verifying": "Проверка файлов..."
+  },
+  "lobby": {
+    "create_room": "Создать комната",
+    "failed_load": "Не удалось загрузить комнаты\nПопробуйте обновить",
+    "filter_by": "Фильтровать через: {filter}",
+    "join_room": "Войти в комната",
+    "no_rooms": "Нет доступных комнат\nСоздайте один!",
+    "refresh": "Обновить",
+    "room_count": "Доступно {count} комнат",
+    "search_placeholder": "Искать комнаты...",
+    "sort_by": "Разделить по: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Очистить чат",
+      "joined": "{player} вошел в комнату",
+      "left": "{player} покинул комната",
+      "muted": "Чат заглушен",
+      "placeholder": "Напишите сообщение...",
+      "send": "Переслать",
+      "system": "Системное сообщение"
+    },
+    "controls": {
+      "mute": "Заглушить",
+      "pause": "Пауза",
+      "resume": "Продолжить",
+      "settings": "Настройки звука",
+      "start": "Начать запись",
+      "stop": "Прекратить запись",
+      "unmute": "Включить",
+      "volume": "Громкость: {level}%"
+    },
+    "info": {
+      "duration": "Продолжительность: {time}",
+      "layout": "Макет: {layout}",
+      "leave_failed": "Не удалось уйти",
+      "leaving": "Выход...",
+      "live": "Прямо",
+      "paused": "Приостановлено",
+      "recording": "Запись...",
+      "title": "Трансляционная комната: {roomId}",
+      "unknown": "Неизвестно",
+      "viewers": "{count} наблюдателей"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Удаление эха",
+      "input_device": "Ввести устройство",
+      "noise_suppression": "Удаление шума",
+      "output_device": "Устройство вывода",
+      "quality": "Качество",
+      "title": "Настройки звука",
+      "volume": "Громкость"
+    },
+    "general": {
+      "auto_join": "Автоматическое подключение",
+      "language": "Язык",
+      "notifications": "Уведомления",
+      "theme": "Тема",
+      "title": "Общие настройки"
+    },
+    "video": {
+      "brightness": "Интенсивность",
+      "camera": "Камера",
+      "framerate": "Скорость склеивания",
+      "resolution": "Резолюция",
+      "title": "Настройки видео"
+    }
+  },
+  "test": {
+    "farewell": "До свидания",
+    "greeting": "Привет"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Купить",
+      "cancel": "Отменить",
+      "sell": "Продать"
+    },
+    "labels": {
+      "another_multiline": "Нет доступных комнат\nСоздайте один!",
+      "loading": "Подгрузка ресурсов... {percent}%",
+      "multiline_test": "Не удалось загрузить комнаты\nПопробуйте обновить",
+      "player_count": "{current}/{max}",
+      "room_code": "Код: {roomId}",
+      "welcome": "Добро пожаловать в игру!"
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "confirmation": {
+    "cancel": "İptal",
+    "code": "Kod: {roomId}",
+    "confirm": "Onayla",
+    "failed": "Başarısız",
+    "guest": "Ziyaretçi",
+    "host": "Ev sahibi",
+    "invite": "Oyuncuları Davet Et",
+    "kick": "Oyuncuyu At",
+    "layout": "Tasarım: {layout}",
+    "need_more": "{count} daha gerekli",
+    "ready": "Hazır",
+    "room_title_placeholder": "{playerName}'nin Odası",
+    "saved": "Kaydedildi!",
+    "settings": "Ayarlar",
+    "starting": "Başlıyor..."
+  },
+  "errors": {
+    "connection_lost": "Bağlantı kayboldu",
+    "failed_to_connect": "Bağlanamadı",
+    "invalid_code": "Geçersiz oda kodu",
+    "permission_denied": "İzin verilmedi",
+    "room_full": "Oda dolu",
+    "timeout": "Talep süresi doldu",
+    "unknown": "Bilinmeyen hata oluştu"
+  },
+  "loading": {
+    "connecting": "Sunucuya bağlanılıyor...",
+    "discovering": "Öğeler keşfediliyor...",
+    "downloading": "İçerik yükleniyor...",
+    "finalizing": "Tamamlanıyor...",
+    "initializing": "Başlatılıyor...",
+    "joining_room": "Podcast Odasına Katılınıyor...",
+    "loading_assets": "Öğeler yükleniyor... {percent}%",
+    "loading_room": "Yayın Odası Yükleniyor...",
+    "preparing_controls": "Kontroller hazırlanıyor...",
+    "preparing_room": "Yayın Odası Hazırlanıyor...",
+    "ready": "Hazır! 100%",
+    "starting_room": "Podcast odası başlatılıyor...",
+    "subtitle": "Nihai Yayın Deneyimi",
+    "title": "BlokCast",
+    "verifying": "Dosyalar kontrol ediliyor..."
+  },
+  "lobby": {
+    "create_room": "Oda Yarat",
+    "failed_load": "Odalar yüklenemedi\nYeniden başlatmayı deneyin",
+    "filter_by": "{filter} tarafından filtrele",
+    "join_room": "Odaya Gir",
+    "no_rooms": "Kullanılabilir odalar yok\nBir tane yarat!",
+    "refresh": "Güncelle",
+    "room_count": "{count} oda mevcut",
+    "search_placeholder": "Odaları ara...",
+    "sort_by": "Sırala: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Sohbeti Temizle",
+      "joined": "{player} odaya katıldı",
+      "left": "{player} odadan ayrıldı",
+      "muted": "Sohbet susturuldu",
+      "placeholder": "Mesaj yaz...",
+      "send": "Gönder",
+      "system": "Sistem Mesajı"
+    },
+    "controls": {
+      "mute": "Kapat",
+      "pause": "Duraklat",
+      "resume": "Devam et",
+      "settings": "Ses Ayarları",
+      "start": "Kayıt Başlat",
+      "stop": "Kaydı Durdur",
+      "unmute": "Susturmayı bırak",
+      "volume": "Ses seviyesi: {level}%"
+    },
+    "info": {
+      "duration": "Süre: {time}",
+      "layout": "Tasarım: {layout}",
+      "leave_failed": "Ayrılma Başarılamadı",
+      "leaving": "Gidiyor...",
+      "live": "Canlı",
+      "paused": "Duraklatıldı",
+      "recording": "Kaydediliyor...",
+      "title": "Yayın Odası: {roomId}",
+      "unknown": "Bilinmiyor",
+      "viewers": "{count} izleyici"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Yankı Engelleme",
+      "input_device": "Aygıt Girin",
+      "noise_suppression": "Gürültü Azaltma",
+      "output_device": "Çıkış Aygıtı",
+      "quality": "Kalite",
+      "title": "Ses Ayarları",
+      "volume": "Ses"
+    },
+    "general": {
+      "auto_join": "Otomatik Katılma",
+      "language": "Dil",
+      "notifications": "Bildirimler",
+      "theme": "Tema",
+      "title": "Genel Ayarlar"
+    },
+    "video": {
+      "brightness": "Parlaklik",
+      "camera": "Kamera",
+      "framerate": "Kare Hızı",
+      "resolution": "Çözüm",
+      "title": "Video Ayarları"
+    }
+  },
+  "test": {
+    "farewell": "Güle güle",
+    "greeting": "Merhaba"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Satın Al",
+      "cancel": "İptal",
+      "sell": "Sat"
+    },
+    "labels": {
+      "another_multiline": "Kullanılabilir odalar yok\nBir tane yarat!",
+      "loading": "Öğeler yükleniyor... {percent}%",
+      "multiline_test": "Odalar yüklenemedi\nYeniden başlatmayı deneyin",
+      "room_code": "Kod: {roomId}",
+      "welcome": "Oyuna hoş geldiniz!"
+    }
+  }
+}

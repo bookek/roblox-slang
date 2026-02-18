@@ -1,0 +1,134 @@
+{
+  "confirmation": {
+    "cancel": "ปิด",
+    "code": "รหัส: {roomId}",
+    "confirm": "ยืนยัน",
+    "failed": "ไม่สำเร็จ",
+    "guest": "แขก",
+    "host": "เจ้าภาพ",
+    "invite": "เชิญผู้เล่น",
+    "kick": "ไล่ผู้เล่นออก",
+    "layout": "การจัดวาง: {layout}",
+    "need_more": "ต้องการอีก {count}",
+    "player_count": "{current}/{max}",
+    "ready": "พร้อม",
+    "room_title_placeholder": "ห้องของ {playerName}",
+    "saved": "บันทึกแล้ว!",
+    "settings": "การตั้งค่า",
+    "starting": "กำลังเริ่ม..."
+  },
+  "errors": {
+    "connection_lost": "การเชื่อมต่อล้ม失",
+    "failed_to_connect": "ไม่สามารถเชื่อมต่อได้",
+    "invalid_code": "รหัสห้องไม่ถูกต้อง",
+    "permission_denied": "ไม่ได้รับอนุญาต",
+    "room_full": "ห้องเต็ม",
+    "timeout": "คำขอหมดอายุแล้ว",
+    "unknown": "มีข้อผิดพลาดที่ไม่รู้จักเกิดขึ้น"
+  },
+  "loading": {
+    "connecting": "กำลังเชื่อมต่อกับเซิร์ฟเวอร์...",
+    "discovering": "กำลังค้นพบสิ่งของ...",
+    "downloading": "กำลังดาวน์โหลดเนื้อหา...",
+    "finalizing": "กำลังดำเนินการ...",
+    "initializing": "กำลังเริ่ม...",
+    "joining_room": "กำลังเข้าสู่ห้องวิทยุ...",
+    "loading_assets": "กำลังโหลดสินทรัพย์... {percent}%",
+    "loading_room": "กำลังโหลดห้องวิทยุ...",
+    "preparing_controls": "กำลังกำหนดควบคุม...",
+    "preparing_room": "กำลังเตรียมห้องออกอากาศ...",
+    "ready": "พร้อมแล้ว! 100%",
+    "starting_room": "กำลังเริ่มต้นห้องวิทยุ...",
+    "subtitle": "ประสบการณ์การออกอากาศสุดยอด",
+    "title": "BloSOCast",
+    "verifying": "กำลังตรวจสอบไฟล์..."
+  },
+  "lobby": {
+    "create_room": "สร้างห้อง",
+    "failed_load": "ไม่สามารถโหลดห้องได้\nลองอัปเดต",
+    "filter_by": "คัดกรองโดย: {filter}",
+    "join_room": "เข้าร่วมห้อง",
+    "no_rooms": "ไม่มีห้องให้ใช้งาน\nสร้างหนึ่ง!",
+    "refresh": "อัปเดต",
+    "room_count": "มี {count} ห้องให้ใช้งาน",
+    "search_placeholder": "ค้นหาห้อง...",
+    "sort_by": "ค้นหาโดย: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "ลบการสนทนา",
+      "joined": "{player} เข้าร่วมห้องแล้ว",
+      "left": "{player} ออกจากห้อง",
+      "muted": "การแชทถูกปิด",
+      "placeholder": "พิมพ์ข้อความ...",
+      "send": "ส่ง",
+      "system": "ข้อความระบบ"
+    },
+    "controls": {
+      "mute": "ปิด",
+      "pause": "หยุด",
+      "resume": "ดำเนินการต่อ",
+      "settings": "การตั้งค่าเสียง",
+      "start": "เริ่มบันทึก",
+      "stop": "ยกเลิกการบันทึก",
+      "unmute": "ยกเลิกการปิด",
+      "volume": "ระดับเสียง: {level}%"
+    },
+    "info": {
+      "duration": "ระยะเวลา: {time}",
+      "layout": "การจัดวาง: {layout}",
+      "leave_failed": "ไม่สามารถออกไป",
+      "leaving": "กำลังออกเดินทาง...",
+      "live": "สด",
+      "paused": "หยุด",
+      "recording": "กำลังบันทึก...",
+      "title": "ห้องวิทยุ: {roomId}",
+      "unknown": "ไม่ทราบ",
+      "viewers": "ผู้ชม {count} คน"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "ยกเลิกเสียงสะท้อน",
+      "input_device": "ใส่อุปกรณ์",
+      "noise_suppression": "การลดเสียงรบกวน",
+      "output_device": "อุปกรณ์ออก",
+      "quality": "คุณภาพ",
+      "title": "การตั้งค่าเสียง",
+      "volume": "ระดับเสียง"
+    },
+    "general": {
+      "auto_join": "เข้าร่วมโดยอัตโนมัติ",
+      "language": "ภาษา",
+      "notifications": "การแจ้งเตือน",
+      "theme": "ธีม",
+      "title": "การตั้งค่าทั่วไป"
+    },
+    "video": {
+      "brightness": "ความสว่าง",
+      "camera": "กล้อง",
+      "framerate": "อัตราการติดตาม",
+      "resolution": "ความละเอียด",
+      "title": "การตั้งค่าวิดีโอ"
+    }
+  },
+  "test": {
+    "farewell": "ลาก่อน",
+    "greeting": "สวัสดี"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "ซื้อ",
+      "cancel": "ปิด",
+      "sell": "ขาย"
+    },
+    "labels": {
+      "another_multiline": "ไม่มีห้องให้ใช้งาน\nสร้างหนึ่ง!",
+      "loading": "กำลังโหลดสินทรัพย์... {percent}%",
+      "multiline_test": "ไม่สามารถโหลดห้องได้\nลองอัปเดต",
+      "player_count": "{current}/{max}",
+      "room_code": "รหัส: {roomId}",
+      "welcome": "ขอต้อนรับสู่เกม!"
+    }
+  }
+}
