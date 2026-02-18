@@ -11,6 +11,185 @@
     Learn more: https://github.com/mathtechstudio/roblox-slang
 --]]
 
+-- Embedded translation data (generated at build time)
+local EMBEDDED_TRANSLATIONS = {
+    ["en"] = {
+        ["game.menu.about"] = "About",
+        ["game.menu.achievements"] = "Achievements",
+        ["game.menu.credits"] = "Credits",
+        ["game.menu.friends"] = "Friends",
+        ["game.menu.help"] = "Help",
+        ["game.menu.leaderboard"] = "Leaderboard",
+        ["game.menu.play"] = "Play",
+        ["game.menu.profile"] = "Profile",
+        ["game.menu.quit"] = "Quit",
+        ["game.menu.settings"] = "Settings",
+        ["game.modes.arena"] = "Arena",
+        ["game.modes.campaign"] = "Campaign",
+        ["game.modes.coop"] = "Co-op",
+        ["game.modes.multiplayer"] = "Multiplayer",
+        ["game.modes.practice"] = "Practice",
+        ["game.modes.raid"] = "Raid",
+        ["game.modes.singleplayer"] = "Single Player",
+        ["game.modes.survival"] = "Survival",
+        ["game.modes.tutorial"] = "Tutorial",
+        ["game.modes.versus"] = "Versus",
+        ["game.notifications.achievementUnlocked"] = "Achievement unlocked: {achievement}",
+        ["game.notifications.friendRequest"] = "{name} sent you a friend request",
+        ["game.notifications.levelUp"] = "Level up! You are now level {level}",
+        ["game.notifications.partyInvite"] = "{name} invited you to a party",
+        ["game.notifications.questComplete"] = "Quest completed: {quest}",
+        ["game.notifications.tradeRequest"] = "{name} wants to trade with you",
+        ["game.status.away"] = "Away",
+        ["game.status.busy"] = "Busy",
+        ["game.status.connected"] = "Connected",
+        ["game.status.connecting"] = "Connecting...",
+        ["game.status.disconnected"] = "Disconnected",
+        ["game.status.inGame"] = "In Game",
+        ["game.status.inLobby"] = "In Lobby",
+        ["game.status.offline"] = "Offline",
+        ["game.status.online"] = "Online",
+        ["game.status.searching"] = "Searching...",
+        ["inventory.actions.destroy"] = "Destroy",
+        ["inventory.actions.drop"] = "Drop",
+        ["inventory.actions.enchant"] = "Enchant",
+        ["inventory.actions.equip"] = "Equip",
+        ["inventory.actions.gift"] = "Gift",
+        ["inventory.actions.repair"] = "Repair",
+        ["inventory.actions.trade"] = "Trade",
+        ["inventory.actions.unequip"] = "Unequip",
+        ["inventory.actions.upgrade"] = "Upgrade",
+        ["inventory.actions.use"] = "Use",
+        ["inventory.info.damage"] = "Damage: {damage:int}",
+        ["inventory.info.defense"] = "Defense: {defense:int}",
+        ["inventory.info.durability"] = "Durability: {current}/{max}",
+        ["inventory.info.quantity"] = "Quantity: {quantity:int}",
+        ["inventory.info.rarity"] = "Rarity: {rarity}",
+        ["inventory.info.weight"] = "Weight: {weight:fixed(1)}",
+        ["inventory.tabs.all"] = "All",
+        ["inventory.tabs.armor"] = "Armor",
+        ["inventory.tabs.consumables"] = "Consumables",
+        ["inventory.tabs.materials"] = "Materials",
+        ["inventory.tabs.pets"] = "Pets",
+        ["inventory.tabs.quest"] = "Quest Items",
+        ["inventory.tabs.vehicles"] = "Vehicles",
+        ["inventory.tabs.weapons"] = "Weapons",
+        ["settings.categories.accessibility"] = "Accessibility",
+        ["settings.categories.audio"] = "Audio",
+        ["settings.categories.controls"] = "Controls",
+        ["settings.categories.gameplay"] = "Gameplay",
+        ["settings.categories.general"] = "General",
+        ["settings.categories.graphics"] = "Graphics",
+        ["settings.options.brightness"] = "Brightness",
+        ["settings.options.fov"] = "Field of View",
+        ["settings.options.fullscreen"] = "Fullscreen",
+        ["settings.options.invertY"] = "Invert Y-Axis",
+        ["settings.options.language"] = "Language",
+        ["settings.options.mouseSensitivity"] = "Mouse Sensitivity",
+        ["settings.options.musicVolume"] = "Music Volume",
+        ["settings.options.particles"] = "Particles",
+        ["settings.options.quality"] = "Graphics Quality",
+        ["settings.options.sfxVolume"] = "SFX Volume",
+        ["settings.options.shadows"] = "Shadows",
+        ["settings.options.volume"] = "Volume",
+        ["settings.options.vsync"] = "VSync",
+        ["shop.actions.addToCart"] = "Add to Cart",
+        ["shop.actions.checkout"] = "Checkout",
+        ["shop.actions.clearCart"] = "Clear Cart",
+        ["shop.actions.compare"] = "Compare",
+        ["shop.actions.preview"] = "Preview",
+        ["shop.actions.purchase"] = "Purchase",
+        ["shop.actions.removeFromCart"] = "Remove from Cart",
+        ["shop.actions.viewCart"] = "View Cart",
+        ["shop.categories.accessories"] = "Accessories",
+        ["shop.categories.armor"] = "Armor",
+        ["shop.categories.bundles"] = "Bundles",
+        ["shop.categories.consumables"] = "Consumables",
+        ["shop.categories.emotes"] = "Emotes",
+        ["shop.categories.equipment"] = "Equipment",
+        ["shop.categories.featured"] = "Featured",
+        ["shop.categories.gamepasses"] = "Game Passes",
+        ["shop.categories.materials"] = "Materials",
+        ["shop.categories.pets"] = "Pets",
+        ["shop.categories.potions"] = "Potions",
+        ["shop.categories.vehicles"] = "Vehicles",
+        ["shop.categories.weapons"] = "Weapons",
+        ["shop.messages.cartEmpty"] = "Your cart is empty",
+        ["shop.messages.insufficientFunds"] = "Insufficient funds",
+        ["shop.messages.insufficientRobux"] = "Not enough Robux",
+        ["shop.messages.itemAdded"] = "Item added to cart",
+        ["shop.messages.itemRemoved"] = "Item removed from cart",
+        ["shop.messages.purchaseFailed"] = "Purchase failed",
+        ["shop.messages.purchaseSuccess"] = "Purchase successful!",
+        ["shop.messages.requiresGamepass"] = "Requires game pass: {gamepass}",
+        ["social.chat.globalChat"] = "Global Chat",
+        ["social.chat.mute"] = "Mute",
+        ["social.chat.report"] = "Report",
+        ["social.chat.send"] = "Send",
+        ["social.chat.teamChat"] = "Team Chat",
+        ["social.chat.unmute"] = "Unmute",
+        ["social.chat.whisper"] = "Whisper",
+        ["social.friends.add"] = "Add Friend",
+        ["social.friends.block"] = "Block",
+        ["social.friends.invite"] = "Invite to Game",
+        ["social.friends.offline"] = "Offline Friends",
+        ["social.friends.online"] = "Online Friends",
+        ["social.friends.remove"] = "Remove Friend",
+        ["social.friends.requests"] = "Friend Requests",
+        ["social.friends.unblock"] = "Unblock",
+        ["social.party.create"] = "Create Party",
+        ["social.party.invite"] = "Invite to Party",
+        ["social.party.join"] = "Join Party",
+        ["social.party.kick"] = "Kick from Party",
+        ["social.party.leave"] = "Leave Party",
+        ["social.party.promote"] = "Promote to Leader",
+        ["ui.buttons.apply"] = "Apply",
+        ["ui.buttons.back"] = "Back",
+        ["ui.buttons.buy"] = "Buy now",
+        ["ui.buttons.cancel"] = "Cancel",
+        ["ui.buttons.close"] = "Close",
+        ["ui.buttons.confirm"] = "Confirm",
+        ["ui.buttons.create"] = "Create",
+        ["ui.buttons.delete"] = "Delete",
+        ["ui.buttons.edit"] = "Edit",
+        ["ui.buttons.load"] = "Load",
+        ["ui.buttons.next"] = "Next",
+        ["ui.buttons.reset"] = "Reset",
+        ["ui.buttons.save"] = "Save",
+        ["ui.buttons.sell"] = "Sell",
+        ["ui.buttons.submit"] = "Submit",
+        ["ui.labels.coins"] = "Coins",
+        ["ui.labels.displayName"] = "Display Name",
+        ["ui.labels.experience"] = "Experience",
+        ["ui.labels.gems"] = "Gems",
+        ["ui.labels.health"] = "Health",
+        ["ui.labels.level"] = "Level",
+        ["ui.labels.mana"] = "Mana",
+        ["ui.labels.player"] = "Player",
+        ["ui.labels.robux"] = "Robux",
+        ["ui.labels.stamina"] = "Stamina",
+        ["ui.labels.welcome"] = "Welcome to the game!",
+        ["ui.messages.error"] = "Error occurred",
+        ["ui.messages.greeting"] = "Hello, {name}!",
+        ["ui.messages.itemCount"] = "You have {count} items",
+        ["ui.messages.items(one)"] = "{count} item",
+        ["ui.messages.items(other)"] = "{count} items",
+        ["ui.messages.loading"] = "Loading...",
+        ["ui.messages.playerJoined"] = "{name} joined the game",
+        ["ui.messages.playerLeft"] = "{name} left the game",
+        ["ui.messages.price"] = "Price: ${price:fixed(2)}",
+        ["ui.messages.saving"] = "Saving...",
+        ["ui.messages.score"] = "Score: {score:int}",
+        ["ui.messages.success"] = "Success!",
+        ["ui.messages.warning"] = "Warning!",
+        ["ui.tooltips.buyItem"] = "Click to purchase this item",
+        ["ui.tooltips.equipItem"] = "Click to equip this item",
+        ["ui.tooltips.sellItem"] = "Click to sell this item",
+        ["ui.tooltips.unequipItem"] = "Click to unequip this item",
+        ["ui.tooltips.upgradeItem"] = "Click to upgrade this item",
+    },
+}
+
 local Translations = {}
 Translations.__index = Translations
 
@@ -21,20 +200,6 @@ function Translations.new(locale)
     local self = setmetatable({}, Translations)
     self._locale = locale or "en"
     self._localeChangedCallbacks = {}
-    
-    -- Get LocalizationService translator
-    local LocalizationService = game:GetService("LocalizationService")
-    local success, translator = pcall(function()
-        return LocalizationService:GetTranslatorForLocaleAsync(self._locale)
-    end)
-    
-    if not success then
-        warn("Failed to get translator for locale: " .. self._locale .. ", falling back to base locale")
-        -- Fallback to base locale (works on both client and server)
-        translator = LocalizationService:GetTranslatorForLocaleAsync("en")
-    end
-    
-    self._translator = translator
     
     return self
 end
@@ -48,20 +213,6 @@ function Translations:setLocale(locale)
     
     local oldLocale = self._locale
     self._locale = locale
-    
-    -- Get new translator
-    local LocalizationService = game:GetService("LocalizationService")
-    local success, translator = pcall(function()
-        return LocalizationService:GetTranslatorForLocaleAsync(locale)
-    end)
-    
-    if success then
-        self._translator = translator
-    else
-        warn("Failed to switch to locale: " .. locale)
-        self._locale = oldLocale
-        return
-    end
     
     -- Fire locale changed callbacks
     for _, callback in ipairs(self._localeChangedCallbacks) do
@@ -81,821 +232,1038 @@ function Translations:onLocaleChanged(callback)
     table.insert(self._localeChangedCallbacks, callback)
 end
 
---- Get localized asset ID
---- @param assetKey string The asset key
---- @return string The asset ID for current locale
-function Translations:getAsset(assetKey)
-    local key = "assets." .. assetKey .. "." .. self._locale
-    local success, result = pcall(function()
-        return self._translator:FormatByKey(key)
-    end)
-    
-    if success then
-        return result
-    end
-    
-    -- Fallback to base locale
-    local fallbackKey = "assets." .. assetKey .. ".en"
-    return self._translator:FormatByKey(fallbackKey)
-end
-
---- Detect player's locale based on their country
---- @param player Player The player to detect locale for
---- @return string The detected locale code
-function Translations.detectLocale(player)
-    local LocalizationService = game:GetService("LocalizationService")
-    
-    -- Try to get player's country
-    local success, countryCode = pcall(function()
-        return LocalizationService:GetCountryRegionForPlayerAsync(player)
-    end)
-    
-    if not success or not countryCode then
-        return "en"  -- Fallback to English
-    end
-    
-    -- Map country code to locale
-    local countryLocaleMap = {
-        ["US"] = "en",
-        ["GB"] = "en",
-        ["CA"] = "en",
-        ["AU"] = "en",
-        ["NZ"] = "en",
-        ["IE"] = "en",
-        ["ZA"] = "en",
-        ["SG"] = "en",
-        ["PH"] = "en",
-        ["ES"] = "es",
-        ["MX"] = "es",
-        ["AR"] = "es",
-        ["CO"] = "es",
-        ["CL"] = "es",
-        ["PE"] = "es",
-        ["VE"] = "es",
-        ["EC"] = "es",
-        ["GT"] = "es",
-        ["CU"] = "es",
-        ["BO"] = "es",
-        ["DO"] = "es",
-        ["HN"] = "es",
-        ["PY"] = "es",
-        ["SV"] = "es",
-        ["NI"] = "es",
-        ["CR"] = "es",
-        ["PA"] = "es",
-        ["UY"] = "es",
-        ["FR"] = "fr",
-        ["BE"] = "fr",
-        ["CH"] = "fr",
-        ["LU"] = "fr",
-        ["MC"] = "fr",
-        ["DE"] = "de",
-        ["AT"] = "de",
-        ["LI"] = "de",
-        ["PT"] = "pt",
-        ["BR"] = "pt",
-        ["AO"] = "pt",
-        ["MZ"] = "pt",
-        ["ID"] = "id",
-        ["IT"] = "it",
-        ["SM"] = "it",
-        ["VA"] = "it",
-        ["JP"] = "ja",
-        ["KR"] = "ko",
-        ["RU"] = "ru",
-        ["BY"] = "ru",
-        ["KZ"] = "ru",
-        ["TH"] = "th",
-        ["TR"] = "tr",
-        ["VN"] = "vi",
-        ["PL"] = "pl",
-        ["CN"] = "zh-cn",
-        ["TW"] = "zh-tw",
-        ["HK"] = "zh-tw",
-        ["MO"] = "zh-tw",
-        ["UA"] = "uk",
-    }
-    
-    return countryLocaleMap[countryCode] or "en"
-end
-
---- Create a new Translations instance for a player (auto-detect locale)
---- @param player Player The player to create translations for
---- @return Translations
-function Translations.newForPlayer(player)
-    local locale = Translations.detectLocale(player)
-    return Translations.new(locale)
-end
-
 -- Internal methods (flat keys)
 
 function Translations:game_menu_about()
-    return self._translator:FormatByKey("game.menu.about")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.about"] or "game.menu.about"
 end
 
 function Translations:game_menu_achievements()
-    return self._translator:FormatByKey("game.menu.achievements")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.achievements"] or "game.menu.achievements"
 end
 
 function Translations:game_menu_credits()
-    return self._translator:FormatByKey("game.menu.credits")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.credits"] or "game.menu.credits"
 end
 
 function Translations:game_menu_friends()
-    return self._translator:FormatByKey("game.menu.friends")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.friends"] or "game.menu.friends"
 end
 
 function Translations:game_menu_help()
-    return self._translator:FormatByKey("game.menu.help")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.help"] or "game.menu.help"
 end
 
 function Translations:game_menu_leaderboard()
-    return self._translator:FormatByKey("game.menu.leaderboard")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.leaderboard"] or "game.menu.leaderboard"
 end
 
 function Translations:game_menu_play()
-    return self._translator:FormatByKey("game.menu.play")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.play"] or "game.menu.play"
 end
 
 function Translations:game_menu_profile()
-    return self._translator:FormatByKey("game.menu.profile")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.profile"] or "game.menu.profile"
 end
 
 function Translations:game_menu_quit()
-    return self._translator:FormatByKey("game.menu.quit")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.quit"] or "game.menu.quit"
 end
 
 function Translations:game_menu_settings()
-    return self._translator:FormatByKey("game.menu.settings")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.menu.settings"] or "game.menu.settings"
 end
 
 function Translations:game_modes_arena()
-    return self._translator:FormatByKey("game.modes.arena")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.arena"] or "game.modes.arena"
 end
 
 function Translations:game_modes_campaign()
-    return self._translator:FormatByKey("game.modes.campaign")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.campaign"] or "game.modes.campaign"
 end
 
 function Translations:game_modes_coop()
-    return self._translator:FormatByKey("game.modes.coop")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.coop"] or "game.modes.coop"
 end
 
 function Translations:game_modes_multiplayer()
-    return self._translator:FormatByKey("game.modes.multiplayer")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.multiplayer"] or "game.modes.multiplayer"
 end
 
 function Translations:game_modes_practice()
-    return self._translator:FormatByKey("game.modes.practice")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.practice"] or "game.modes.practice"
 end
 
 function Translations:game_modes_raid()
-    return self._translator:FormatByKey("game.modes.raid")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.raid"] or "game.modes.raid"
 end
 
 function Translations:game_modes_singleplayer()
-    return self._translator:FormatByKey("game.modes.singleplayer")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.singleplayer"] or "game.modes.singleplayer"
 end
 
 function Translations:game_modes_survival()
-    return self._translator:FormatByKey("game.modes.survival")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.survival"] or "game.modes.survival"
 end
 
 function Translations:game_modes_tutorial()
-    return self._translator:FormatByKey("game.modes.tutorial")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.tutorial"] or "game.modes.tutorial"
 end
 
 function Translations:game_modes_versus()
-    return self._translator:FormatByKey("game.modes.versus")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.modes.versus"] or "game.modes.versus"
 end
 
 function Translations:game_notifications_achievementUnlocked(params)
     params = params or {}
-    return self._translator:FormatByKey("game.notifications.achievementUnlocked", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["game.notifications.achievementUnlocked"] or "game.notifications.achievementUnlocked"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:game_notifications_friendRequest(params)
     params = params or {}
-    return self._translator:FormatByKey("game.notifications.friendRequest", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["game.notifications.friendRequest"] or "game.notifications.friendRequest"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:game_notifications_levelUp(params)
     params = params or {}
-    return self._translator:FormatByKey("game.notifications.levelUp", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["game.notifications.levelUp"] or "game.notifications.levelUp"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:game_notifications_partyInvite(params)
     params = params or {}
-    return self._translator:FormatByKey("game.notifications.partyInvite", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["game.notifications.partyInvite"] or "game.notifications.partyInvite"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:game_notifications_questComplete(params)
     params = params or {}
-    return self._translator:FormatByKey("game.notifications.questComplete", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["game.notifications.questComplete"] or "game.notifications.questComplete"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:game_notifications_tradeRequest(params)
     params = params or {}
-    return self._translator:FormatByKey("game.notifications.tradeRequest", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["game.notifications.tradeRequest"] or "game.notifications.tradeRequest"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:game_status_away()
-    return self._translator:FormatByKey("game.status.away")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.away"] or "game.status.away"
 end
 
 function Translations:game_status_busy()
-    return self._translator:FormatByKey("game.status.busy")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.busy"] or "game.status.busy"
 end
 
 function Translations:game_status_connected()
-    return self._translator:FormatByKey("game.status.connected")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.connected"] or "game.status.connected"
 end
 
 function Translations:game_status_connecting()
-    return self._translator:FormatByKey("game.status.connecting")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.connecting"] or "game.status.connecting"
 end
 
 function Translations:game_status_disconnected()
-    return self._translator:FormatByKey("game.status.disconnected")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.disconnected"] or "game.status.disconnected"
 end
 
 function Translations:game_status_inGame()
-    return self._translator:FormatByKey("game.status.inGame")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.inGame"] or "game.status.inGame"
 end
 
 function Translations:game_status_inLobby()
-    return self._translator:FormatByKey("game.status.inLobby")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.inLobby"] or "game.status.inLobby"
 end
 
 function Translations:game_status_offline()
-    return self._translator:FormatByKey("game.status.offline")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.offline"] or "game.status.offline"
 end
 
 function Translations:game_status_online()
-    return self._translator:FormatByKey("game.status.online")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.online"] or "game.status.online"
 end
 
 function Translations:game_status_searching()
-    return self._translator:FormatByKey("game.status.searching")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["game.status.searching"] or "game.status.searching"
 end
 
 function Translations:inventory_actions_destroy()
-    return self._translator:FormatByKey("inventory.actions.destroy")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.destroy"] or "inventory.actions.destroy"
 end
 
 function Translations:inventory_actions_drop()
-    return self._translator:FormatByKey("inventory.actions.drop")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.drop"] or "inventory.actions.drop"
 end
 
 function Translations:inventory_actions_enchant()
-    return self._translator:FormatByKey("inventory.actions.enchant")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.enchant"] or "inventory.actions.enchant"
 end
 
 function Translations:inventory_actions_equip()
-    return self._translator:FormatByKey("inventory.actions.equip")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.equip"] or "inventory.actions.equip"
 end
 
 function Translations:inventory_actions_gift()
-    return self._translator:FormatByKey("inventory.actions.gift")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.gift"] or "inventory.actions.gift"
 end
 
 function Translations:inventory_actions_repair()
-    return self._translator:FormatByKey("inventory.actions.repair")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.repair"] or "inventory.actions.repair"
 end
 
 function Translations:inventory_actions_trade()
-    return self._translator:FormatByKey("inventory.actions.trade")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.trade"] or "inventory.actions.trade"
 end
 
 function Translations:inventory_actions_unequip()
-    return self._translator:FormatByKey("inventory.actions.unequip")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.unequip"] or "inventory.actions.unequip"
 end
 
 function Translations:inventory_actions_upgrade()
-    return self._translator:FormatByKey("inventory.actions.upgrade")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.upgrade"] or "inventory.actions.upgrade"
 end
 
 function Translations:inventory_actions_use()
-    return self._translator:FormatByKey("inventory.actions.use")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.actions.use"] or "inventory.actions.use"
 end
 
 function Translations:inventory_info_damage(params)
     params = params or {}
     params.damage = math.floor(tonumber(params.damage) or 0)
-    return self._translator:FormatByKey("inventory.info.damage", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["inventory.info.damage"] or "inventory.info.damage"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:inventory_info_defense(params)
     params = params or {}
     params.defense = math.floor(tonumber(params.defense) or 0)
-    return self._translator:FormatByKey("inventory.info.defense", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["inventory.info.defense"] or "inventory.info.defense"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:inventory_info_durability(params)
     params = params or {}
-    return self._translator:FormatByKey("inventory.info.durability", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["inventory.info.durability"] or "inventory.info.durability"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:inventory_info_quantity(params)
     params = params or {}
     params.quantity = math.floor(tonumber(params.quantity) or 0)
-    return self._translator:FormatByKey("inventory.info.quantity", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["inventory.info.quantity"] or "inventory.info.quantity"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:inventory_info_rarity(params)
     params = params or {}
-    return self._translator:FormatByKey("inventory.info.rarity", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["inventory.info.rarity"] or "inventory.info.rarity"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:inventory_info_weight(params)
     params = params or {}
     params.weight = string.format("%.1f", tonumber(params.weight) or 0)
-    return self._translator:FormatByKey("inventory.info.weight", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["inventory.info.weight"] or "inventory.info.weight"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:inventory_tabs_all()
-    return self._translator:FormatByKey("inventory.tabs.all")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.all"] or "inventory.tabs.all"
 end
 
 function Translations:inventory_tabs_armor()
-    return self._translator:FormatByKey("inventory.tabs.armor")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.armor"] or "inventory.tabs.armor"
 end
 
 function Translations:inventory_tabs_consumables()
-    return self._translator:FormatByKey("inventory.tabs.consumables")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.consumables"] or "inventory.tabs.consumables"
 end
 
 function Translations:inventory_tabs_materials()
-    return self._translator:FormatByKey("inventory.tabs.materials")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.materials"] or "inventory.tabs.materials"
 end
 
 function Translations:inventory_tabs_pets()
-    return self._translator:FormatByKey("inventory.tabs.pets")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.pets"] or "inventory.tabs.pets"
 end
 
 function Translations:inventory_tabs_quest()
-    return self._translator:FormatByKey("inventory.tabs.quest")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.quest"] or "inventory.tabs.quest"
 end
 
 function Translations:inventory_tabs_vehicles()
-    return self._translator:FormatByKey("inventory.tabs.vehicles")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.vehicles"] or "inventory.tabs.vehicles"
 end
 
 function Translations:inventory_tabs_weapons()
-    return self._translator:FormatByKey("inventory.tabs.weapons")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["inventory.tabs.weapons"] or "inventory.tabs.weapons"
 end
 
 function Translations:settings_categories_accessibility()
-    return self._translator:FormatByKey("settings.categories.accessibility")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.categories.accessibility"] or "settings.categories.accessibility"
 end
 
 function Translations:settings_categories_audio()
-    return self._translator:FormatByKey("settings.categories.audio")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.categories.audio"] or "settings.categories.audio"
 end
 
 function Translations:settings_categories_controls()
-    return self._translator:FormatByKey("settings.categories.controls")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.categories.controls"] or "settings.categories.controls"
 end
 
 function Translations:settings_categories_gameplay()
-    return self._translator:FormatByKey("settings.categories.gameplay")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.categories.gameplay"] or "settings.categories.gameplay"
 end
 
 function Translations:settings_categories_general()
-    return self._translator:FormatByKey("settings.categories.general")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.categories.general"] or "settings.categories.general"
 end
 
 function Translations:settings_categories_graphics()
-    return self._translator:FormatByKey("settings.categories.graphics")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.categories.graphics"] or "settings.categories.graphics"
 end
 
 function Translations:settings_options_brightness()
-    return self._translator:FormatByKey("settings.options.brightness")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.brightness"] or "settings.options.brightness"
 end
 
 function Translations:settings_options_fov()
-    return self._translator:FormatByKey("settings.options.fov")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.fov"] or "settings.options.fov"
 end
 
 function Translations:settings_options_fullscreen()
-    return self._translator:FormatByKey("settings.options.fullscreen")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.fullscreen"] or "settings.options.fullscreen"
 end
 
 function Translations:settings_options_invertY()
-    return self._translator:FormatByKey("settings.options.invertY")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.invertY"] or "settings.options.invertY"
 end
 
 function Translations:settings_options_language()
-    return self._translator:FormatByKey("settings.options.language")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.language"] or "settings.options.language"
 end
 
 function Translations:settings_options_mouseSensitivity()
-    return self._translator:FormatByKey("settings.options.mouseSensitivity")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.mouseSensitivity"] or "settings.options.mouseSensitivity"
 end
 
 function Translations:settings_options_musicVolume()
-    return self._translator:FormatByKey("settings.options.musicVolume")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.musicVolume"] or "settings.options.musicVolume"
 end
 
 function Translations:settings_options_particles()
-    return self._translator:FormatByKey("settings.options.particles")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.particles"] or "settings.options.particles"
 end
 
 function Translations:settings_options_quality()
-    return self._translator:FormatByKey("settings.options.quality")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.quality"] or "settings.options.quality"
 end
 
 function Translations:settings_options_sfxVolume()
-    return self._translator:FormatByKey("settings.options.sfxVolume")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.sfxVolume"] or "settings.options.sfxVolume"
 end
 
 function Translations:settings_options_shadows()
-    return self._translator:FormatByKey("settings.options.shadows")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.shadows"] or "settings.options.shadows"
 end
 
 function Translations:settings_options_volume()
-    return self._translator:FormatByKey("settings.options.volume")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.volume"] or "settings.options.volume"
 end
 
 function Translations:settings_options_vsync()
-    return self._translator:FormatByKey("settings.options.vsync")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["settings.options.vsync"] or "settings.options.vsync"
 end
 
 function Translations:shop_actions_addToCart()
-    return self._translator:FormatByKey("shop.actions.addToCart")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.addToCart"] or "shop.actions.addToCart"
 end
 
 function Translations:shop_actions_checkout()
-    return self._translator:FormatByKey("shop.actions.checkout")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.checkout"] or "shop.actions.checkout"
 end
 
 function Translations:shop_actions_clearCart()
-    return self._translator:FormatByKey("shop.actions.clearCart")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.clearCart"] or "shop.actions.clearCart"
 end
 
 function Translations:shop_actions_compare()
-    return self._translator:FormatByKey("shop.actions.compare")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.compare"] or "shop.actions.compare"
 end
 
 function Translations:shop_actions_preview()
-    return self._translator:FormatByKey("shop.actions.preview")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.preview"] or "shop.actions.preview"
 end
 
 function Translations:shop_actions_purchase()
-    return self._translator:FormatByKey("shop.actions.purchase")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.purchase"] or "shop.actions.purchase"
 end
 
 function Translations:shop_actions_removeFromCart()
-    return self._translator:FormatByKey("shop.actions.removeFromCart")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.removeFromCart"] or "shop.actions.removeFromCart"
 end
 
 function Translations:shop_actions_viewCart()
-    return self._translator:FormatByKey("shop.actions.viewCart")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.actions.viewCart"] or "shop.actions.viewCart"
 end
 
 function Translations:shop_categories_accessories()
-    return self._translator:FormatByKey("shop.categories.accessories")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.accessories"] or "shop.categories.accessories"
 end
 
 function Translations:shop_categories_armor()
-    return self._translator:FormatByKey("shop.categories.armor")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.armor"] or "shop.categories.armor"
 end
 
 function Translations:shop_categories_bundles()
-    return self._translator:FormatByKey("shop.categories.bundles")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.bundles"] or "shop.categories.bundles"
 end
 
 function Translations:shop_categories_consumables()
-    return self._translator:FormatByKey("shop.categories.consumables")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.consumables"] or "shop.categories.consumables"
 end
 
 function Translations:shop_categories_emotes()
-    return self._translator:FormatByKey("shop.categories.emotes")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.emotes"] or "shop.categories.emotes"
 end
 
 function Translations:shop_categories_equipment()
-    return self._translator:FormatByKey("shop.categories.equipment")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.equipment"] or "shop.categories.equipment"
 end
 
 function Translations:shop_categories_featured()
-    return self._translator:FormatByKey("shop.categories.featured")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.featured"] or "shop.categories.featured"
 end
 
 function Translations:shop_categories_gamepasses()
-    return self._translator:FormatByKey("shop.categories.gamepasses")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.gamepasses"] or "shop.categories.gamepasses"
 end
 
 function Translations:shop_categories_materials()
-    return self._translator:FormatByKey("shop.categories.materials")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.materials"] or "shop.categories.materials"
 end
 
 function Translations:shop_categories_pets()
-    return self._translator:FormatByKey("shop.categories.pets")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.pets"] or "shop.categories.pets"
 end
 
 function Translations:shop_categories_potions()
-    return self._translator:FormatByKey("shop.categories.potions")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.potions"] or "shop.categories.potions"
 end
 
 function Translations:shop_categories_vehicles()
-    return self._translator:FormatByKey("shop.categories.vehicles")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.vehicles"] or "shop.categories.vehicles"
 end
 
 function Translations:shop_categories_weapons()
-    return self._translator:FormatByKey("shop.categories.weapons")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.categories.weapons"] or "shop.categories.weapons"
 end
 
 function Translations:shop_messages_cartEmpty()
-    return self._translator:FormatByKey("shop.messages.cartEmpty")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.cartEmpty"] or "shop.messages.cartEmpty"
 end
 
 function Translations:shop_messages_insufficientFunds()
-    return self._translator:FormatByKey("shop.messages.insufficientFunds")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.insufficientFunds"] or "shop.messages.insufficientFunds"
 end
 
 function Translations:shop_messages_insufficientRobux()
-    return self._translator:FormatByKey("shop.messages.insufficientRobux")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.insufficientRobux"] or "shop.messages.insufficientRobux"
 end
 
 function Translations:shop_messages_itemAdded()
-    return self._translator:FormatByKey("shop.messages.itemAdded")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.itemAdded"] or "shop.messages.itemAdded"
 end
 
 function Translations:shop_messages_itemRemoved()
-    return self._translator:FormatByKey("shop.messages.itemRemoved")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.itemRemoved"] or "shop.messages.itemRemoved"
 end
 
 function Translations:shop_messages_purchaseFailed()
-    return self._translator:FormatByKey("shop.messages.purchaseFailed")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.purchaseFailed"] or "shop.messages.purchaseFailed"
 end
 
 function Translations:shop_messages_purchaseSuccess()
-    return self._translator:FormatByKey("shop.messages.purchaseSuccess")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["shop.messages.purchaseSuccess"] or "shop.messages.purchaseSuccess"
 end
 
 function Translations:shop_messages_requiresGamepass(params)
     params = params or {}
-    return self._translator:FormatByKey("shop.messages.requiresGamepass", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["shop.messages.requiresGamepass"] or "shop.messages.requiresGamepass"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:social_chat_globalChat()
-    return self._translator:FormatByKey("social.chat.globalChat")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.globalChat"] or "social.chat.globalChat"
 end
 
 function Translations:social_chat_mute()
-    return self._translator:FormatByKey("social.chat.mute")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.mute"] or "social.chat.mute"
 end
 
 function Translations:social_chat_report()
-    return self._translator:FormatByKey("social.chat.report")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.report"] or "social.chat.report"
 end
 
 function Translations:social_chat_send()
-    return self._translator:FormatByKey("social.chat.send")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.send"] or "social.chat.send"
 end
 
 function Translations:social_chat_teamChat()
-    return self._translator:FormatByKey("social.chat.teamChat")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.teamChat"] or "social.chat.teamChat"
 end
 
 function Translations:social_chat_unmute()
-    return self._translator:FormatByKey("social.chat.unmute")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.unmute"] or "social.chat.unmute"
 end
 
 function Translations:social_chat_whisper()
-    return self._translator:FormatByKey("social.chat.whisper")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.chat.whisper"] or "social.chat.whisper"
 end
 
 function Translations:social_friends_add()
-    return self._translator:FormatByKey("social.friends.add")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.add"] or "social.friends.add"
 end
 
 function Translations:social_friends_block()
-    return self._translator:FormatByKey("social.friends.block")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.block"] or "social.friends.block"
 end
 
 function Translations:social_friends_invite()
-    return self._translator:FormatByKey("social.friends.invite")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.invite"] or "social.friends.invite"
 end
 
 function Translations:social_friends_offline()
-    return self._translator:FormatByKey("social.friends.offline")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.offline"] or "social.friends.offline"
 end
 
 function Translations:social_friends_online()
-    return self._translator:FormatByKey("social.friends.online")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.online"] or "social.friends.online"
 end
 
 function Translations:social_friends_remove()
-    return self._translator:FormatByKey("social.friends.remove")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.remove"] or "social.friends.remove"
 end
 
 function Translations:social_friends_requests()
-    return self._translator:FormatByKey("social.friends.requests")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.requests"] or "social.friends.requests"
 end
 
 function Translations:social_friends_unblock()
-    return self._translator:FormatByKey("social.friends.unblock")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.friends.unblock"] or "social.friends.unblock"
 end
 
 function Translations:social_party_create()
-    return self._translator:FormatByKey("social.party.create")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.party.create"] or "social.party.create"
 end
 
 function Translations:social_party_invite()
-    return self._translator:FormatByKey("social.party.invite")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.party.invite"] or "social.party.invite"
 end
 
 function Translations:social_party_join()
-    return self._translator:FormatByKey("social.party.join")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.party.join"] or "social.party.join"
 end
 
 function Translations:social_party_kick()
-    return self._translator:FormatByKey("social.party.kick")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.party.kick"] or "social.party.kick"
 end
 
 function Translations:social_party_leave()
-    return self._translator:FormatByKey("social.party.leave")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.party.leave"] or "social.party.leave"
 end
 
 function Translations:social_party_promote()
-    return self._translator:FormatByKey("social.party.promote")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["social.party.promote"] or "social.party.promote"
 end
 
 function Translations:ui_buttons_apply()
-    return self._translator:FormatByKey("ui.buttons.apply")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.apply"] or "ui.buttons.apply"
 end
 
 function Translations:ui_buttons_back()
-    return self._translator:FormatByKey("ui.buttons.back")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.back"] or "ui.buttons.back"
 end
 
 function Translations:ui_buttons_buy()
-    return self._translator:FormatByKey("ui.buttons.buy")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.buy"] or "ui.buttons.buy"
 end
 
 function Translations:ui_buttons_cancel()
-    return self._translator:FormatByKey("ui.buttons.cancel")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.cancel"] or "ui.buttons.cancel"
 end
 
 function Translations:ui_buttons_close()
-    return self._translator:FormatByKey("ui.buttons.close")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.close"] or "ui.buttons.close"
 end
 
 function Translations:ui_buttons_confirm()
-    return self._translator:FormatByKey("ui.buttons.confirm")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.confirm"] or "ui.buttons.confirm"
 end
 
 function Translations:ui_buttons_create()
-    return self._translator:FormatByKey("ui.buttons.create")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.create"] or "ui.buttons.create"
 end
 
 function Translations:ui_buttons_delete()
-    return self._translator:FormatByKey("ui.buttons.delete")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.delete"] or "ui.buttons.delete"
 end
 
 function Translations:ui_buttons_edit()
-    return self._translator:FormatByKey("ui.buttons.edit")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.edit"] or "ui.buttons.edit"
 end
 
 function Translations:ui_buttons_load()
-    return self._translator:FormatByKey("ui.buttons.load")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.load"] or "ui.buttons.load"
 end
 
 function Translations:ui_buttons_next()
-    return self._translator:FormatByKey("ui.buttons.next")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.next"] or "ui.buttons.next"
 end
 
 function Translations:ui_buttons_reset()
-    return self._translator:FormatByKey("ui.buttons.reset")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.reset"] or "ui.buttons.reset"
 end
 
 function Translations:ui_buttons_save()
-    return self._translator:FormatByKey("ui.buttons.save")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.save"] or "ui.buttons.save"
 end
 
 function Translations:ui_buttons_sell()
-    return self._translator:FormatByKey("ui.buttons.sell")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.sell"] or "ui.buttons.sell"
 end
 
 function Translations:ui_buttons_submit()
-    return self._translator:FormatByKey("ui.buttons.submit")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.submit"] or "ui.buttons.submit"
 end
 
 function Translations:ui_labels_coins()
-    return self._translator:FormatByKey("ui.labels.coins")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.coins"] or "ui.labels.coins"
 end
 
 function Translations:ui_labels_displayName()
-    return self._translator:FormatByKey("ui.labels.displayName")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.displayName"] or "ui.labels.displayName"
 end
 
 function Translations:ui_labels_experience()
-    return self._translator:FormatByKey("ui.labels.experience")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.experience"] or "ui.labels.experience"
 end
 
 function Translations:ui_labels_gems()
-    return self._translator:FormatByKey("ui.labels.gems")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.gems"] or "ui.labels.gems"
 end
 
 function Translations:ui_labels_health()
-    return self._translator:FormatByKey("ui.labels.health")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.health"] or "ui.labels.health"
 end
 
 function Translations:ui_labels_level()
-    return self._translator:FormatByKey("ui.labels.level")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.level"] or "ui.labels.level"
 end
 
 function Translations:ui_labels_mana()
-    return self._translator:FormatByKey("ui.labels.mana")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.mana"] or "ui.labels.mana"
 end
 
 function Translations:ui_labels_player()
-    return self._translator:FormatByKey("ui.labels.player")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.player"] or "ui.labels.player"
 end
 
 function Translations:ui_labels_robux()
-    return self._translator:FormatByKey("ui.labels.robux")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.robux"] or "ui.labels.robux"
 end
 
 function Translations:ui_labels_stamina()
-    return self._translator:FormatByKey("ui.labels.stamina")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.stamina"] or "ui.labels.stamina"
 end
 
 function Translations:ui_labels_welcome()
-    return self._translator:FormatByKey("ui.labels.welcome")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.welcome"] or "ui.labels.welcome"
 end
 
 function Translations:ui_messages_error()
-    return self._translator:FormatByKey("ui.messages.error")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.messages.error"] or "ui.messages.error"
 end
 
 function Translations:ui_messages_greeting(params)
     params = params or {}
-    return self._translator:FormatByKey("ui.messages.greeting", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.messages.greeting"] or "ui.messages.greeting"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:ui_messages_itemCount(params)
     params = params or {}
-    return self._translator:FormatByKey("ui.messages.itemCount", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.messages.itemCount"] or "ui.messages.itemCount"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:ui_messages_loading()
-    return self._translator:FormatByKey("ui.messages.loading")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.messages.loading"] or "ui.messages.loading"
 end
 
 function Translations:ui_messages_playerJoined(params)
     params = params or {}
-    return self._translator:FormatByKey("ui.messages.playerJoined", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.messages.playerJoined"] or "ui.messages.playerJoined"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:ui_messages_playerLeft(params)
     params = params or {}
-    return self._translator:FormatByKey("ui.messages.playerLeft", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.messages.playerLeft"] or "ui.messages.playerLeft"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:ui_messages_price(params)
     params = params or {}
     params.price = string.format("%.2f", tonumber(params.price) or 0)
-    return self._translator:FormatByKey("ui.messages.price", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.messages.price"] or "ui.messages.price"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:ui_messages_saving()
-    return self._translator:FormatByKey("ui.messages.saving")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.messages.saving"] or "ui.messages.saving"
 end
 
 function Translations:ui_messages_score(params)
     params = params or {}
     params.score = math.floor(tonumber(params.score) or 0)
-    return self._translator:FormatByKey("ui.messages.score", params)
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.messages.score"] or "ui.messages.score"
+    
+    -- Simple parameter interpolation
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    
+    return result
 end
 
 function Translations:ui_messages_success()
-    return self._translator:FormatByKey("ui.messages.success")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.messages.success"] or "ui.messages.success"
 end
 
 function Translations:ui_messages_warning()
-    return self._translator:FormatByKey("ui.messages.warning")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.messages.warning"] or "ui.messages.warning"
 end
 
 function Translations:ui_tooltips_buyItem()
-    return self._translator:FormatByKey("ui.tooltips.buyItem")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.tooltips.buyItem"] or "ui.tooltips.buyItem"
 end
 
 function Translations:ui_tooltips_equipItem()
-    return self._translator:FormatByKey("ui.tooltips.equipItem")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.tooltips.equipItem"] or "ui.tooltips.equipItem"
 end
 
 function Translations:ui_tooltips_sellItem()
-    return self._translator:FormatByKey("ui.tooltips.sellItem")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.tooltips.sellItem"] or "ui.tooltips.sellItem"
 end
 
 function Translations:ui_tooltips_unequipItem()
-    return self._translator:FormatByKey("ui.tooltips.unequipItem")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.tooltips.unequipItem"] or "ui.tooltips.unequipItem"
 end
 
 function Translations:ui_tooltips_upgradeItem()
-    return self._translator:FormatByKey("ui.tooltips.upgradeItem")
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.tooltips.upgradeItem"] or "ui.tooltips.upgradeItem"
 end
 
 function Translations:ui_messages_items(count, params)
