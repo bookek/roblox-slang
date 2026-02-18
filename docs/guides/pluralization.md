@@ -233,8 +233,8 @@ Plurals can be nested in objects:
 **Usage:**
 
 ```lua
-print(t.inventory.items(5))    -- "5 items"
-print(t.inventory.weapons(1))  -- "1 weapon"
+print(t.inventory:items(5))    -- "5 items"
+print(t.inventory:weapons(1))  -- "1 weapon"
 ```
 
 ## Format Specifiers with Plurals

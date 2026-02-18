@@ -169,7 +169,7 @@ localization:
 ```lua
 -- Translations embedded in EMBEDDED_TRANSLATIONS table
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Direct lookup from embedded data
+print(t.ui.buttons:buy())  -- Direct lookup from embedded data
 ```
 
 **`cloud`**
@@ -199,7 +199,7 @@ localization:
 ```lua
 -- Uses LocalizationService:GetTranslatorForLocaleAsync()
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Fetches from LocalizationService
+print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 ```
 
 **Requirements:**
@@ -233,7 +233,7 @@ localization:
 ```lua
 -- Tries LocalizationService with pcall, falls back to embedded
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Tries cloud, falls back to embedded
+print(t.ui.buttons:buy())  -- Tries cloud, falls back to embedded
 ```
 
 **Use Cases:**

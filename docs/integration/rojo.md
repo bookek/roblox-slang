@@ -120,14 +120,14 @@ The generated `Translations.lua` file is a **ModuleScript** that can be required
 -- ServerScript
 local Translations = require(game.ReplicatedStorage.Translations)
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- "Buy"
+print(t.ui.buttons:buy())  -- "Buy"
 ```
 
 ```lua
 -- LocalScript
 local Translations = require(game.ReplicatedStorage.Translations)
 local t = Translations.newForPlayer(game.Players.LocalPlayer)
-print(t.ui.messages.greeting({ name = "Player" }))
+print(t.ui.messages:greeting({ name = "Player" }))
 ```
 
 ### Type Definitions: `Translations.d.luau`

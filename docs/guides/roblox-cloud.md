@@ -162,7 +162,7 @@ localization:
 ```lua
 -- Generated Translations.lua uses LocalizationService
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Fetches from LocalizationService
+print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 ```
 
 ### Hybrid Mode (Recommended)

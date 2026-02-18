@@ -63,17 +63,17 @@ local Translations = require(ReplicatedStorage.Translations)
 local t = Translations.new("en")
 
 -- Simple translation
-print(t.ui.buttons.buy())  -- "Buy"
+print(t.ui.buttons:buy())  -- "Buy"
 
 -- With parameters
-print(t.greeting({ name = "Player1" }))  -- "Hello, Player1!"
+print(t:greeting({ name = "Player1" }))  -- "Hello, Player1!"
 
 -- Pluralization
-print(t.items(5))  -- "5 items"
+print(t:items(5))  -- "5 items"
 
 -- Switch locale
 t:setLocale("es")
-print(t.ui.buttons.buy())  -- "Comprar"
+print(t.ui.buttons:buy())  -- "Comprar"
 ```
 
 ## Documentation Structure

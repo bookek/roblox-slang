@@ -209,16 +209,16 @@ local Translations = require(ReplicatedStorage.Translations)
 local t = Translations.new("en")
 
 -- Use translations
-print(t.welcome())  -- "Welcome to my game!"
-print(t.ui.buttons.play())  -- "Play"
+print(t:welcome())  -- "Welcome to my game!"
+print(t.ui.buttons:play())  -- "Play"
 
 -- With parameters
-print(t.ui.messages.playerJoined({ name = "Player1" }))
+print(t.ui.messages:playerJoined({ name = "Player1" }))
 -- Output: "Player1 joined the game"
 
 -- Switch locale at runtime
 t:setLocale("es")
-print(t.welcome())  -- "¡Bienvenido a mi juego!"
+print(t:welcome())  -- "¡Bienvenido a mi juego!"
 ```
 
 ### 6. Auto-Detect Player Locale

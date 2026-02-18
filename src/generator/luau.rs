@@ -758,15 +758,15 @@ fn generate_plural_method_hybrid(
         base_locale
     ));
     code.push_str(&format!(
-        "    local key = \"{}(\" .. category .. \")\"\n",
+        "    local embeddedKey = \"{}(\" .. category .. \")\"\n",
         base_key
     ));
-    code.push_str("    local template = locale_data[key]\n");
+    code.push_str("    local template = locale_data[embeddedKey]\n");
     code.push_str("    \n");
     code.push_str("    -- Fallback to 'other' category if specific category not found\n");
     code.push_str("    if not template then\n");
     code.push_str(&format!(
-        "        template = locale_data[\"{}(other)\"] or key\n",
+        "        template = locale_data[\"{}(other)\"] or embeddedKey\n",
         base_key
     ));
     code.push_str("    end\n");
@@ -909,7 +909,7 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
 
         if !params_with_format.is_empty() {
             code.push_str(&format!(
-                "function Translations.{}.{}(self, params)\n",
+                "function Translations.{}:{}(params)\n",
                 namespace, method
             ));
             code.push_str(&format!("    return self:{}(params)\n", flat_method));
