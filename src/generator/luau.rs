@@ -1428,7 +1428,9 @@ fn generate_method_embedded(
         code.push_str("    -- Simple parameter interpolation\n");
         code.push_str("    local result = template\n");
         code.push_str("    for paramKey, value in pairs(params) do\n");
-        code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
+        code.push_str(
+            "        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
+        );
         code.push_str("    end\n");
         code.push_str("    \n");
         code.push_str("    return result\n");
@@ -1638,7 +1640,9 @@ fn generate_method_hybrid(
 
         code.push_str("    local result = template\n");
         code.push_str("    for paramKey, value in pairs(params) do\n");
-        code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
+        code.push_str(
+            "        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
+        );
         code.push_str("    end\n");
         code.push_str("    return result\n");
     } else {
