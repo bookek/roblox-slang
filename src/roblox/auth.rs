@@ -154,6 +154,7 @@ mod tests {
                 api_key,
                 strategy: None,
             }),
+            localization: None,
         }
     }
 
