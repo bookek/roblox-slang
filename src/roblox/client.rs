@@ -56,7 +56,7 @@ impl RobloxCloudClient {
     ///
     /// Initializes an HTTP client with:
     /// - 30 second timeout
-    /// - User agent: "roblox-slang/1.1.2"
+    /// - User agent: "roblox-slang/2.0.0"
     /// - Base URL: <https://apis.roblox.com>
     ///
     /// # Arguments
@@ -69,7 +69,7 @@ impl RobloxCloudClient {
     pub fn new(api_key: String) -> Result<Self> {
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(30))
-            .user_agent("roblox-slang/1.1.2")
+            .user_agent("roblox-slang/2.0.0")
             .build()
             .context("Failed to create HTTP client")?;
 
