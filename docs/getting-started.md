@@ -136,6 +136,13 @@ input_directory: translations
 
 # Where to generate Luau code
 output_directory: src/shared/Translations
+
+# Localization mode (NEW in v2.0.0)
+localization:
+  # embedded: Translations embedded in code (default, no cloud dependency)
+  # cloud: Use Roblox Cloud LocalizationService only
+  # hybrid: Try cloud first, fallback to embedded
+  mode: embedded
 ```
 
 ### 3. Create Translation Files
@@ -261,11 +268,71 @@ This will report:
 
 ## Next Steps
 
-- [Configuration Guide](guides/configuration.md) - Learn all configuration options
+- [Configuration Guide](guides/configuration.md) - Learn all configuration options including localization modes
 - [Pluralization](guides/pluralization.md) - Handle plural forms correctly
 - [String Interpolation](guides/string-interpolation.md) - Advanced parameter usage
 - [Roblox Cloud Integration](guides/roblox-cloud.md) - Upload to Roblox Cloud for access to Roblox features
 - [Rojo Integration](integration/rojo.md) - Use with Rojo for automatic file syncing
+
+## Choosing a Localization Mode
+
+**NEW in v2.0.0:** Roblox Slang supports three localization modes:
+
+### Embedded Mode (Default)
+
+Best for most games. Translations are embedded directly in the generated code.
+
+**Pros:**
+
+- No cloud dependency
+- Works offline
+- Fastest performance
+- Simple setup
+
+**Cons:**
+
+- No Automatic Text Capture
+- No automatic translation
+- Manual translation management
+
+**When to use:** Single-player games, offline games, or when you want full control over translations.
+
+### Cloud Mode
+
+Uses Roblox Cloud LocalizationService exclusively.
+
+**Pros:**
+
+- Automatic Text Capture (ATC)
+- Automatic translation via Roblox AI
+- Translator Portal collaboration
+- Analytics via Roblox Dashboard
+
+**Cons:**
+
+- Requires cloud setup
+- Requires uploading translations
+- Depends on LocalizationService availability
+
+**When to use:** Multiplayer games that need automatic translation or want to use Roblox's translation ecosystem.
+
+### Hybrid Mode
+
+Best of both worlds: tries cloud first, falls back to embedded.
+
+**Pros:**
+
+- Cloud features when available
+- Embedded fallback for reliability
+- Graceful degradation
+- Works in Studio and production
+
+**Cons:**
+
+- Slightly larger generated file size
+- More complex setup
+
+**When to use:** Games transitioning from embedded to cloud, or games that need offline support with cloud benefits.
 
 ## Common Issues
 
