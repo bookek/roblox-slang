@@ -1,0 +1,12 @@
+{
+  "ui": {
+    "buttons": {
+      "buy": "Buy",
+      "sell": "Sell",
+      "cancel": "Cancel"
+    },
+    "labels": {
+      "welcome": "Welcome to the game!"
+    }
+  }
+}
