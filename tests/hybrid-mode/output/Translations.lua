@@ -13,190 +13,6 @@
 
 -- Embedded translation data (generated at build time)
 local EMBEDDED_TRANSLATIONS = {
-    ["id"] = {
-        ["confirmation.cancel"] = "Batal",
-        ["confirmation.code"] = "Kode: {roomId}",
-        ["confirmation.confirm"] = "Konfirmasi",
-        ["confirmation.failed"] = "Gagal",
-        ["confirmation.guest"] = "Tamu",
-        ["confirmation.host"] = "Host",
-        ["confirmation.invite"] = "Undang Pemain",
-        ["confirmation.kick"] = "Keluarkan Pemain",
-        ["confirmation.layout"] = "Tata Letak: {layout}",
-        ["confirmation.need_more"] = "Butuh {count} lagi",
-        ["confirmation.player_count"] = "{current}/{max}",
-        ["confirmation.ready"] = "Siap",
-        ["confirmation.room_title_placeholder"] = "Ruangan {playerName}",
-        ["confirmation.saved"] = "Tersimpan!",
-        ["confirmation.settings"] = "Pengaturan",
-        ["confirmation.starting"] = "Memulai...",
-        ["errors.connection_lost"] = "Koneksi terputus",
-        ["errors.failed_to_connect"] = "Gagal terhubung",
-        ["errors.invalid_code"] = "Kode ruangan tidak valid",
-        ["errors.permission_denied"] = "Izin ditolak",
-        ["errors.room_full"] = "Ruangan penuh",
-        ["errors.timeout"] = "Permintaan timeout",
-        ["errors.unknown"] = "Terjadi kesalahan tidak diketahui",
-        ["loading.connecting"] = "Menghubungkan ke server...",
-        ["loading.discovering"] = "Menemukan aset...",
-        ["loading.downloading"] = "Mengunduh konten...",
-        ["loading.finalizing"] = "Menyelesaikan...",
-        ["loading.initializing"] = "Menginisialisasi...",
-        ["loading.joining_room"] = "Bergabung ke Ruang Podcast...",
-        ["loading.loading_assets"] = "Memuat aset... {percent}%",
-        ["loading.loading_room"] = "Memuat Ruang Podcast...",
-        ["loading.preparing_controls"] = "Menyiapkan kontrol...",
-        ["loading.preparing_room"] = "Menyiapkan Ruang Podcast...",
-        ["loading.ready"] = "Siap! 100%",
-        ["loading.starting_room"] = "Memulai ruang podcast...",
-        ["loading.subtitle"] = "Pengalaman Podcast Terbaik",
-        ["loading.title"] = "BloxCast",
-        ["loading.verifying"] = "Memverifikasi file...",
-        ["lobby.create_room"] = "Buat Ruangan",
-        ["lobby.failed_load"] = "Gagal memuat ruangan\nCoba refresh",
-        ["lobby.filter_by"] = "Filter: {filter}",
-        ["lobby.join_room"] = "Gabung Ruangan",
-        ["lobby.no_rooms"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
-        ["lobby.players_online"] = "{count} pemain online",
-        ["lobby.refresh"] = "Refresh",
-        ["lobby.room_count"] = "{count} ruangan tersedia",
-        ["lobby.search_placeholder"] = "Cari ruangan...",
-        ["lobby.sort_by"] = "Urutkan: {sort}",
-        ["room.chat.clear"] = "Hapus Chat",
-        ["room.chat.joined"] = "{player} bergabung ke ruangan",
-        ["room.chat.left"] = "{player} meninggalkan ruangan",
-        ["room.chat.muted"] = "Chat dibisukan",
-        ["room.chat.placeholder"] = "Ketik pesan...",
-        ["room.chat.send"] = "Kirim",
-        ["room.chat.system"] = "Pesan Sistem",
-        ["room.controls.mute"] = "Bisukan",
-        ["room.controls.pause"] = "Jeda",
-        ["room.controls.resume"] = "Lanjutkan",
-        ["room.controls.settings"] = "Pengaturan Audio",
-        ["room.controls.start"] = "Mulai Rekaman",
-        ["room.controls.stop"] = "Hentikan Rekaman",
-        ["room.controls.unmute"] = "Suarakan",
-        ["room.controls.volume"] = "Volume: {level}%",
-        ["room.info.duration"] = "Durasi: {time}",
-        ["room.info.layout"] = "Tata Letak: {layout}",
-        ["room.info.leave_failed"] = "Gagal Keluar",
-        ["room.info.leaving"] = "Keluar...",
-        ["room.info.live"] = "Langsung",
-        ["room.info.paused"] = "Dijeda",
-        ["room.info.recording"] = "Merekam...",
-        ["room.info.title"] = "Ruang Podcast: {roomId}",
-        ["room.info.unknown"] = "Tidak Diketahui",
-        ["room.info.viewers"] = "{count} penonton",
-        ["settings.audio.echo_cancellation"] = "Pembatalan Gema",
-        ["settings.audio.input_device"] = "Perangkat Input",
-        ["settings.audio.noise_suppression"] = "Peredam Kebisingan",
-        ["settings.audio.output_device"] = "Perangkat Output",
-        ["settings.audio.quality"] = "Kualitas",
-        ["settings.audio.title"] = "Pengaturan Audio",
-        ["settings.audio.volume"] = "Volume",
-        ["settings.general.auto_join"] = "Gabung Otomatis",
-        ["settings.general.language"] = "Bahasa",
-        ["settings.general.notifications"] = "Notifikasi",
-        ["settings.general.theme"] = "Tema",
-        ["settings.general.title"] = "Pengaturan Umum",
-        ["settings.video.brightness"] = "Kecerahan",
-        ["settings.video.camera"] = "Kamera",
-        ["settings.video.framerate"] = "Frame Rate",
-        ["settings.video.resolution"] = "Resolusi",
-        ["settings.video.title"] = "Pengaturan Video",
-    },
-    ["en"] = {
-        ["confirmation.cancel"] = "Cancel",
-        ["confirmation.code"] = "Code: {roomId}",
-        ["confirmation.confirm"] = "Confirm",
-        ["confirmation.failed"] = "Failed",
-        ["confirmation.guest"] = "Guest",
-        ["confirmation.host"] = "Host",
-        ["confirmation.invite"] = "Invite Players",
-        ["confirmation.kick"] = "Kick Player",
-        ["confirmation.layout"] = "Layout: {layout}",
-        ["confirmation.need_more"] = "Need {count} more",
-        ["confirmation.player_count"] = "{current}/{max}",
-        ["confirmation.ready"] = "Ready",
-        ["confirmation.room_title_placeholder"] = "{playerName}'s Room",
-        ["confirmation.saved"] = "Saved!",
-        ["confirmation.settings"] = "Settings",
-        ["confirmation.starting"] = "Starting...",
-        ["errors.connection_lost"] = "Connection lost",
-        ["errors.failed_to_connect"] = "Failed to connect",
-        ["errors.invalid_code"] = "Invalid room code",
-        ["errors.permission_denied"] = "Permission denied",
-        ["errors.room_full"] = "Room is full",
-        ["errors.timeout"] = "Request timed out",
-        ["errors.unknown"] = "Unknown error occurred",
-        ["loading.connecting"] = "Connecting to server...",
-        ["loading.discovering"] = "Discovering assets...",
-        ["loading.downloading"] = "Downloading content...",
-        ["loading.finalizing"] = "Finalizing...",
-        ["loading.initializing"] = "Initializing...",
-        ["loading.joining_room"] = "Joining Podcast Room...",
-        ["loading.loading_assets"] = "Loading assets... {percent}%",
-        ["loading.loading_room"] = "Loading Podcast Room...",
-        ["loading.preparing_controls"] = "Preparing controls...",
-        ["loading.preparing_room"] = "Preparing Podcast Room...",
-        ["loading.ready"] = "Ready! 100%",
-        ["loading.starting_room"] = "Starting podcast room...",
-        ["loading.subtitle"] = "The Ultimate Podcast Experience",
-        ["loading.title"] = "BloxCast",
-        ["loading.verifying"] = "Verifying files...",
-        ["lobby.create_room"] = "Create Room",
-        ["lobby.failed_load"] = "Failed to load rooms\nTry refreshing",
-        ["lobby.filter_by"] = "Filter by: {filter}",
-        ["lobby.join_room"] = "Join Room",
-        ["lobby.no_rooms"] = "No rooms available\nCreate one!",
-        ["lobby.players_online"] = "{count} players online",
-        ["lobby.refresh"] = "Refresh",
-        ["lobby.room_count"] = "{count} rooms available",
-        ["lobby.search_placeholder"] = "Search rooms...",
-        ["lobby.sort_by"] = "Sort by: {sort}",
-        ["room.chat.clear"] = "Clear Chat",
-        ["room.chat.joined"] = "{player} joined the room",
-        ["room.chat.left"] = "{player} left the room",
-        ["room.chat.muted"] = "Chat is muted",
-        ["room.chat.placeholder"] = "Type a message...",
-        ["room.chat.send"] = "Send",
-        ["room.chat.system"] = "System Message",
-        ["room.controls.mute"] = "Mute",
-        ["room.controls.pause"] = "Pause",
-        ["room.controls.resume"] = "Resume",
-        ["room.controls.settings"] = "Audio Settings",
-        ["room.controls.start"] = "Start Recording",
-        ["room.controls.stop"] = "Stop Recording",
-        ["room.controls.unmute"] = "Unmute",
-        ["room.controls.volume"] = "Volume: {level}%",
-        ["room.info.duration"] = "Duration: {time}",
-        ["room.info.layout"] = "Layout: {layout}",
-        ["room.info.leave_failed"] = "Failed to Leave",
-        ["room.info.leaving"] = "Leaving...",
-        ["room.info.live"] = "Live",
-        ["room.info.paused"] = "Paused",
-        ["room.info.recording"] = "Recording...",
-        ["room.info.title"] = "Podcast Room: {roomId}",
-        ["room.info.unknown"] = "Unknown",
-        ["room.info.viewers"] = "{count} viewers",
-        ["settings.audio.echo_cancellation"] = "Echo Cancellation",
-        ["settings.audio.input_device"] = "Input Device",
-        ["settings.audio.noise_suppression"] = "Noise Suppression",
-        ["settings.audio.output_device"] = "Output Device",
-        ["settings.audio.quality"] = "Quality",
-        ["settings.audio.title"] = "Audio Settings",
-        ["settings.audio.volume"] = "Volume",
-        ["settings.general.auto_join"] = "Auto Join",
-        ["settings.general.language"] = "Language",
-        ["settings.general.notifications"] = "Notifications",
-        ["settings.general.theme"] = "Theme",
-        ["settings.general.title"] = "General Settings",
-        ["settings.video.brightness"] = "Brightness",
-        ["settings.video.camera"] = "Camera",
-        ["settings.video.framerate"] = "Frame Rate",
-        ["settings.video.resolution"] = "Resolution",
-        ["settings.video.title"] = "Video Settings",
-    },
     ["es"] = {
         ["confirmation.cancel"] = "Cancelar",
         ["confirmation.code"] = "Código: {roomId}",
@@ -241,7 +57,6 @@ local EMBEDDED_TRANSLATIONS = {
         ["lobby.filter_by"] = "Filtrar por: {filter}",
         ["lobby.join_room"] = "Unirse a Sala",
         ["lobby.no_rooms"] = "No hay salas disponibles\n¡Crea una!",
-        ["lobby.players_online"] = "{count} jugadores en línea",
         ["lobby.refresh"] = "Actualizar",
         ["lobby.room_count"] = "{count} salas disponibles",
         ["lobby.search_placeholder"] = "Buscar salas...",
@@ -288,6 +103,224 @@ local EMBEDDED_TRANSLATIONS = {
         ["settings.video.framerate"] = "Tasa de Fotogramas",
         ["settings.video.resolution"] = "Resolución",
         ["settings.video.title"] = "Configuración de Video",
+        ["test.farewell"] = "Adiós",
+        ["test.greeting"] = "Hola",
+        ["ui.buttons.buy"] = "Comprar",
+        ["ui.buttons.cancel"] = "Cancelar",
+        ["ui.buttons.sell"] = "Vender",
+        ["ui.labels.another_multiline"] = "No hay habitaciones disponibles\n¡Crea uno!",
+        ["ui.labels.loading"] = "Cargando recursos... {percent}%",
+        ["ui.labels.multiline_test"] = "No se pudieron cargar las habitaciones\nIntenta actualizar",
+        ["ui.labels.player_count"] = "{current}/{max}",
+        ["ui.labels.room_code"] = "Código: {roomId}",
+        ["ui.labels.welcome"] = "¡Bienvenidos al juego!",
+    },
+    ["id"] = {
+        ["confirmation.cancel"] = "Batal",
+        ["confirmation.code"] = "Kode: {roomId}",
+        ["confirmation.confirm"] = "Konfirmasi",
+        ["confirmation.failed"] = "Gagal",
+        ["confirmation.guest"] = "Tamu",
+        ["confirmation.host"] = "Host",
+        ["confirmation.invite"] = "Undang Pemain",
+        ["confirmation.kick"] = "Keluarkan Pemain",
+        ["confirmation.layout"] = "Tata Letak: {layout}",
+        ["confirmation.need_more"] = "Butuh {count} lagi",
+        ["confirmation.player_count"] = "{current}/{max}",
+        ["confirmation.ready"] = "Siap",
+        ["confirmation.room_title_placeholder"] = "Ruangan {playerName}",
+        ["confirmation.saved"] = "Tersimpan!",
+        ["confirmation.settings"] = "Pengaturan",
+        ["confirmation.starting"] = "Memulai...",
+        ["errors.connection_lost"] = "Koneksi terputus",
+        ["errors.failed_to_connect"] = "Gagal terhubung",
+        ["errors.invalid_code"] = "Kode ruangan tidak valid",
+        ["errors.permission_denied"] = "Izin ditolak",
+        ["errors.room_full"] = "Ruangan penuh",
+        ["errors.timeout"] = "Permintaan timeout",
+        ["errors.unknown"] = "Terjadi kesalahan tidak diketahui",
+        ["loading.connecting"] = "Menghubungkan ke server...",
+        ["loading.discovering"] = "Menemukan aset...",
+        ["loading.downloading"] = "Mengunduh konten...",
+        ["loading.finalizing"] = "Menyelesaikan...",
+        ["loading.initializing"] = "Menginisialisasi...",
+        ["loading.joining_room"] = "Bergabung ke Ruang Podcast...",
+        ["loading.loading_assets"] = "Memuat aset... {percent}%",
+        ["loading.loading_room"] = "Memuat Ruang Podcast...",
+        ["loading.preparing_controls"] = "Menyiapkan kontrol...",
+        ["loading.preparing_room"] = "Menyiapkan Ruang Podcast...",
+        ["loading.ready"] = "Siap! 100%",
+        ["loading.starting_room"] = "Memulai ruang podcast...",
+        ["loading.subtitle"] = "Pengalaman Podcast Terbaik",
+        ["loading.title"] = "BloxCast",
+        ["loading.verifying"] = "Memverifikasi file...",
+        ["lobby.create_room"] = "Buat Ruangan",
+        ["lobby.failed_load"] = "Gagal memuat ruangan\nCoba refresh",
+        ["lobby.filter_by"] = "Filter: {filter}",
+        ["lobby.join_room"] = "Gabung Ruangan",
+        ["lobby.no_rooms"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
+        ["lobby.refresh"] = "Refresh",
+        ["lobby.room_count"] = "{count} ruangan tersedia",
+        ["lobby.search_placeholder"] = "Cari ruangan...",
+        ["lobby.sort_by"] = "Urutkan: {sort}",
+        ["room.chat.clear"] = "Hapus Chat",
+        ["room.chat.joined"] = "{player} bergabung ke ruangan",
+        ["room.chat.left"] = "{player} meninggalkan ruangan",
+        ["room.chat.muted"] = "Chat dibisukan",
+        ["room.chat.placeholder"] = "Ketik pesan...",
+        ["room.chat.send"] = "Kirim",
+        ["room.chat.system"] = "Pesan Sistem",
+        ["room.controls.mute"] = "Bisukan",
+        ["room.controls.pause"] = "Jeda",
+        ["room.controls.resume"] = "Lanjutkan",
+        ["room.controls.settings"] = "Pengaturan Audio",
+        ["room.controls.start"] = "Mulai Rekaman",
+        ["room.controls.stop"] = "Hentikan Rekaman",
+        ["room.controls.unmute"] = "Suarakan",
+        ["room.controls.volume"] = "Volume: {level}%",
+        ["room.info.duration"] = "Durasi: {time}",
+        ["room.info.layout"] = "Tata Letak: {layout}",
+        ["room.info.leave_failed"] = "Gagal Keluar",
+        ["room.info.leaving"] = "Keluar...",
+        ["room.info.live"] = "Langsung",
+        ["room.info.paused"] = "Dijeda",
+        ["room.info.recording"] = "Merekam...",
+        ["room.info.title"] = "Ruang Podcast: {roomId}",
+        ["room.info.unknown"] = "Tidak Diketahui",
+        ["room.info.viewers"] = "{count} penonton",
+        ["settings.audio.echo_cancellation"] = "Pembatalan Gema",
+        ["settings.audio.input_device"] = "Perangkat Input",
+        ["settings.audio.noise_suppression"] = "Peredam Kebisingan",
+        ["settings.audio.output_device"] = "Perangkat Output",
+        ["settings.audio.quality"] = "Kualitas",
+        ["settings.audio.title"] = "Pengaturan Audio",
+        ["settings.audio.volume"] = "Volume",
+        ["settings.general.auto_join"] = "Gabung Otomatis",
+        ["settings.general.language"] = "Bahasa",
+        ["settings.general.notifications"] = "Notifikasi",
+        ["settings.general.theme"] = "Tema",
+        ["settings.general.title"] = "Pengaturan Umum",
+        ["settings.video.brightness"] = "Kecerahan",
+        ["settings.video.camera"] = "Kamera",
+        ["settings.video.framerate"] = "Frame Rate",
+        ["settings.video.resolution"] = "Resolusi",
+        ["settings.video.title"] = "Pengaturan Video",
+        ["test.farewell"] = "Selamat tinggal",
+        ["test.greeting"] = "Halo",
+        ["ui.buttons.buy"] = "Beli",
+        ["ui.buttons.cancel"] = "Batal",
+        ["ui.buttons.sell"] = "Jual",
+        ["ui.labels.another_multiline"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
+        ["ui.labels.loading"] = "Memuat aset... {percent}%",
+        ["ui.labels.multiline_test"] = "Gagal memuat ruangan\nCoba refresh",
+        ["ui.labels.player_count"] = "{current}/{max}",
+        ["ui.labels.room_code"] = "Kode: {roomId}",
+        ["ui.labels.welcome"] = "Selamat datang di game!",
+    },
+    ["en"] = {
+        ["confirmation.cancel"] = "Cancel",
+        ["confirmation.code"] = "Code: {roomId}",
+        ["confirmation.confirm"] = "Confirm",
+        ["confirmation.failed"] = "Failed",
+        ["confirmation.guest"] = "Guest",
+        ["confirmation.host"] = "Host",
+        ["confirmation.invite"] = "Invite Players",
+        ["confirmation.kick"] = "Kick Player",
+        ["confirmation.layout"] = "Layout: {layout}",
+        ["confirmation.need_more"] = "Need {count} more",
+        ["confirmation.player_count"] = "{current}/{max}",
+        ["confirmation.ready"] = "Ready",
+        ["confirmation.room_title_placeholder"] = "{playerName}'s Room",
+        ["confirmation.saved"] = "Saved!",
+        ["confirmation.settings"] = "Settings",
+        ["confirmation.starting"] = "Starting...",
+        ["errors.connection_lost"] = "Connection lost",
+        ["errors.failed_to_connect"] = "Failed to connect",
+        ["errors.invalid_code"] = "Invalid room code",
+        ["errors.permission_denied"] = "Permission denied",
+        ["errors.room_full"] = "Room is full",
+        ["errors.timeout"] = "Request timed out",
+        ["errors.unknown"] = "Unknown error occurred",
+        ["loading.connecting"] = "Connecting to server...",
+        ["loading.discovering"] = "Discovering assets...",
+        ["loading.downloading"] = "Downloading content...",
+        ["loading.finalizing"] = "Finalizing...",
+        ["loading.initializing"] = "Initializing...",
+        ["loading.items.one"] = "1 item",
+        ["loading.items.other"] = "{count} items",
+        ["loading.items.zero"] = "No items",
+        ["loading.joining_room"] = "Joining Podcast Room...",
+        ["loading.loading_assets"] = "Loading assets... {percent}%",
+        ["loading.loading_room"] = "Loading Podcast Room...",
+        ["loading.preparing_controls"] = "Preparing controls...",
+        ["loading.preparing_room"] = "Preparing Podcast Room...",
+        ["loading.ready"] = "Ready! 100%",
+        ["loading.starting_room"] = "Starting podcast room...",
+        ["loading.subtitle"] = "The Ultimate Podcast Experience",
+        ["loading.title"] = "BloxCast",
+        ["loading.verifying"] = "Verifying files...",
+        ["lobby.create_room"] = "Create Room",
+        ["lobby.failed_load"] = "Failed to load rooms\nTry refreshing",
+        ["lobby.filter_by"] = "Filter by: {filter}",
+        ["lobby.join_room"] = "Join Room",
+        ["lobby.no_rooms"] = "No rooms available\nCreate one!",
+        ["lobby.refresh"] = "Refresh",
+        ["lobby.room_count"] = "{count} rooms available",
+        ["lobby.search_placeholder"] = "Search rooms...",
+        ["lobby.sort_by"] = "Sort by: {sort}",
+        ["room.chat.clear"] = "Clear Chat",
+        ["room.chat.joined"] = "{player} joined the room",
+        ["room.chat.left"] = "{player} left the room",
+        ["room.chat.muted"] = "Chat is muted",
+        ["room.chat.placeholder"] = "Type a message...",
+        ["room.chat.send"] = "Send",
+        ["room.chat.system"] = "System Message",
+        ["room.controls.mute"] = "Mute",
+        ["room.controls.pause"] = "Pause",
+        ["room.controls.resume"] = "Resume",
+        ["room.controls.settings"] = "Audio Settings",
+        ["room.controls.start"] = "Start Recording",
+        ["room.controls.stop"] = "Stop Recording",
+        ["room.controls.unmute"] = "Unmute",
+        ["room.controls.volume"] = "Volume: {level}%",
+        ["room.info.duration"] = "Duration: {time}",
+        ["room.info.layout"] = "Layout: {layout}",
+        ["room.info.leave_failed"] = "Failed to Leave",
+        ["room.info.leaving"] = "Leaving...",
+        ["room.info.live"] = "Live",
+        ["room.info.paused"] = "Paused",
+        ["room.info.recording"] = "Recording...",
+        ["room.info.title"] = "Podcast Room: {roomId}",
+        ["room.info.unknown"] = "Unknown",
+        ["room.info.viewers"] = "{count} viewers",
+        ["settings.audio.echo_cancellation"] = "Echo Cancellation",
+        ["settings.audio.input_device"] = "Input Device",
+        ["settings.audio.noise_suppression"] = "Noise Suppression",
+        ["settings.audio.output_device"] = "Output Device",
+        ["settings.audio.quality"] = "Quality",
+        ["settings.audio.title"] = "Audio Settings",
+        ["settings.audio.volume"] = "Volume",
+        ["settings.general.auto_join"] = "Auto Join",
+        ["settings.general.language"] = "Language",
+        ["settings.general.notifications"] = "Notifications",
+        ["settings.general.theme"] = "Theme",
+        ["settings.general.title"] = "General Settings",
+        ["settings.video.brightness"] = "Brightness",
+        ["settings.video.camera"] = "Camera",
+        ["settings.video.framerate"] = "Frame Rate",
+        ["settings.video.resolution"] = "Resolution",
+        ["settings.video.title"] = "Video Settings",
+        ["test.farewell"] = "Goodbye",
+        ["test.greeting"] = "Hello",
+        ["ui.buttons.buy"] = "Buy",
+        ["ui.buttons.cancel"] = "Cancel",
+        ["ui.buttons.sell"] = "Sell",
+        ["ui.labels.another_multiline"] = "No rooms available\nCreate one!",
+        ["ui.labels.loading"] = "Loading assets... {percent}%",
+        ["ui.labels.multiline_test"] = "Failed to load rooms\nTry refreshing",
+        ["ui.labels.player_count"] = "{current}/{max}",
+        ["ui.labels.room_code"] = "Code: {roomId}",
+        ["ui.labels.welcome"] = "Welcome to the game!",
     },
 }
 
@@ -870,6 +903,54 @@ function Translations:loading_initializing()
     return locale_data["loading.initializing"] or "loading.initializing"
 end
 
+function Translations:loading_items_one()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("loading.items.one")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["loading.items.one"] or "loading.items.one"
+end
+
+function Translations:loading_items_other(params)
+    params = params or {}
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("loading.items.other", params)
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["loading.items.other"] or "loading.items.other"
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    return result
+end
+
+function Translations:loading_items_zero()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("loading.items.zero")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["loading.items.zero"] or "loading.items.zero"
+end
+
 function Translations:loading_joining_room()
     if self._translator then
         local success, result = pcall(function()
@@ -1090,26 +1171,6 @@ function Translations:lobby_no_rooms()
     
     local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
     return locale_data["lobby.no_rooms"] or "lobby.no_rooms"
-end
-
-function Translations:lobby_players_online(params)
-    params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.players_online", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["lobby.players_online"] or "lobby.players_online"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
 end
 
 function Translations:lobby_refresh()
@@ -1810,11 +1871,184 @@ function Translations:settings_video_title()
     return locale_data["settings.video.title"] or "settings.video.title"
 end
 
+function Translations:test_farewell()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("test.farewell")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["test.farewell"] or "test.farewell"
+end
+
+function Translations:test_greeting()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("test.greeting")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["test.greeting"] or "test.greeting"
+end
+
+function Translations:ui_buttons_buy()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.buttons.buy")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.buy"] or "ui.buttons.buy"
+end
+
+function Translations:ui_buttons_cancel()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.buttons.cancel")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.cancel"] or "ui.buttons.cancel"
+end
+
+function Translations:ui_buttons_sell()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.buttons.sell")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.buttons.sell"] or "ui.buttons.sell"
+end
+
+function Translations:ui_labels_another_multiline()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.labels.another_multiline")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.another_multiline"] or "ui.labels.another_multiline"
+end
+
+function Translations:ui_labels_loading(params)
+    params = params or {}
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.labels.loading", params)
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.labels.loading"] or "ui.labels.loading"
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    return result
+end
+
+function Translations:ui_labels_multiline_test()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.labels.multiline_test")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.multiline_test"] or "ui.labels.multiline_test"
+end
+
+function Translations:ui_labels_player_count(params)
+    params = params or {}
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.labels.player_count", params)
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.labels.player_count"] or "ui.labels.player_count"
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    return result
+end
+
+function Translations:ui_labels_room_code(params)
+    params = params or {}
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.labels.room_code", params)
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    local template = locale_data["ui.labels.room_code"] or "ui.labels.room_code"
+    local result = template
+    for key, value in pairs(params) do
+        result = result:gsub("{" .. key .. "}", tostring(value))
+    end
+    return result
+end
+
+function Translations:ui_labels_welcome()
+    if self._translator then
+        local success, result = pcall(function()
+            return self._translator:FormatByKey("ui.labels.welcome")
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    return locale_data["ui.labels.welcome"] or "ui.labels.welcome"
+end
+
 -- Namespace structure (syntax sugar)
 
 Translations.confirmation = {}
 Translations.errors = {}
 Translations.loading = {}
+Translations.loading.items = {}
 Translations.lobby = {}
 Translations.room = {}
 Translations.room.chat = {}
@@ -1824,365 +2058,421 @@ Translations.settings = {}
 Translations.settings.audio = {}
 Translations.settings.general = {}
 Translations.settings.video = {}
+Translations.test = {}
+Translations.ui = {}
+Translations.ui.buttons = {}
+Translations.ui.labels = {}
 
-function Translations.confirmation.cancel(self)
+function Translations.confirmation:cancel()
     return self:confirmation_cancel()
 end
 
-function Translations.confirmation.code(self, params)
+function Translations.confirmation:code(params)
     return self:confirmation_code(params)
 end
 
-function Translations.confirmation.confirm(self)
+function Translations.confirmation:confirm()
     return self:confirmation_confirm()
 end
 
-function Translations.confirmation.failed(self)
+function Translations.confirmation:failed()
     return self:confirmation_failed()
 end
 
-function Translations.confirmation.guest(self)
+function Translations.confirmation:guest()
     return self:confirmation_guest()
 end
 
-function Translations.confirmation.host(self)
+function Translations.confirmation:host()
     return self:confirmation_host()
 end
 
-function Translations.confirmation.invite(self)
+function Translations.confirmation:invite()
     return self:confirmation_invite()
 end
 
-function Translations.confirmation.kick(self)
+function Translations.confirmation:kick()
     return self:confirmation_kick()
 end
 
-function Translations.confirmation.layout(self, params)
+function Translations.confirmation:layout(params)
     return self:confirmation_layout(params)
 end
 
-function Translations.confirmation.need_more(self, params)
+function Translations.confirmation:need_more(params)
     return self:confirmation_need_more(params)
 end
 
-function Translations.confirmation.player_count(self, params)
+function Translations.confirmation:player_count(params)
     return self:confirmation_player_count(params)
 end
 
-function Translations.confirmation.ready(self)
+function Translations.confirmation:ready()
     return self:confirmation_ready()
 end
 
-function Translations.confirmation.room_title_placeholder(self, params)
+function Translations.confirmation:room_title_placeholder(params)
     return self:confirmation_room_title_placeholder(params)
 end
 
-function Translations.confirmation.saved(self)
+function Translations.confirmation:saved()
     return self:confirmation_saved()
 end
 
-function Translations.confirmation.settings(self)
+function Translations.confirmation:settings()
     return self:confirmation_settings()
 end
 
-function Translations.confirmation.starting(self)
+function Translations.confirmation:starting()
     return self:confirmation_starting()
 end
 
-function Translations.errors.connection_lost(self)
+function Translations.errors:connection_lost()
     return self:errors_connection_lost()
 end
 
-function Translations.errors.failed_to_connect(self)
+function Translations.errors:failed_to_connect()
     return self:errors_failed_to_connect()
 end
 
-function Translations.errors.invalid_code(self)
+function Translations.errors:invalid_code()
     return self:errors_invalid_code()
 end
 
-function Translations.errors.permission_denied(self)
+function Translations.errors:permission_denied()
     return self:errors_permission_denied()
 end
 
-function Translations.errors.room_full(self)
+function Translations.errors:room_full()
     return self:errors_room_full()
 end
 
-function Translations.errors.timeout(self)
+function Translations.errors:timeout()
     return self:errors_timeout()
 end
 
-function Translations.errors.unknown(self)
+function Translations.errors:unknown()
     return self:errors_unknown()
 end
 
-function Translations.loading.connecting(self)
+function Translations.loading:connecting()
     return self:loading_connecting()
 end
 
-function Translations.loading.discovering(self)
+function Translations.loading:discovering()
     return self:loading_discovering()
 end
 
-function Translations.loading.downloading(self)
+function Translations.loading:downloading()
     return self:loading_downloading()
 end
 
-function Translations.loading.finalizing(self)
+function Translations.loading:finalizing()
     return self:loading_finalizing()
 end
 
-function Translations.loading.initializing(self)
+function Translations.loading:initializing()
     return self:loading_initializing()
 end
 
-function Translations.loading.joining_room(self)
+function Translations.loading.items:one()
+    return self:loading_items_one()
+end
+
+function Translations.loading.items:other(params)
+    return self:loading_items_other(params)
+end
+
+function Translations.loading.items:zero()
+    return self:loading_items_zero()
+end
+
+function Translations.loading:joining_room()
     return self:loading_joining_room()
 end
 
-function Translations.loading.loading_assets(self, params)
+function Translations.loading:loading_assets(params)
     return self:loading_loading_assets(params)
 end
 
-function Translations.loading.loading_room(self)
+function Translations.loading:loading_room()
     return self:loading_loading_room()
 end
 
-function Translations.loading.preparing_controls(self)
+function Translations.loading:preparing_controls()
     return self:loading_preparing_controls()
 end
 
-function Translations.loading.preparing_room(self)
+function Translations.loading:preparing_room()
     return self:loading_preparing_room()
 end
 
-function Translations.loading.ready(self)
+function Translations.loading:ready()
     return self:loading_ready()
 end
 
-function Translations.loading.starting_room(self)
+function Translations.loading:starting_room()
     return self:loading_starting_room()
 end
 
-function Translations.loading.subtitle(self)
+function Translations.loading:subtitle()
     return self:loading_subtitle()
 end
 
-function Translations.loading.title(self)
+function Translations.loading:title()
     return self:loading_title()
 end
 
-function Translations.loading.verifying(self)
+function Translations.loading:verifying()
     return self:loading_verifying()
 end
 
-function Translations.lobby.create_room(self)
+function Translations.lobby:create_room()
     return self:lobby_create_room()
 end
 
-function Translations.lobby.failed_load(self)
+function Translations.lobby:failed_load()
     return self:lobby_failed_load()
 end
 
-function Translations.lobby.filter_by(self, params)
+function Translations.lobby:filter_by(params)
     return self:lobby_filter_by(params)
 end
 
-function Translations.lobby.join_room(self)
+function Translations.lobby:join_room()
     return self:lobby_join_room()
 end
 
-function Translations.lobby.no_rooms(self)
+function Translations.lobby:no_rooms()
     return self:lobby_no_rooms()
 end
 
-function Translations.lobby.players_online(self, params)
-    return self:lobby_players_online(params)
-end
-
-function Translations.lobby.refresh(self)
+function Translations.lobby:refresh()
     return self:lobby_refresh()
 end
 
-function Translations.lobby.room_count(self, params)
+function Translations.lobby:room_count(params)
     return self:lobby_room_count(params)
 end
 
-function Translations.lobby.search_placeholder(self)
+function Translations.lobby:search_placeholder()
     return self:lobby_search_placeholder()
 end
 
-function Translations.lobby.sort_by(self, params)
+function Translations.lobby:sort_by(params)
     return self:lobby_sort_by(params)
 end
 
-function Translations.room.chat.clear(self)
+function Translations.room.chat:clear()
     return self:room_chat_clear()
 end
 
-function Translations.room.chat.joined(self, params)
+function Translations.room.chat:joined(params)
     return self:room_chat_joined(params)
 end
 
-function Translations.room.chat.left(self, params)
+function Translations.room.chat:left(params)
     return self:room_chat_left(params)
 end
 
-function Translations.room.chat.muted(self)
+function Translations.room.chat:muted()
     return self:room_chat_muted()
 end
 
-function Translations.room.chat.placeholder(self)
+function Translations.room.chat:placeholder()
     return self:room_chat_placeholder()
 end
 
-function Translations.room.chat.send(self)
+function Translations.room.chat:send()
     return self:room_chat_send()
 end
 
-function Translations.room.chat.system(self)
+function Translations.room.chat:system()
     return self:room_chat_system()
 end
 
-function Translations.room.controls.mute(self)
+function Translations.room.controls:mute()
     return self:room_controls_mute()
 end
 
-function Translations.room.controls.pause(self)
+function Translations.room.controls:pause()
     return self:room_controls_pause()
 end
 
-function Translations.room.controls.resume(self)
+function Translations.room.controls:resume()
     return self:room_controls_resume()
 end
 
-function Translations.room.controls.settings(self)
+function Translations.room.controls:settings()
     return self:room_controls_settings()
 end
 
-function Translations.room.controls.start(self)
+function Translations.room.controls:start()
     return self:room_controls_start()
 end
 
-function Translations.room.controls.stop(self)
+function Translations.room.controls:stop()
     return self:room_controls_stop()
 end
 
-function Translations.room.controls.unmute(self)
+function Translations.room.controls:unmute()
     return self:room_controls_unmute()
 end
 
-function Translations.room.controls.volume(self, params)
+function Translations.room.controls:volume(params)
     return self:room_controls_volume(params)
 end
 
-function Translations.room.info.duration(self, params)
+function Translations.room.info:duration(params)
     return self:room_info_duration(params)
 end
 
-function Translations.room.info.layout(self, params)
+function Translations.room.info:layout(params)
     return self:room_info_layout(params)
 end
 
-function Translations.room.info.leave_failed(self)
+function Translations.room.info:leave_failed()
     return self:room_info_leave_failed()
 end
 
-function Translations.room.info.leaving(self)
+function Translations.room.info:leaving()
     return self:room_info_leaving()
 end
 
-function Translations.room.info.live(self)
+function Translations.room.info:live()
     return self:room_info_live()
 end
 
-function Translations.room.info.paused(self)
+function Translations.room.info:paused()
     return self:room_info_paused()
 end
 
-function Translations.room.info.recording(self)
+function Translations.room.info:recording()
     return self:room_info_recording()
 end
 
-function Translations.room.info.title(self, params)
+function Translations.room.info:title(params)
     return self:room_info_title(params)
 end
 
-function Translations.room.info.unknown(self)
+function Translations.room.info:unknown()
     return self:room_info_unknown()
 end
 
-function Translations.room.info.viewers(self, params)
+function Translations.room.info:viewers(params)
     return self:room_info_viewers(params)
 end
 
-function Translations.settings.audio.echo_cancellation(self)
+function Translations.settings.audio:echo_cancellation()
     return self:settings_audio_echo_cancellation()
 end
 
-function Translations.settings.audio.input_device(self)
+function Translations.settings.audio:input_device()
     return self:settings_audio_input_device()
 end
 
-function Translations.settings.audio.noise_suppression(self)
+function Translations.settings.audio:noise_suppression()
     return self:settings_audio_noise_suppression()
 end
 
-function Translations.settings.audio.output_device(self)
+function Translations.settings.audio:output_device()
     return self:settings_audio_output_device()
 end
 
-function Translations.settings.audio.quality(self)
+function Translations.settings.audio:quality()
     return self:settings_audio_quality()
 end
 
-function Translations.settings.audio.title(self)
+function Translations.settings.audio:title()
     return self:settings_audio_title()
 end
 
-function Translations.settings.audio.volume(self)
+function Translations.settings.audio:volume()
     return self:settings_audio_volume()
 end
 
-function Translations.settings.general.auto_join(self)
+function Translations.settings.general:auto_join()
     return self:settings_general_auto_join()
 end
 
-function Translations.settings.general.language(self)
+function Translations.settings.general:language()
     return self:settings_general_language()
 end
 
-function Translations.settings.general.notifications(self)
+function Translations.settings.general:notifications()
     return self:settings_general_notifications()
 end
 
-function Translations.settings.general.theme(self)
+function Translations.settings.general:theme()
     return self:settings_general_theme()
 end
 
-function Translations.settings.general.title(self)
+function Translations.settings.general:title()
     return self:settings_general_title()
 end
 
-function Translations.settings.video.brightness(self)
+function Translations.settings.video:brightness()
     return self:settings_video_brightness()
 end
 
-function Translations.settings.video.camera(self)
+function Translations.settings.video:camera()
     return self:settings_video_camera()
 end
 
-function Translations.settings.video.framerate(self)
+function Translations.settings.video:framerate()
     return self:settings_video_framerate()
 end
 
-function Translations.settings.video.resolution(self)
+function Translations.settings.video:resolution()
     return self:settings_video_resolution()
 end
 
-function Translations.settings.video.title(self)
+function Translations.settings.video:title()
     return self:settings_video_title()
+end
+
+function Translations.test:farewell()
+    return self:test_farewell()
+end
+
+function Translations.test:greeting()
+    return self:test_greeting()
+end
+
+function Translations.ui.buttons:buy()
+    return self:ui_buttons_buy()
+end
+
+function Translations.ui.buttons:cancel()
+    return self:ui_buttons_cancel()
+end
+
+function Translations.ui.buttons:sell()
+    return self:ui_buttons_sell()
+end
+
+function Translations.ui.labels:another_multiline()
+    return self:ui_labels_another_multiline()
+end
+
+function Translations.ui.labels:loading(params)
+    return self:ui_labels_loading(params)
+end
+
+function Translations.ui.labels:multiline_test()
+    return self:ui_labels_multiline_test()
+end
+
+function Translations.ui.labels:player_count(params)
+    return self:ui_labels_player_count(params)
+end
+
+function Translations.ui.labels:room_code(params)
+    return self:ui_labels_room_code(params)
+end
+
+function Translations.ui.labels:welcome()
+    return self:ui_labels_welcome()
 end
 
 

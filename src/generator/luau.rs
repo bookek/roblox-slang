@@ -602,8 +602,8 @@ fn generate_plural_method_embedded(
     code.push_str("    \n");
     code.push_str("    -- Simple parameter interpolation\n");
     code.push_str("    local result = template\n");
-    code.push_str("    for key, value in pairs(params) do\n");
-    code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+    code.push_str("    for paramKey, value in pairs(params) do\n");
+    code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
     code.push_str("    end\n");
     code.push_str("    \n");
     code.push_str("    return result\n");
@@ -773,8 +773,8 @@ fn generate_plural_method_hybrid(
     code.push_str("    \n");
     code.push_str("    -- Simple parameter interpolation\n");
     code.push_str("    local result = template\n");
-    code.push_str("    for key, value in pairs(params) do\n");
-    code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+    code.push_str("    for paramKey, value in pairs(params) do\n");
+    code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
     code.push_str("    end\n");
     code.push_str("    \n");
     code.push_str("    return result\n");
@@ -1427,8 +1427,8 @@ fn generate_method_embedded(
         code.push_str("    \n");
         code.push_str("    -- Simple parameter interpolation\n");
         code.push_str("    local result = template\n");
-        code.push_str("    for key, value in pairs(params) do\n");
-        code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+        code.push_str("    for paramKey, value in pairs(params) do\n");
+        code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
         code.push_str("    end\n");
         code.push_str("    \n");
         code.push_str("    return result\n");
@@ -1637,8 +1637,8 @@ fn generate_method_hybrid(
         }
 
         code.push_str("    local result = template\n");
-        code.push_str("    for key, value in pairs(params) do\n");
-        code.push_str("        result = result:gsub(\"{\" .. key .. \"}\", tostring(value))\n");
+        code.push_str("    for paramKey, value in pairs(params) do\n");
+        code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
         code.push_str("    end\n");
         code.push_str("    return result\n");
     } else {
@@ -2462,8 +2462,8 @@ fn test_generate_method_embedded_with_params() {
 
     // Should have parameter interpolation
     assert!(code.contains("Simple parameter interpolation"));
-    assert!(code.contains("for key, value in pairs(params) do"));
-    assert!(code.contains("result:gsub(\"{\" .. key .. \"}\", tostring(value))"));
+    assert!(code.contains("for paramKey, value in pairs(params) do"));
+    assert!(code.contains("result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))"));
 }
 
 #[test]
@@ -2548,7 +2548,7 @@ fn test_generate_method_hybrid_with_params() {
 
     // Should fallback to embedded with interpolation
     assert!(code.contains("local template = locale_data[\"ui.greeting\"]"));
-    assert!(code.contains("for key, value in pairs(params) do"));
+    assert!(code.contains("for paramKey, value in pairs(params) do"));
 }
 
 #[test]
