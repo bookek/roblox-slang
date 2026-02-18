@@ -7,6 +7,8 @@ base_locale: en
 # Supported locales for your game
 supported_locales:
   - en
+  - id
+  - es
 
 # Directory containing translation files (JSON/YAML)
 input_directory: translations
@@ -42,20 +44,20 @@ localization:
 # cloud:
 #   # Localization table ID (UUID format)
 #   # Get from: Creator Dashboard > Localization > Table Settings
-#   table_id: "your-table-id-here"
+  # table_id: "your_table_id"
 #   
 #   # Game/Universe ID (numeric)
 #   # Get from: Creator Dashboard > Game Settings > Basic Info
-#   game_id: "your-game-id-here"
+  # game_id: "your_game_id"
 #   
 #   # API Key (RECOMMENDED: Use environment variable instead)
 #   # Set via: export ROBLOX_CLOUD_API_KEY=your_key_here
 #   # Get from: https://create.roblox.com/credentials
-#   # api_key: "your-api-key-here"
+  # api_key: "your_api_key"
 #   
 #   # Default merge strategy for sync command
 #   # Options:
 #   #   - merge: Upload local-only, download cloud-only, prefer cloud for conflicts (recommended)
 #   #   - overwrite: Replace all cloud translations with local (destructive)
 #   #   - skip-conflicts: Only sync non-conflicting entries
-#   strategy: merge
+  # strategy: merge

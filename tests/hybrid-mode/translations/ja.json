@@ -1,0 +1,133 @@
+{
+  "confirmation": {
+    "cancel": "キャンセル",
+    "code": "コード: {roomId}",
+    "confirm": "確認",
+    "failed": "失敗",
+    "guest": "ゲスト",
+    "host": "ホスト",
+    "invite": "プレイヤーを招待",
+    "kick": "プレイヤーを追放",
+    "layout": "レイアウト: {layout}",
+    "need_more": "あと{count}が必要",
+    "player_count": "{current}/{max}",
+    "ready": "準備完了",
+    "room_title_placeholder": "{playerName}の部屋",
+    "saved": "保存完了！",
+    "settings": "設定",
+    "starting": "開始..."
+  },
+  "errors": {
+    "connection_lost": "接続失敗",
+    "failed_to_connect": "接続失敗",
+    "invalid_code": "部屋コードが無効です",
+    "permission_denied": "許可が拒否された",
+    "room_full": "部屋がいっぱい",
+    "timeout": "リクエストが期限切れ",
+    "unknown": "不明なエラーが発生"
+  },
+  "loading": {
+    "connecting": "サーバーに接続中...",
+    "discovering": "アセットを探索中...",
+    "downloading": "コンテンツをダウンロード中...",
+    "finalizing": "確定中...",
+    "initializing": "初期化中...",
+    "joining_room": "ポッドキャストルームに参加中...",
+    "loading_assets": "アセットを読み込んでいます... {percent}%",
+    "loading_room": "ポッドキャストルームを読み込み中...",
+    "preparing_controls": "操作の準備中...",
+    "preparing_room": "ポッドキャストルームの準備中...",
+    "ready": "準備完了！ 100%",
+    "starting_room": "ポッドキャストルームを開始...",
+    "subtitle": "究極のポッドキャスト体験",
+    "title": "BloSOCast",
+    "verifying": "ファイルを確認中..."
+  },
+  "lobby": {
+    "create_room": "部屋を作る",
+    "failed_load": "部屋の読み込み失敗\nリセットを試す",
+    "filter_by": "条件による検索: {filter}",
+    "join_room": "部屋に参加",
+    "no_rooms": "利用可能な部屋がありません\n1つ作成！",
+    "refresh": "更新",
+    "room_count": "{count}部屋が利用可能です",
+    "search_placeholder": "部屋を検索...",
+    "sort_by": "並べ替え条件: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "チャットをクリア",
+      "joined": "{player}が部屋に入りました",
+      "left": "{player}が部屋を退出",
+      "muted": "チャットが静音されています",
+      "placeholder": "メッセージを入力...",
+      "send": "送信",
+      "system": "システムメッセージ"
+    },
+    "controls": {
+      "mute": "ミュート",
+      "pause": "一時停止",
+      "resume": "再開",
+      "settings": "音声設定",
+      "start": "録音を開始",
+      "stop": "録音を停止",
+      "unmute": "ミュート解除",
+      "volume": "音量: {level}%"
+    },
+    "info": {
+      "duration": "期間: {time}",
+      "layout": "レイアウト: {layout}",
+      "leave_failed": "退出失敗",
+      "leaving": "出発...",
+      "live": "ライブ",
+      "paused": "一時停止",
+      "recording": "録音中...",
+      "title": "ポッドキャストルーム: {roomId}",
+      "unknown": "不明"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "エコー消去",
+      "input_device": "装置を入力",
+      "noise_suppression": "ノイズ除去",
+      "output_device": "出力装置",
+      "quality": "品质",
+      "title": "音声設定",
+      "volume": "音量"
+    },
+    "general": {
+      "auto_join": "自動参加",
+      "language": "言語",
+      "notifications": "通知",
+      "theme": "テーマ",
+      "title": "一般設定"
+    },
+    "video": {
+      "brightness": "明るさ",
+      "camera": "カメラ",
+      "framerate": "フレーム率",
+      "resolution": "解像度",
+      "title": "ビデオ設定"
+    }
+  },
+  "test": {
+    "farewell": "さようなら",
+    "greeting": "こんにちは"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "購入",
+      "cancel": "キャンセル",
+      "sell": "売る"
+    },
+    "labels": {
+      "another_multiline": "利用可能な部屋がありません\n1つ作成！",
+      "loading": "アセットを読み込んでいます... {percent}%",
+      "multiline_test": "部屋の読み込み失敗\nリセットを試す",
+      "player_count": "{current}/{max}",
+      "room_code": "コード: {roomId}",
+      "welcome": "ゲームへようこそ！"
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "confirmation": {
+    "cancel": "Cancelar",
+    "code": "Código: {roomId}",
+    "confirm": "Confirmar",
+    "failed": "Fallido",
+    "guest": "Invitado",
+    "host": "Anfitrión",
+    "invite": "Invitar Jugadores",
+    "kick": "Expulsar Jugador",
+    "layout": "Diseño: {layout}",
+    "need_more": "Necesitas {count} más",
+    "player_count": "{current}/{max}",
+    "ready": "Listo",
+    "room_title_placeholder": "Sala de {playerName}",
+    "saved": "¡Guardado!",
+    "settings": "Configuración",
+    "starting": "Iniciando..."
+  },
+  "errors": {
+    "connection_lost": "Conexión perdida",
+    "failed_to_connect": "Error al conectar",
+    "invalid_code": "Código de sala inválido",
+    "permission_denied": "Permiso denegado",
+    "room_full": "Sala llena",
+    "timeout": "Tiempo de espera agotado",
+    "unknown": "Ocurrió un error desconocido"
+  },
+  "loading": {
+    "connecting": "Conectando al servidor...",
+    "discovering": "Descubriendo recursos...",
+    "downloading": "Descargando contenido...",
+    "finalizing": "Finalizando...",
+    "initializing": "Inicializando...",
+    "joining_room": "Uniéndose a la Sala de Podcast...",
+    "loading_assets": "Cargando recursos... {percent}%",
+    "loading_room": "Cargando Sala de Podcast...",
+    "preparing_controls": "Preparando controles...",
+    "preparing_room": "Preparando Sala de Podcast...",
+    "ready": "¡Listo! 100%",
+    "starting_room": "Iniciando sala de podcast...",
+    "subtitle": "La Mejor Experiencia de Podcast",
+    "title": "BloxCast",
+    "verifying": "Verificando archivos..."
+  },
+  "lobby": {
+    "create_room": "Crear Sala",
+    "failed_load": "Error al cargar salas\nIntenta actualizar",
+    "filter_by": "Filtrar por: {filter}",
+    "join_room": "Unirse a Sala",
+    "no_rooms": "No hay salas disponibles\n¡Crea una!",
+    "refresh": "Actualizar",
+    "room_count": "{count} salas disponibles",
+    "search_placeholder": "Buscar salas...",
+    "sort_by": "Ordenar por: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Limpiar Chat",
+      "joined": "{player} se unió a la sala",
+      "left": "{player} salió de la sala",
+      "muted": "Chat silenciado",
+      "placeholder": "Escribe un mensaje...",
+      "send": "Enviar",
+      "system": "Mensaje del Sistema"
+    },
+    "controls": {
+      "mute": "Silenciar",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "settings": "Configuración de Audio",
+      "start": "Iniciar Grabación",
+      "stop": "Detener Grabación",
+      "unmute": "Activar Sonido",
+      "volume": "Volumen: {level}%"
+    },
+    "info": {
+      "duration": "Duración: {time}",
+      "layout": "Diseño: {layout}",
+      "leave_failed": "Error al Salir",
+      "leaving": "Saliendo...",
+      "live": "En Vivo",
+      "paused": "Pausado",
+      "recording": "Grabando...",
+      "title": "Sala de Podcast: {roomId}",
+      "unknown": "Desconocido",
+      "viewers": "{count} espectadores"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Cancelación de Eco",
+      "input_device": "Dispositivo de Entrada",
+      "noise_suppression": "Supresión de Ruido",
+      "output_device": "Dispositivo de Salida",
+      "quality": "Calidad",
+      "title": "Configuración de Audio",
+      "volume": "Volumen"
+    },
+    "general": {
+      "auto_join": "Unirse Automáticamente",
+      "language": "Idioma",
+      "notifications": "Notificaciones",
+      "theme": "Tema",
+      "title": "Configuración General"
+    },
+    "video": {
+      "brightness": "Brillo",
+      "camera": "Cámara",
+      "framerate": "Tasa de Fotogramas",
+      "resolution": "Resolución",
+      "title": "Configuración de Video"
+    }
+  },
+  "test": {
+    "farewell": "Adiós",
+    "greeting": "Hola"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Comprar",
+      "cancel": "Cancelar",
+      "sell": "Vender"
+    },
+    "labels": {
+      "another_multiline": "No hay habitaciones disponibles\n¡Crea uno!",
+      "loading": "Cargando recursos... {percent}%",
+      "multiline_test": "No se pudieron cargar las habitaciones\nIntenta actualizar",
+      "player_count": "{current}/{max}",
+      "room_code": "Código: {roomId}",
+      "welcome": "¡Bienvenidos al juego!"
+    }
+  }
+}

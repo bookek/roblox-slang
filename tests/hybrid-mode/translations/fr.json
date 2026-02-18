@@ -1,0 +1,133 @@
+{
+  "confirmation": {
+    "cancel": "Annuler",
+    "code": "Code : {roomId}",
+    "confirm": "Confirmer",
+    "failed": "Non réussi",
+    "guest": "Invité",
+    "host": "Hôte",
+    "invite": "Inviter des joueurs",
+    "kick": "Expulser le joueur",
+    "layout": "Disposition : {layout}",
+    "player_count": "{current}/{max}",
+    "ready": "Prêt",
+    "room_title_placeholder": "Chambre de {playerName}",
+    "saved": "Sauvé !",
+    "settings": "Paramètres",
+    "starting": "Départ..."
+  },
+  "errors": {
+    "connection_lost": "Connexion perdue",
+    "failed_to_connect": "Impossible de connecter",
+    "invalid_code": "Code de salle non valide",
+    "permission_denied": "Autorisation refusée",
+    "room_full": "La salle est pleine",
+    "timeout": "La demande a expiré",
+    "unknown": "Erreur inconnue survenue"
+  },
+  "loading": {
+    "connecting": "Connexion au serveur...",
+    "discovering": "Découverte des ressources...",
+    "downloading": "Chargement du contenu...",
+    "finalizing": "Finalisation en cours...",
+    "initializing": "Initialisation en cours...",
+    "joining_room": "En train de rejoindre la salle de podcast...",
+    "loading_assets": "Chargement des ressources... {percent}%",
+    "loading_room": "Chargement de la salle de diffusion...",
+    "preparing_controls": "Préparation des commandes...",
+    "preparing_room": "Préparation de la salle de diffusion...",
+    "ready": "Prêt ! 100%",
+    "starting_room": "Démarrage de la salle de podcast...",
+    "subtitle": "L'expérience de podcast ultime",
+    "title": "Diffusion Blo",
+    "verifying": "Verification des fichiers..."
+  },
+  "lobby": {
+    "create_room": "Créer une chambre",
+    "failed_load": "Chambres non chargées\nEssayer de recharger",
+    "filter_by": "Filtrer par : {filter}",
+    "join_room": "Rejoindre la salle",
+    "no_rooms": "Pas de chambres disponibles\nCréer un !",
+    "refresh": "Mettre à jour",
+    "room_count": "{count} chambres disponibles",
+    "search_placeholder": "Rechercher des chambres...",
+    "sort_by": "Trier par : {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Effacer le chat",
+      "joined": "{player} a rejoint la salle",
+      "left": "{player} a quitté la chambre",
+      "muted": "Le chat est désactivé",
+      "placeholder": "Écrire un message...",
+      "send": "Envoyer",
+      "system": "Message du système"
+    },
+    "controls": {
+      "mute": "Silencer",
+      "pause": "Pause",
+      "resume": "Reprendre",
+      "settings": "Paramètres audio",
+      "start": "Commencer à enregistrer",
+      "stop": "Arrêter de filmer",
+      "unmute": "Désactiver",
+      "volume": "Volume : {level}%"
+    },
+    "info": {
+      "duration": "Durée : {time}",
+      "layout": "Disposition : {layout}",
+      "leave_failed": "Impossible de partir",
+      "leaving": "En train de partir...",
+      "live": "En direct",
+      "paused": "En pause",
+      "recording": "Enregistrement...",
+      "title": "Salle de diffusion : {roomId}",
+      "unknown": "Inconnu",
+      "viewers": "{count} spectateurs"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Annulation des échos",
+      "input_device": "Saisir l'appareil",
+      "noise_suppression": "Suppression des bruits",
+      "output_device": "Appareil de sortie",
+      "quality": "Qualité",
+      "title": "Paramètres audio",
+      "volume": "Volume"
+    },
+    "general": {
+      "auto_join": "Adhésion automatique",
+      "language": "Langue",
+      "notifications": "Notifications",
+      "theme": "Thème",
+      "title": "Paramètres généraux"
+    },
+    "video": {
+      "brightness": "Luminosité",
+      "camera": "Caméra",
+      "framerate": "Taux de cadence",
+      "resolution": "Résolution",
+      "title": "Paramètres vidéo"
+    }
+  },
+  "test": {
+    "farewell": "Au revoir",
+    "greeting": "Bonjour"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Acheter",
+      "cancel": "Annuler",
+      "sell": "Vendre"
+    },
+    "labels": {
+      "another_multiline": "Pas de chambres disponibles\nCréer un !",
+      "loading": "Chargement des ressources... {percent}%",
+      "multiline_test": "Chambres non chargées\nEssayer de recharger",
+      "player_count": "{current}/{max}",
+      "room_code": "Code : {roomId}",
+      "welcome": "Bienvenue dans le jeu !"
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "confirmation": {
+    "cancel": "取消",
+    "code": "代码： {roomId}",
+    "confirm": "确认",
+    "failed": "失败",
+    "guest": "訪客",
+    "host": "主持人",
+    "invite": "邀请玩家",
+    "kick": "踢出玩家",
+    "layout": "布局： {layout}",
+    "need_more": "还需要{count}",
+    "ready": "準備",
+    "room_title_placeholder": "{playerName}的房间",
+    "saved": "已保存！",
+    "settings": "設定",
+    "starting": "即将开始..."
+  },
+  "errors": {
+    "connection_lost": "连接失败",
+    "failed_to_connect": "连接失败",
+    "invalid_code": "房间代码无效",
+    "permission_denied": "权限被拒绝",
+    "room_full": "房间已满",
+    "timeout": "请求超时",
+    "unknown": "出现未知错误"
+  },
+  "loading": {
+    "connecting": "正在连接至服务器...",
+    "discovering": "正在探索资源...",
+    "downloading": "正在下载资源...",
+    "finalizing": "正在完成...",
+    "initializing": "正在初始化...",
+    "joining_room": "正在加入播音室...",
+    "loading_room": "正在加载播音室...",
+    "preparing_controls": "正在准备控制...",
+    "preparing_room": "正在准备播音室...",
+    "ready": "准备完毕！ 100%",
+    "starting_room": "正在开始播音室...",
+    "subtitle": "终极播音体验",
+    "title": "布洛克播放器",
+    "verifying": "正在验证文件..."
+  },
+  "lobby": {
+    "create_room": "创建房间",
+    "failed_load": "无法加载房间\n尝试重新加载",
+    "filter_by": "过滤条件： {filter}",
+    "join_room": "加入房间",
+    "no_rooms": "没有可用房间\n创建一个！",
+    "refresh": "更新",
+    "room_count": "可用{count}间房",
+    "search_placeholder": "搜索房间...",
+    "sort_by": "排序方式： {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "清理聊天室",
+      "joined": "{player}已加入房间",
+      "left": "{player}已离开房间",
+      "muted": "聊天室已静音",
+      "placeholder": "输入消息...",
+      "send": "发送",
+      "system": "系统消息"
+    },
+    "controls": {
+      "mute": "静音",
+      "pause": "暂停",
+      "resume": "继续",
+      "settings": "音频设置",
+      "start": "开始录制",
+      "stop": "停止录制",
+      "unmute": "解除静音",
+      "volume": "音量： {level}%"
+    },
+    "info": {
+      "duration": "持续时间： {time}",
+      "layout": "布局： {layout}",
+      "leave_failed": "无法退出",
+      "leaving": "即将出发...",
+      "live": "直播",
+      "paused": "已暂停",
+      "recording": "正在录制...",
+      "title": "广播室： {roomId}",
+      "unknown": "未知",
+      "viewers": "{count} 观众"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "消除回音",
+      "input_device": "输入设备",
+      "noise_suppression": "消音",
+      "output_device": "输出设备",
+      "quality": "质量",
+      "title": "音频设置",
+      "volume": "音量"
+    },
+    "general": {
+      "auto_join": "自动加入",
+      "language": "語言",
+      "notifications": "通知",
+      "theme": "主題",
+      "title": "一般設定"
+    },
+    "video": {
+      "brightness": "亮度",
+      "camera": "相機",
+      "framerate": "框架速率",
+      "resolution": "解析度",
+      "title": "视频设置"
+    }
+  },
+  "test": {
+    "farewell": "再见",
+    "greeting": "你好"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "购买",
+      "cancel": "取消",
+      "sell": "出售"
+    },
+    "labels": {
+      "another_multiline": "没有可用房间\n创建一个！",
+      "multiline_test": "无法加载房间\n尝试重新加载",
+      "room_code": "代码： {roomId}",
+      "welcome": "欢迎来到游戏！"
+    }
+  }
+}

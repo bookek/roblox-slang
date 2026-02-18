@@ -101,17 +101,22 @@ impl SyncOrchestrator {
             // Convert to LocalizationEntry format
             let entries = self.translations_to_entries(&translations);
 
-            // Upload to cloud (pass game_id from config if available)
+            // Upload to cloud in batches (Roblox API has a limit per request)
+            // Based on testing, the API fails with 500 error when uploading too many entries at once
+            const BATCH_SIZE: usize = 20;
+
             let game_id = self
                 .config
                 .cloud
                 .as_ref()
                 .and_then(|c| c.game_id.as_deref());
 
-            self.client
-                .update_table_entries(table_id, &entries, game_id)
-                .await
-                .context("Failed to upload translations")?;
+            for chunk in entries.chunks(BATCH_SIZE) {
+                self.client
+                    .update_table_entries(table_id, chunk, game_id)
+                    .await
+                    .context("Failed to upload translations")?;
+            }
         }
 
         let duration = start.elapsed();

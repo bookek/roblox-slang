@@ -1,0 +1,134 @@
+{
+  "confirmation": {
+    "cancel": "Hủy",
+    "code": "Mã: {roomId}",
+    "confirm": "Xác nhận",
+    "failed": "Không thành công",
+    "guest": "Khách",
+    "host": "Chủ nhà",
+    "invite": "Mời người chơi",
+    "kick": "Loại bỏ người chơi",
+    "layout": "Thiết kế: {layout}",
+    "need_more": "Cần thêm {count}",
+    "player_count": "{current}/{max}",
+    "ready": "Đã chuẩn bị",
+    "room_title_placeholder": "Phòng của {playerName}",
+    "saved": "Lưu lại rồi!",
+    "settings": "Cài đặt",
+    "starting": "Bắt đầu..."
+  },
+  "errors": {
+    "connection_lost": "Mất kết nối",
+    "failed_to_connect": "Không thể kết nối",
+    "invalid_code": "Mã phòng không hợp lệ",
+    "permission_denied": "Quyền truy cập bị từ chối",
+    "room_full": "Phòng đã đầy",
+    "timeout": "Yêu cầu hết hạn",
+    "unknown": "Xảy ra lỗi chưa rõ"
+  },
+  "loading": {
+    "connecting": "Đang kết nối với máy chủ...",
+    "discovering": "Khám phá các tài nguyên...",
+    "downloading": "Đang tải nội dung...",
+    "finalizing": "Đang hoàn thành...",
+    "initializing": "Đang khởi động...",
+    "joining_room": "Đang tham gia phòng podcast...",
+    "loading_assets": "Đang tải tài nguyên... {percent}%",
+    "loading_room": "Đang tải phòng phát thanh...",
+    "preparing_controls": "Đang chuẩn bị các điều khiển...",
+    "preparing_room": "Đang chuẩn bị phòng phát thanh...",
+    "ready": "Hoàn tất! 100%",
+    "starting_room": "Bắt đầu phòng podcast...",
+    "subtitle": "Trải nghiệm phát thanh tối thượng",
+    "title": "Phát sóng Blo",
+    "verifying": "Đang kiểm tra các file..."
+  },
+  "lobby": {
+    "create_room": "Tạo phòng",
+    "failed_load": "Không thể lưu trữ phòng\nThử cập nhật",
+    "filter_by": "Lọc bởi: {filter}",
+    "join_room": "Tham gia phòng",
+    "no_rooms": "Không có phòng nào\nTạo một!",
+    "refresh": "Cập nhật",
+    "room_count": "{count} phòng có sẵn",
+    "search_placeholder": "Tìm phòng...",
+    "sort_by": "Xếp theo: {sort}"
+  },
+  "room": {
+    "chat": {
+      "clear": "Xoá tin nhắn",
+      "joined": "{player} đã vào phòng",
+      "left": "{player} rời phòng",
+      "muted": "Cuộc trò chuyện bị tắt",
+      "placeholder": "Nhắn tin...",
+      "send": "Gửi",
+      "system": "Thông điệp hệ thống"
+    },
+    "controls": {
+      "mute": "Tắt",
+      "pause": "Tạm dừng",
+      "resume": "Tiếp tục",
+      "settings": "Cài đặt âm thanh",
+      "start": "Bắt đầu ghi âm",
+      "stop": "Dừng ghi âm",
+      "unmute": "Bật tiếng",
+      "volume": "Âm lượng: {level}%"
+    },
+    "info": {
+      "duration": "Thời lượng: {time}",
+      "layout": "Thiết kế: {layout}",
+      "leave_failed": "Không thể thoát ra",
+      "leaving": "Đang rời đi...",
+      "live": "Trực tiếp",
+      "paused": "Tạm dừng",
+      "recording": "Đang ghi âm...",
+      "title": "Phòng phát thanh: {roomId}",
+      "unknown": "Chưa biết",
+      "viewers": "{count} người xem"
+    }
+  },
+  "settings": {
+    "audio": {
+      "echo_cancellation": "Loại bỏ tiếng ồn",
+      "input_device": "Thiết bị nạp",
+      "noise_suppression": "Loại bỏ tiếng ồn",
+      "output_device": "Thiết bị xuất ra",
+      "quality": "Chất lượng",
+      "title": "Cài đặt âm thanh",
+      "volume": "Âm lượng"
+    },
+    "general": {
+      "auto_join": "Tham gia tự động",
+      "language": "Ngôn ngữ",
+      "notifications": "Thông báo",
+      "theme": "Chủ đề",
+      "title": "Cài đặt chung"
+    },
+    "video": {
+      "brightness": "Độ sáng",
+      "camera": "Máy ảnh",
+      "framerate": "Tốc độ khung",
+      "resolution": "Độ phân giải",
+      "title": "Cài đặt video"
+    }
+  },
+  "test": {
+    "farewell": "Tạm biệt",
+    "greeting": "Chào"
+  },
+  "ui": {
+    "buttons": {
+      "buy": "Mua",
+      "cancel": "Hủy",
+      "sell": "Bán"
+    },
+    "labels": {
+      "another_multiline": "Không có phòng nào\nTạo một!",
+      "loading": "Đang tải tài nguyên... {percent}%",
+      "multiline_test": "Không thể lưu trữ phòng\nThử cập nhật",
+      "player_count": "{current}/{max}",
+      "room_code": "Mã: {roomId}",
+      "welcome": "Chào mừng bạn đến với trò chơi!"
+    }
+  }
+}
