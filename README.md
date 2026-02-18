@@ -49,7 +49,7 @@ local text = t.ui.buttns.confirm() -- ERROR: Property doesn't exist (caught at b
 - **Three localization modes** - Embedded (default), Cloud, or Hybrid for flexibility
 - **String interpolation** - `{name}`, `{count:int}` with parameter validation
 - **Pluralization** - CLDR rules (zero/one/two/few/many/other)
-- **Nested namespaces** - Clean syntax: `t.ui.buttons.buy()`
+- **Nested namespaces** - Clean syntax: `t.ui.buttons:buy()`
 - **Watch mode** - Auto-rebuild on file changes
 - **CSV generation** - Export to Roblox Cloud Localization format
 - **Cloud sync** - Bidirectional sync with Roblox Cloud Localization Tables
@@ -265,24 +265,24 @@ local Translations = require(ReplicatedStorage.Translations)
 local t = Translations.new("en")
 
 -- Simple translations
-print(t.ui.buttons.buy())  -- "Buy"
+print(t.ui.buttons:buy())  -- "Buy"
 
 -- With parameters
-print(t.ui.messages.greeting({ name = "Player123" }))  -- "Hello, Player123!"
+print(t.ui.messages:greeting({ name = "Player123" }))  -- "Hello, Player123!"
 
 -- Pluralization
-print(t.ui.messages.items(0))  -- "No items"
-print(t.ui.messages.items(1))  -- "1 item"
-print(t.ui.messages.items(5))  -- "5 items"
+print(t.ui.messages:items(0))  -- "No items"
+print(t.ui.messages:items(1))  -- "1 item"
+print(t.ui.messages:items(5))  -- "5 items"
 
 -- Switch locale at runtime
 t:setLocale("es")
-print(t.ui.buttons.buy())  -- "Comprar"
+print(t.ui.buttons:buy())  -- "Comprar"
 
 -- Auto-detect player locale
 local function onPlayerAdded(player)
     local t = Translations.newForPlayer(player)
-    print(t.ui.messages.greeting({ name = player.DisplayName }))
+    print(t.ui.messages:greeting({ name = player.DisplayName }))
 end
 ```
 
@@ -358,7 +358,7 @@ localization:
 
 ```lua
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Direct lookup from embedded data
+print(t.ui.buttons:buy())  -- Direct lookup from embedded data
 ```
 
 #### Cloud Mode
@@ -381,7 +381,7 @@ localization:
 
 ```lua
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Fetches from LocalizationService
+print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 ```
 
 **Requirements:**
@@ -409,7 +409,7 @@ localization:
 
 ```lua
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- Tries cloud, falls back to embedded
+print(t.ui.buttons:buy())  -- Tries cloud, falls back to embedded
 ```
 
 **Use Cases:**
@@ -429,9 +429,9 @@ print(t.ui.buttons.buy())  -- Tries cloud, falls back to embedded
 ```
 
 ```lua
-print(t.welcome({ name = "Player" }))  -- "Welcome, Player!"
-print(t.score({ points = 1234 }))      -- "Score: 1234"
-print(t.price({ amount = 99.99 }))     -- "Price: $99.99"
+print(t:welcome({ name = "Player" }))  -- "Welcome, Player!"
+print(t:score({ points = 1234 }))      -- "Score: 1234"
+print(t:price({ amount = 99.99 }))     -- "Price: $99.99"
 ```
 
 ### Pluralization (CLDR Rules)
@@ -447,19 +447,19 @@ print(t.price({ amount = 99.99 }))     -- "Price: $99.99"
 ```
 
 ```lua
-print(t.items(0))  -- "No items"
-print(t.items(1))  -- "1 item"
-print(t.items(5))  -- "5 items"
+print(t:items(0))  -- "No items"
+print(t:items(1))  -- "1 item"
+print(t:items(5))  -- "5 items"
 ```
 
 ### Locale Switching
 
 ```lua
 local t = Translations.new("en")
-print(t.ui.buttons.buy())  -- "Buy"
+print(t.ui.buttons:buy())  -- "Buy"
 
 t:setLocale("es")
-print(t.ui.buttons.buy())  -- "Comprar"
+print(t.ui.buttons:buy())  -- "Comprar"
 ```
 
 ### Auto-Detect Player Locale

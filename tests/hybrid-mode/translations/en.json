@@ -28,6 +28,11 @@
   },
   "loading": {
     "connecting": "Connecting to server...",
+    "items": {
+      "zero": "No items",
+      "one": "1 item",
+      "other": "{count} items"
+    },
     "discovering": "Discovering assets...",
     "downloading": "Downloading content...",
     "finalizing": "Finalizing...",

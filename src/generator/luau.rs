@@ -758,15 +758,15 @@ fn generate_plural_method_hybrid(
         base_locale
     ));
     code.push_str(&format!(
-        "    local key = \"{}(\" .. category .. \")\"\n",
+        "    local embeddedKey = \"{}(\" .. category .. \")\"\n",
         base_key
     ));
-    code.push_str("    local template = locale_data[key]\n");
+    code.push_str("    local template = locale_data[embeddedKey]\n");
     code.push_str("    \n");
     code.push_str("    -- Fallback to 'other' category if specific category not found\n");
     code.push_str("    if not template then\n");
     code.push_str(&format!(
-        "        template = locale_data[\"{}(other)\"] or key\n",
+        "        template = locale_data[\"{}(other)\"] or embeddedKey\n",
         base_key
     ));
     code.push_str("    end\n");
@@ -909,13 +909,13 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
 
         if !params_with_format.is_empty() {
             code.push_str(&format!(
-                "function Translations.{}.{}(self, params)\n",
+                "function Translations.{}:{}(params)\n",
                 namespace, method
             ));
             code.push_str(&format!("    return self:{}(params)\n", flat_method));
         } else {
             code.push_str(&format!(
-                "function Translations.{}.{}(self)\n",
+                "function Translations.{}:{}()\n",
                 namespace, method
             ));
             code.push_str(&format!("    return self:{}()\n", flat_method));
@@ -935,7 +935,7 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
         let flat_method = base_key.replace(".", "_");
 
         code.push_str(&format!(
-            "function Translations.{}.{}(self, count, params)\n",
+            "function Translations.{}:{}(count, params)\n",
             namespace, method
         ));
         code.push_str(&format!("    return self:{}(count, params)\n", flat_method));
@@ -2211,7 +2211,7 @@ mod tests {
 
         // Should generate only ONE namespace method for plural
         let count = code
-            .matches("function Translations.ui.messages.items")
+            .matches("function Translations.ui.messages:items")
             .count();
         assert_eq!(
             count, 1,
@@ -2219,7 +2219,7 @@ mod tests {
         );
 
         // Should have correct signature with count parameter
-        assert!(code.contains("function Translations.ui.messages.items(self, count, params)"));
+        assert!(code.contains("function Translations.ui.messages:items(count, params)"));
 
         // Should NOT have invalid syntax like items(one) or items(other)
         assert!(!code.contains("items(one)"));
@@ -2300,8 +2300,8 @@ mod tests {
 
         // Should have namespace structure
         assert!(code.contains("Translations.ui = {}"));
-        assert!(code.contains("function Translations.ui.button(self)"));
-        assert!(code.contains("function Translations.ui.messages.items(self, count, params)"));
+        assert!(code.contains("function Translations.ui:button()"));
+        assert!(code.contains("function Translations.ui.messages:items(count, params)"));
 
         // Should return module
         assert!(code.contains("return Translations"));
