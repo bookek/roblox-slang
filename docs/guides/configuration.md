@@ -13,7 +13,7 @@ supported_locales:
 input_directory: translations
 output_directory: output
 
-# Localization mode (NEW in v2.0.0)
+# Localization mode (NEW in v2.x)
 localization:
   mode: embedded
 ```
@@ -124,7 +124,7 @@ local t = MyTranslations.new("en")
 
 ### `localization` (optional)
 
-**NEW in v2.0.0:** Configure how translations are loaded at runtime.
+**NEW in v2.x:** Configure how translations are loaded at runtime.
 
 **Type:** `object`  
 **Default:** `{ mode: "embedded" }`
@@ -358,7 +358,7 @@ output_directory: src/shared/Translations
 # Custom namespace (optional)
 namespace: null
 
-# Localization mode (NEW in v2.0.0)
+# Localization mode (NEW in v2.x)
 localization:
   mode: embedded  # or "cloud" or "hybrid"
 

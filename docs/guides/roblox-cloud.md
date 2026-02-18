@@ -10,7 +10,7 @@ Roblox Slang provides bidirectional synchronization between your local translati
 - **Download**: Pull cloud translations to local files
 - **Sync**: Bidirectional sync with conflict resolution
 
-**NEW in v2.0.0:** You can now choose how translations are loaded at runtime:
+**NEW in v2.x:** You can now choose how translations are loaded at runtime:
 
 - **Embedded mode** (default): Translations embedded in code, no cloud dependency
 - **Cloud mode**: Uses Roblox Cloud LocalizationService exclusively
@@ -125,7 +125,7 @@ cloud:
   table_id: "your_table_id_here"
   strategy: "merge"  # overwrite, merge, or skip-conflicts
 
-# Localization mode (NEW in v2.0.0)
+# Localization mode (NEW in v2.x)
 # Use "cloud" mode to load translations from LocalizationService at runtime
 localization:
   mode: embedded  # or "cloud" or "hybrid"
@@ -135,7 +135,7 @@ localization:
 
 ## Using Cloud Mode
 
-**NEW in v2.0.0:** After uploading translations to Roblox Cloud, you can configure your game to load translations from LocalizationService at runtime.
+**NEW in v2.x:** After uploading translations to Roblox Cloud, you can configure your game to load translations from LocalizationService at runtime.
 
 ### Cloud Mode Configuration
 

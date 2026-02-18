@@ -458,7 +458,7 @@ async fn test_user_agent_header() {
             "GET",
             "/legacy-localization-tables/v1/localization-table/tables/test-id/entries",
         )
-        .match_header("user-agent", "roblox-slang/2.0.0")
+        .match_header("user-agent", "roblox-slang/2.0.1")
         .with_status(200)
         .with_body(r#"{"entries": []}"#)
         .create_async()
