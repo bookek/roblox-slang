@@ -5,6 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-02-18
+
+### Added
+
+- Three localization modes: embedded (default), cloud, hybrid
+- Embedded mode with zero runtime dependencies (no LocalizationService required)
+- Hybrid mode with automatic cloud-to-embedded fallback
+- `EMBEDDED_TRANSLATIONS` table generated at build time for embedded and hybrid modes
+- Localization configuration section in config schema with mode selection
+- Mode-specific constructor generation (embedded/cloud/hybrid)
+- Mode-specific translation method generation for all three modes
+- Mode-specific plural method generation for all three modes
+- Comprehensive documentation for all localization modes
+- Configuration guide with mode comparison table
+- Getting started guide with mode selection instructions
+- Cloud mode usage guide with setup instructions
+- 395 additional unit tests (681 total, up from 286)
+- Integration tests for all three localization modes
+- Test projects for cloud-mode and hybrid-mode validation
+
+### Changed
+
+- **BREAKING**: Default mode is now `embedded` (was implicitly cloud-only)
+- **BREAKING**: Config field `localization.mode` now required in init template
+- Constructor behavior varies by mode (embedded has no LocalizationService dependency)
+- Translation methods now dispatch to mode-specific implementations
+- Plural methods now use correct data source per mode (embedded table vs cloud API)
+- Init template now includes localization mode configuration with inline documentation
+- Build command passes localization config to generator
+- Analytics config handling simplified (removed redundant if-else)
+- Match statement fallback arms replaced with `unreachable!()` for fail-fast behavior
+
+### Fixed
+
+- Critical bug where plural methods always used `FormatByKey()` causing crashes in embedded mode
+- Plural translations now work correctly in all three modes
+- Embedded mode plural methods use `EMBEDDED_TRANSLATIONS` table instead of translator
+- Hybrid mode plural methods try cloud first, fall back to embedded data
+- Cloud mode error messages now provide helpful hints about uploading translations
+
+### Performance
+
+- Embedded mode has zero LocalizationService overhead
+- Embedded mode uses direct table lookup (faster than API calls)
+- Hybrid mode reduces cloud API calls by caching in embedded table
+
 ## [1.1.3] - 2026-02-11
 
 ### Added
