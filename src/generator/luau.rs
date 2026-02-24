@@ -82,7 +82,7 @@ pub fn generate_luau_with_full_config(
     match mode {
         "embedded" => generate_constructor_embedded(&mut code, analytics_config),
         "cloud" => generate_constructor_cloud(&mut code, analytics_config),
-        "hybrid" => generate_constructor_hybrid(&mut code, analytics_config),
+        "hybrid" => generate_constructor_hybrid(&mut code, base_locale, analytics_config),
         _ => unreachable!(
             "Invalid localization mode: {}. Expected 'embedded', 'cloud', or 'hybrid'",
             mode
@@ -1248,6 +1248,7 @@ fn generate_constructor_cloud(
 /// Generate constructor for hybrid mode (try cloud, fallback to embedded)
 fn generate_constructor_hybrid(
     code: &mut String,
+    base_locale: &str,
     analytics_config: Option<&crate::config::AnalyticsConfig>,
 ) {
     code.push_str("--- Create a new Translations instance\n");
@@ -1364,7 +1365,10 @@ fn generate_constructor_hybrid(
     code.push_str("        end\n");
     code.push_str("    end\n");
     code.push_str("    \n");
-    code.push_str("    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"en\"]\n");
+    code.push_str(&format!(
+        "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+        base_locale
+    ));
     code.push_str("    if params then\n");
     code.push_str("        local template = locale_data[key] or key\n");
     code.push_str("        local result = template\n");
@@ -1589,7 +1593,7 @@ fn generate_method_cloud(
 fn generate_method_hybrid(
     code: &mut String,
     translation: &Translation,
-    _base_locale: &str,
+    base_locale: &str,
     analytics_config: Option<&crate::config::AnalyticsConfig>,
 ) {
     let method_name = translation.key.replace(".", "_");
@@ -1623,7 +1627,10 @@ fn generate_method_hybrid(
 
         // Track missing if enabled (checked against embedded data as ground truth)
         if analytics_enabled && track_missing {
-            code.push_str("    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"en\"]\n");
+            code.push_str(&format!(
+                "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+                base_locale
+            ));
             code.push_str(&format!(
                 "    if not locale_data[\"{}\"] then\n",
                 translation.key
@@ -1650,7 +1657,10 @@ fn generate_method_hybrid(
 
         // Track missing if enabled
         if analytics_enabled && track_missing {
-            code.push_str("    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"en\"]\n");
+            code.push_str(&format!(
+                "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
+                base_locale
+            ));
             code.push_str(&format!(
                 "    if not locale_data[\"{}\"] then\n",
                 translation.key
@@ -1909,7 +1919,7 @@ mod tests {
     #[test]
     fn test_generate_constructor_hybrid_optional_cloud() {
         let mut code = String::new();
-        generate_constructor_hybrid(&mut code, None);
+        generate_constructor_hybrid(&mut code, "en", None);
 
         // Should contain LocalizationService with pcall
         assert!(code.contains("LocalizationService"));
@@ -1983,7 +1993,7 @@ mod tests {
         };
 
         let mut code = String::new();
-        generate_constructor_hybrid(&mut code, Some(&analytics_config));
+        generate_constructor_hybrid(&mut code, "en", Some(&analytics_config));
 
         // Should contain analytics
         assert!(code.contains("self._analytics_enabled = true"));
