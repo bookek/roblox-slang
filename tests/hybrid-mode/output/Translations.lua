@@ -115,108 +115,6 @@ local EMBEDDED_TRANSLATIONS = {
         ["ui.labels.room_code"] = "Código: {roomId}",
         ["ui.labels.welcome"] = "¡Bienvenidos al juego!",
     },
-    ["id"] = {
-        ["confirmation.cancel"] = "Batal",
-        ["confirmation.code"] = "Kode: {roomId}",
-        ["confirmation.confirm"] = "Konfirmasi",
-        ["confirmation.failed"] = "Gagal",
-        ["confirmation.guest"] = "Tamu",
-        ["confirmation.host"] = "Host",
-        ["confirmation.invite"] = "Undang Pemain",
-        ["confirmation.kick"] = "Keluarkan Pemain",
-        ["confirmation.layout"] = "Tata Letak: {layout}",
-        ["confirmation.need_more"] = "Butuh {count} lagi",
-        ["confirmation.player_count"] = "{current}/{max}",
-        ["confirmation.ready"] = "Siap",
-        ["confirmation.room_title_placeholder"] = "Ruangan {playerName}",
-        ["confirmation.saved"] = "Tersimpan!",
-        ["confirmation.settings"] = "Pengaturan",
-        ["confirmation.starting"] = "Memulai...",
-        ["errors.connection_lost"] = "Koneksi terputus",
-        ["errors.failed_to_connect"] = "Gagal terhubung",
-        ["errors.invalid_code"] = "Kode ruangan tidak valid",
-        ["errors.permission_denied"] = "Izin ditolak",
-        ["errors.room_full"] = "Ruangan penuh",
-        ["errors.timeout"] = "Permintaan timeout",
-        ["errors.unknown"] = "Terjadi kesalahan tidak diketahui",
-        ["loading.connecting"] = "Menghubungkan ke server...",
-        ["loading.discovering"] = "Menemukan aset...",
-        ["loading.downloading"] = "Mengunduh konten...",
-        ["loading.finalizing"] = "Menyelesaikan...",
-        ["loading.initializing"] = "Menginisialisasi...",
-        ["loading.joining_room"] = "Bergabung ke Ruang Podcast...",
-        ["loading.loading_assets"] = "Memuat aset... {percent}%",
-        ["loading.loading_room"] = "Memuat Ruang Podcast...",
-        ["loading.preparing_controls"] = "Menyiapkan kontrol...",
-        ["loading.preparing_room"] = "Menyiapkan Ruang Podcast...",
-        ["loading.ready"] = "Siap! 100%",
-        ["loading.starting_room"] = "Memulai ruang podcast...",
-        ["loading.subtitle"] = "Pengalaman Podcast Terbaik",
-        ["loading.title"] = "BloxCast",
-        ["loading.verifying"] = "Memverifikasi file...",
-        ["lobby.create_room"] = "Buat Ruangan",
-        ["lobby.failed_load"] = "Gagal memuat ruangan\nCoba refresh",
-        ["lobby.filter_by"] = "Filter: {filter}",
-        ["lobby.join_room"] = "Gabung Ruangan",
-        ["lobby.no_rooms"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
-        ["lobby.refresh"] = "Refresh",
-        ["lobby.room_count"] = "{count} ruangan tersedia",
-        ["lobby.search_placeholder"] = "Cari ruangan...",
-        ["lobby.sort_by"] = "Urutkan: {sort}",
-        ["room.chat.clear"] = "Hapus Chat",
-        ["room.chat.joined"] = "{player} bergabung ke ruangan",
-        ["room.chat.left"] = "{player} meninggalkan ruangan",
-        ["room.chat.muted"] = "Chat dibisukan",
-        ["room.chat.placeholder"] = "Ketik pesan...",
-        ["room.chat.send"] = "Kirim",
-        ["room.chat.system"] = "Pesan Sistem",
-        ["room.controls.mute"] = "Bisukan",
-        ["room.controls.pause"] = "Jeda",
-        ["room.controls.resume"] = "Lanjutkan",
-        ["room.controls.settings"] = "Pengaturan Audio",
-        ["room.controls.start"] = "Mulai Rekaman",
-        ["room.controls.stop"] = "Hentikan Rekaman",
-        ["room.controls.unmute"] = "Suarakan",
-        ["room.controls.volume"] = "Volume: {level}%",
-        ["room.info.duration"] = "Durasi: {time}",
-        ["room.info.layout"] = "Tata Letak: {layout}",
-        ["room.info.leave_failed"] = "Gagal Keluar",
-        ["room.info.leaving"] = "Keluar...",
-        ["room.info.live"] = "Langsung",
-        ["room.info.paused"] = "Dijeda",
-        ["room.info.recording"] = "Merekam...",
-        ["room.info.title"] = "Ruang Podcast: {roomId}",
-        ["room.info.unknown"] = "Tidak Diketahui",
-        ["room.info.viewers"] = "{count} penonton",
-        ["settings.audio.echo_cancellation"] = "Pembatalan Gema",
-        ["settings.audio.input_device"] = "Perangkat Input",
-        ["settings.audio.noise_suppression"] = "Peredam Kebisingan",
-        ["settings.audio.output_device"] = "Perangkat Output",
-        ["settings.audio.quality"] = "Kualitas",
-        ["settings.audio.title"] = "Pengaturan Audio",
-        ["settings.audio.volume"] = "Volume",
-        ["settings.general.auto_join"] = "Gabung Otomatis",
-        ["settings.general.language"] = "Bahasa",
-        ["settings.general.notifications"] = "Notifikasi",
-        ["settings.general.theme"] = "Tema",
-        ["settings.general.title"] = "Pengaturan Umum",
-        ["settings.video.brightness"] = "Kecerahan",
-        ["settings.video.camera"] = "Kamera",
-        ["settings.video.framerate"] = "Frame Rate",
-        ["settings.video.resolution"] = "Resolusi",
-        ["settings.video.title"] = "Pengaturan Video",
-        ["test.farewell"] = "Selamat tinggal",
-        ["test.greeting"] = "Halo",
-        ["ui.buttons.buy"] = "Beli",
-        ["ui.buttons.cancel"] = "Batal",
-        ["ui.buttons.sell"] = "Jual",
-        ["ui.labels.another_multiline"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
-        ["ui.labels.loading"] = "Memuat aset... {percent}%",
-        ["ui.labels.multiline_test"] = "Gagal memuat ruangan\nCoba refresh",
-        ["ui.labels.player_count"] = "{current}/{max}",
-        ["ui.labels.room_code"] = "Kode: {roomId}",
-        ["ui.labels.welcome"] = "Selamat datang di game!",
-    },
     ["en"] = {
         ["confirmation.cancel"] = "Cancel",
         ["confirmation.code"] = "Code: {roomId}",
@@ -322,6 +220,108 @@ local EMBEDDED_TRANSLATIONS = {
         ["ui.labels.room_code"] = "Code: {roomId}",
         ["ui.labels.welcome"] = "Welcome to the game!",
     },
+    ["id"] = {
+        ["confirmation.cancel"] = "Batal",
+        ["confirmation.code"] = "Kode: {roomId}",
+        ["confirmation.confirm"] = "Konfirmasi",
+        ["confirmation.failed"] = "Gagal",
+        ["confirmation.guest"] = "Tamu",
+        ["confirmation.host"] = "Host",
+        ["confirmation.invite"] = "Undang Pemain",
+        ["confirmation.kick"] = "Keluarkan Pemain",
+        ["confirmation.layout"] = "Tata Letak: {layout}",
+        ["confirmation.need_more"] = "Butuh {count} lagi",
+        ["confirmation.player_count"] = "{current}/{max}",
+        ["confirmation.ready"] = "Siap",
+        ["confirmation.room_title_placeholder"] = "Ruangan {playerName}",
+        ["confirmation.saved"] = "Tersimpan!",
+        ["confirmation.settings"] = "Pengaturan",
+        ["confirmation.starting"] = "Memulai...",
+        ["errors.connection_lost"] = "Koneksi terputus",
+        ["errors.failed_to_connect"] = "Gagal terhubung",
+        ["errors.invalid_code"] = "Kode ruangan tidak valid",
+        ["errors.permission_denied"] = "Izin ditolak",
+        ["errors.room_full"] = "Ruangan penuh",
+        ["errors.timeout"] = "Permintaan timeout",
+        ["errors.unknown"] = "Terjadi kesalahan tidak diketahui",
+        ["loading.connecting"] = "Menghubungkan ke server...",
+        ["loading.discovering"] = "Menemukan aset...",
+        ["loading.downloading"] = "Mengunduh konten...",
+        ["loading.finalizing"] = "Menyelesaikan...",
+        ["loading.initializing"] = "Menginisialisasi...",
+        ["loading.joining_room"] = "Bergabung ke Ruang Podcast...",
+        ["loading.loading_assets"] = "Memuat aset... {percent}%",
+        ["loading.loading_room"] = "Memuat Ruang Podcast...",
+        ["loading.preparing_controls"] = "Menyiapkan kontrol...",
+        ["loading.preparing_room"] = "Menyiapkan Ruang Podcast...",
+        ["loading.ready"] = "Siap! 100%",
+        ["loading.starting_room"] = "Memulai ruang podcast...",
+        ["loading.subtitle"] = "Pengalaman Podcast Terbaik",
+        ["loading.title"] = "BloxCast",
+        ["loading.verifying"] = "Memverifikasi file...",
+        ["lobby.create_room"] = "Buat Ruangan",
+        ["lobby.failed_load"] = "Gagal memuat ruangan\nCoba refresh",
+        ["lobby.filter_by"] = "Filter: {filter}",
+        ["lobby.join_room"] = "Gabung Ruangan",
+        ["lobby.no_rooms"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
+        ["lobby.refresh"] = "Refresh",
+        ["lobby.room_count"] = "{count} ruangan tersedia",
+        ["lobby.search_placeholder"] = "Cari ruangan...",
+        ["lobby.sort_by"] = "Urutkan: {sort}",
+        ["room.chat.clear"] = "Hapus Chat",
+        ["room.chat.joined"] = "{player} bergabung ke ruangan",
+        ["room.chat.left"] = "{player} meninggalkan ruangan",
+        ["room.chat.muted"] = "Chat dibisukan",
+        ["room.chat.placeholder"] = "Ketik pesan...",
+        ["room.chat.send"] = "Kirim",
+        ["room.chat.system"] = "Pesan Sistem",
+        ["room.controls.mute"] = "Bisukan",
+        ["room.controls.pause"] = "Jeda",
+        ["room.controls.resume"] = "Lanjutkan",
+        ["room.controls.settings"] = "Pengaturan Audio",
+        ["room.controls.start"] = "Mulai Rekaman",
+        ["room.controls.stop"] = "Hentikan Rekaman",
+        ["room.controls.unmute"] = "Suarakan",
+        ["room.controls.volume"] = "Volume: {level}%",
+        ["room.info.duration"] = "Durasi: {time}",
+        ["room.info.layout"] = "Tata Letak: {layout}",
+        ["room.info.leave_failed"] = "Gagal Keluar",
+        ["room.info.leaving"] = "Keluar...",
+        ["room.info.live"] = "Langsung",
+        ["room.info.paused"] = "Dijeda",
+        ["room.info.recording"] = "Merekam...",
+        ["room.info.title"] = "Ruang Podcast: {roomId}",
+        ["room.info.unknown"] = "Tidak Diketahui",
+        ["room.info.viewers"] = "{count} penonton",
+        ["settings.audio.echo_cancellation"] = "Pembatalan Gema",
+        ["settings.audio.input_device"] = "Perangkat Input",
+        ["settings.audio.noise_suppression"] = "Peredam Kebisingan",
+        ["settings.audio.output_device"] = "Perangkat Output",
+        ["settings.audio.quality"] = "Kualitas",
+        ["settings.audio.title"] = "Pengaturan Audio",
+        ["settings.audio.volume"] = "Volume",
+        ["settings.general.auto_join"] = "Gabung Otomatis",
+        ["settings.general.language"] = "Bahasa",
+        ["settings.general.notifications"] = "Notifikasi",
+        ["settings.general.theme"] = "Tema",
+        ["settings.general.title"] = "Pengaturan Umum",
+        ["settings.video.brightness"] = "Kecerahan",
+        ["settings.video.camera"] = "Kamera",
+        ["settings.video.framerate"] = "Frame Rate",
+        ["settings.video.resolution"] = "Resolusi",
+        ["settings.video.title"] = "Pengaturan Video",
+        ["test.farewell"] = "Selamat tinggal",
+        ["test.greeting"] = "Halo",
+        ["ui.buttons.buy"] = "Beli",
+        ["ui.buttons.cancel"] = "Batal",
+        ["ui.buttons.sell"] = "Jual",
+        ["ui.labels.another_multiline"] = "Tidak ada ruangan tersedia\nBuat sekarang!",
+        ["ui.labels.loading"] = "Memuat aset... {percent}%",
+        ["ui.labels.multiline_test"] = "Gagal memuat ruangan\nCoba refresh",
+        ["ui.labels.player_count"] = "{current}/{max}",
+        ["ui.labels.room_code"] = "Kode: {roomId}",
+        ["ui.labels.welcome"] = "Selamat datang di game!",
+    },
 }
 
 local Translations = {}
@@ -389,6 +389,37 @@ end
 --- @param callback function(newLocale: string, oldLocale: string)
 function Translations:onLocaleChanged(callback)
     table.insert(self._localeChangedCallbacks, callback)
+end
+
+--- Internal: resolve a translation key via cloud translator with embedded fallback
+--- @param key string The translation key
+--- @param params table? Optional interpolation parameters
+--- @return string
+function Translations:_resolve(key, params)
+    if self._translator then
+        local success, result = pcall(function()
+            if params then
+                return self._translator:FormatByKey(key, params)
+            else
+                return self._translator:FormatByKey(key)
+            end
+        end)
+        if success and result ~= "" then
+            return result
+        end
+    end
+    
+    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
+    if params then
+        local template = locale_data[key] or key
+        local result = template
+        for paramKey, value in pairs(params) do
+            result = result:gsub("{" .. paramKey .. "}", tostring(value))
+        end
+        return result
+    else
+        return locale_data[key] or key
+    end
 end
 
 --- Detect player's locale based on their country
@@ -482,1565 +513,435 @@ end
 -- Internal methods (flat keys)
 
 function Translations:confirmation_cancel()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.cancel")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.cancel"] or "confirmation.cancel"
+    return self:_resolve("confirmation.cancel")
 end
 
 function Translations:confirmation_code(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.code", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["confirmation.code"] or "confirmation.code"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("confirmation.code", params)
 end
 
 function Translations:confirmation_confirm()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.confirm")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.confirm"] or "confirmation.confirm"
+    return self:_resolve("confirmation.confirm")
 end
 
 function Translations:confirmation_failed()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.failed")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.failed"] or "confirmation.failed"
+    return self:_resolve("confirmation.failed")
 end
 
 function Translations:confirmation_guest()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.guest")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.guest"] or "confirmation.guest"
+    return self:_resolve("confirmation.guest")
 end
 
 function Translations:confirmation_host()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.host")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.host"] or "confirmation.host"
+    return self:_resolve("confirmation.host")
 end
 
 function Translations:confirmation_invite()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.invite")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.invite"] or "confirmation.invite"
+    return self:_resolve("confirmation.invite")
 end
 
 function Translations:confirmation_kick()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.kick")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.kick"] or "confirmation.kick"
+    return self:_resolve("confirmation.kick")
 end
 
 function Translations:confirmation_layout(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.layout", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["confirmation.layout"] or "confirmation.layout"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("confirmation.layout", params)
 end
 
 function Translations:confirmation_need_more(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.need_more", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["confirmation.need_more"] or "confirmation.need_more"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("confirmation.need_more", params)
 end
 
 function Translations:confirmation_player_count(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.player_count", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["confirmation.player_count"] or "confirmation.player_count"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("confirmation.player_count", params)
 end
 
 function Translations:confirmation_ready()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.ready")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.ready"] or "confirmation.ready"
+    return self:_resolve("confirmation.ready")
 end
 
 function Translations:confirmation_room_title_placeholder(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.room_title_placeholder", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["confirmation.room_title_placeholder"] or "confirmation.room_title_placeholder"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("confirmation.room_title_placeholder", params)
 end
 
 function Translations:confirmation_saved()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.saved")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.saved"] or "confirmation.saved"
+    return self:_resolve("confirmation.saved")
 end
 
 function Translations:confirmation_settings()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.settings")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.settings"] or "confirmation.settings"
+    return self:_resolve("confirmation.settings")
 end
 
 function Translations:confirmation_starting()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("confirmation.starting")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["confirmation.starting"] or "confirmation.starting"
+    return self:_resolve("confirmation.starting")
 end
 
 function Translations:errors_connection_lost()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.connection_lost")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.connection_lost"] or "errors.connection_lost"
+    return self:_resolve("errors.connection_lost")
 end
 
 function Translations:errors_failed_to_connect()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.failed_to_connect")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.failed_to_connect"] or "errors.failed_to_connect"
+    return self:_resolve("errors.failed_to_connect")
 end
 
 function Translations:errors_invalid_code()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.invalid_code")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.invalid_code"] or "errors.invalid_code"
+    return self:_resolve("errors.invalid_code")
 end
 
 function Translations:errors_permission_denied()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.permission_denied")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.permission_denied"] or "errors.permission_denied"
+    return self:_resolve("errors.permission_denied")
 end
 
 function Translations:errors_room_full()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.room_full")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.room_full"] or "errors.room_full"
+    return self:_resolve("errors.room_full")
 end
 
 function Translations:errors_timeout()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.timeout")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.timeout"] or "errors.timeout"
+    return self:_resolve("errors.timeout")
 end
 
 function Translations:errors_unknown()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("errors.unknown")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["errors.unknown"] or "errors.unknown"
+    return self:_resolve("errors.unknown")
 end
 
 function Translations:loading_connecting()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.connecting")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.connecting"] or "loading.connecting"
+    return self:_resolve("loading.connecting")
 end
 
 function Translations:loading_discovering()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.discovering")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.discovering"] or "loading.discovering"
+    return self:_resolve("loading.discovering")
 end
 
 function Translations:loading_downloading()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.downloading")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.downloading"] or "loading.downloading"
+    return self:_resolve("loading.downloading")
 end
 
 function Translations:loading_finalizing()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.finalizing")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.finalizing"] or "loading.finalizing"
+    return self:_resolve("loading.finalizing")
 end
 
 function Translations:loading_initializing()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.initializing")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.initializing"] or "loading.initializing"
+    return self:_resolve("loading.initializing")
 end
 
 function Translations:loading_items_one()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.items.one")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.items.one"] or "loading.items.one"
+    return self:_resolve("loading.items.one")
 end
 
 function Translations:loading_items_other(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.items.other", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["loading.items.other"] or "loading.items.other"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("loading.items.other", params)
 end
 
 function Translations:loading_items_zero()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.items.zero")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.items.zero"] or "loading.items.zero"
+    return self:_resolve("loading.items.zero")
 end
 
 function Translations:loading_joining_room()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.joining_room")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.joining_room"] or "loading.joining_room"
+    return self:_resolve("loading.joining_room")
 end
 
 function Translations:loading_loading_assets(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.loading_assets", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["loading.loading_assets"] or "loading.loading_assets"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("loading.loading_assets", params)
 end
 
 function Translations:loading_loading_room()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.loading_room")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.loading_room"] or "loading.loading_room"
+    return self:_resolve("loading.loading_room")
 end
 
 function Translations:loading_preparing_controls()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.preparing_controls")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.preparing_controls"] or "loading.preparing_controls"
+    return self:_resolve("loading.preparing_controls")
 end
 
 function Translations:loading_preparing_room()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.preparing_room")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.preparing_room"] or "loading.preparing_room"
+    return self:_resolve("loading.preparing_room")
 end
 
 function Translations:loading_ready()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.ready")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.ready"] or "loading.ready"
+    return self:_resolve("loading.ready")
 end
 
 function Translations:loading_starting_room()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.starting_room")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.starting_room"] or "loading.starting_room"
+    return self:_resolve("loading.starting_room")
 end
 
 function Translations:loading_subtitle()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.subtitle")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.subtitle"] or "loading.subtitle"
+    return self:_resolve("loading.subtitle")
 end
 
 function Translations:loading_title()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.title")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.title"] or "loading.title"
+    return self:_resolve("loading.title")
 end
 
 function Translations:loading_verifying()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("loading.verifying")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["loading.verifying"] or "loading.verifying"
+    return self:_resolve("loading.verifying")
 end
 
 function Translations:lobby_create_room()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.create_room")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["lobby.create_room"] or "lobby.create_room"
+    return self:_resolve("lobby.create_room")
 end
 
 function Translations:lobby_failed_load()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.failed_load")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["lobby.failed_load"] or "lobby.failed_load"
+    return self:_resolve("lobby.failed_load")
 end
 
 function Translations:lobby_filter_by(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.filter_by", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["lobby.filter_by"] or "lobby.filter_by"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("lobby.filter_by", params)
 end
 
 function Translations:lobby_join_room()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.join_room")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["lobby.join_room"] or "lobby.join_room"
+    return self:_resolve("lobby.join_room")
 end
 
 function Translations:lobby_no_rooms()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.no_rooms")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["lobby.no_rooms"] or "lobby.no_rooms"
+    return self:_resolve("lobby.no_rooms")
 end
 
 function Translations:lobby_refresh()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.refresh")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["lobby.refresh"] or "lobby.refresh"
+    return self:_resolve("lobby.refresh")
 end
 
 function Translations:lobby_room_count(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.room_count", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["lobby.room_count"] or "lobby.room_count"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("lobby.room_count", params)
 end
 
 function Translations:lobby_search_placeholder()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.search_placeholder")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["lobby.search_placeholder"] or "lobby.search_placeholder"
+    return self:_resolve("lobby.search_placeholder")
 end
 
 function Translations:lobby_sort_by(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("lobby.sort_by", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["lobby.sort_by"] or "lobby.sort_by"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("lobby.sort_by", params)
 end
 
 function Translations:room_chat_clear()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.clear")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.chat.clear"] or "room.chat.clear"
+    return self:_resolve("room.chat.clear")
 end
 
 function Translations:room_chat_joined(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.joined", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.chat.joined"] or "room.chat.joined"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.chat.joined", params)
 end
 
 function Translations:room_chat_left(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.left", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.chat.left"] or "room.chat.left"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.chat.left", params)
 end
 
 function Translations:room_chat_muted()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.muted")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.chat.muted"] or "room.chat.muted"
+    return self:_resolve("room.chat.muted")
 end
 
 function Translations:room_chat_placeholder()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.placeholder")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.chat.placeholder"] or "room.chat.placeholder"
+    return self:_resolve("room.chat.placeholder")
 end
 
 function Translations:room_chat_send()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.send")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.chat.send"] or "room.chat.send"
+    return self:_resolve("room.chat.send")
 end
 
 function Translations:room_chat_system()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.chat.system")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.chat.system"] or "room.chat.system"
+    return self:_resolve("room.chat.system")
 end
 
 function Translations:room_controls_mute()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.mute")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.mute"] or "room.controls.mute"
+    return self:_resolve("room.controls.mute")
 end
 
 function Translations:room_controls_pause()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.pause")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.pause"] or "room.controls.pause"
+    return self:_resolve("room.controls.pause")
 end
 
 function Translations:room_controls_resume()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.resume")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.resume"] or "room.controls.resume"
+    return self:_resolve("room.controls.resume")
 end
 
 function Translations:room_controls_settings()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.settings")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.settings"] or "room.controls.settings"
+    return self:_resolve("room.controls.settings")
 end
 
 function Translations:room_controls_start()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.start")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.start"] or "room.controls.start"
+    return self:_resolve("room.controls.start")
 end
 
 function Translations:room_controls_stop()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.stop")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.stop"] or "room.controls.stop"
+    return self:_resolve("room.controls.stop")
 end
 
 function Translations:room_controls_unmute()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.unmute")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.controls.unmute"] or "room.controls.unmute"
+    return self:_resolve("room.controls.unmute")
 end
 
 function Translations:room_controls_volume(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.controls.volume", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.controls.volume"] or "room.controls.volume"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.controls.volume", params)
 end
 
 function Translations:room_info_duration(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.duration", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.info.duration"] or "room.info.duration"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.info.duration", params)
 end
 
 function Translations:room_info_layout(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.layout", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.info.layout"] or "room.info.layout"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.info.layout", params)
 end
 
 function Translations:room_info_leave_failed()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.leave_failed")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.info.leave_failed"] or "room.info.leave_failed"
+    return self:_resolve("room.info.leave_failed")
 end
 
 function Translations:room_info_leaving()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.leaving")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.info.leaving"] or "room.info.leaving"
+    return self:_resolve("room.info.leaving")
 end
 
 function Translations:room_info_live()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.live")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.info.live"] or "room.info.live"
+    return self:_resolve("room.info.live")
 end
 
 function Translations:room_info_paused()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.paused")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.info.paused"] or "room.info.paused"
+    return self:_resolve("room.info.paused")
 end
 
 function Translations:room_info_recording()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.recording")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.info.recording"] or "room.info.recording"
+    return self:_resolve("room.info.recording")
 end
 
 function Translations:room_info_title(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.title", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.info.title"] or "room.info.title"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.info.title", params)
 end
 
 function Translations:room_info_unknown()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.unknown")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["room.info.unknown"] or "room.info.unknown"
+    return self:_resolve("room.info.unknown")
 end
 
 function Translations:room_info_viewers(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("room.info.viewers", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["room.info.viewers"] or "room.info.viewers"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("room.info.viewers", params)
 end
 
 function Translations:settings_audio_echo_cancellation()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.echo_cancellation")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.echo_cancellation"] or "settings.audio.echo_cancellation"
+    return self:_resolve("settings.audio.echo_cancellation")
 end
 
 function Translations:settings_audio_input_device()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.input_device")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.input_device"] or "settings.audio.input_device"
+    return self:_resolve("settings.audio.input_device")
 end
 
 function Translations:settings_audio_noise_suppression()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.noise_suppression")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.noise_suppression"] or "settings.audio.noise_suppression"
+    return self:_resolve("settings.audio.noise_suppression")
 end
 
 function Translations:settings_audio_output_device()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.output_device")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.output_device"] or "settings.audio.output_device"
+    return self:_resolve("settings.audio.output_device")
 end
 
 function Translations:settings_audio_quality()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.quality")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.quality"] or "settings.audio.quality"
+    return self:_resolve("settings.audio.quality")
 end
 
 function Translations:settings_audio_title()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.title")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.title"] or "settings.audio.title"
+    return self:_resolve("settings.audio.title")
 end
 
 function Translations:settings_audio_volume()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.audio.volume")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.audio.volume"] or "settings.audio.volume"
+    return self:_resolve("settings.audio.volume")
 end
 
 function Translations:settings_general_auto_join()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.general.auto_join")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.general.auto_join"] or "settings.general.auto_join"
+    return self:_resolve("settings.general.auto_join")
 end
 
 function Translations:settings_general_language()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.general.language")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.general.language"] or "settings.general.language"
+    return self:_resolve("settings.general.language")
 end
 
 function Translations:settings_general_notifications()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.general.notifications")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.general.notifications"] or "settings.general.notifications"
+    return self:_resolve("settings.general.notifications")
 end
 
 function Translations:settings_general_theme()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.general.theme")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.general.theme"] or "settings.general.theme"
+    return self:_resolve("settings.general.theme")
 end
 
 function Translations:settings_general_title()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.general.title")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.general.title"] or "settings.general.title"
+    return self:_resolve("settings.general.title")
 end
 
 function Translations:settings_video_brightness()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.video.brightness")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.video.brightness"] or "settings.video.brightness"
+    return self:_resolve("settings.video.brightness")
 end
 
 function Translations:settings_video_camera()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.video.camera")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.video.camera"] or "settings.video.camera"
+    return self:_resolve("settings.video.camera")
 end
 
 function Translations:settings_video_framerate()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.video.framerate")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.video.framerate"] or "settings.video.framerate"
+    return self:_resolve("settings.video.framerate")
 end
 
 function Translations:settings_video_resolution()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.video.resolution")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.video.resolution"] or "settings.video.resolution"
+    return self:_resolve("settings.video.resolution")
 end
 
 function Translations:settings_video_title()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("settings.video.title")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["settings.video.title"] or "settings.video.title"
+    return self:_resolve("settings.video.title")
 end
 
 function Translations:test_farewell()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("test.farewell")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["test.farewell"] or "test.farewell"
+    return self:_resolve("test.farewell")
 end
 
 function Translations:test_greeting()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("test.greeting")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["test.greeting"] or "test.greeting"
+    return self:_resolve("test.greeting")
 end
 
 function Translations:ui_buttons_buy()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.buttons.buy")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["ui.buttons.buy"] or "ui.buttons.buy"
+    return self:_resolve("ui.buttons.buy")
 end
 
 function Translations:ui_buttons_cancel()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.buttons.cancel")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["ui.buttons.cancel"] or "ui.buttons.cancel"
+    return self:_resolve("ui.buttons.cancel")
 end
 
 function Translations:ui_buttons_sell()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.buttons.sell")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["ui.buttons.sell"] or "ui.buttons.sell"
+    return self:_resolve("ui.buttons.sell")
 end
 
 function Translations:ui_labels_another_multiline()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.labels.another_multiline")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["ui.labels.another_multiline"] or "ui.labels.another_multiline"
+    return self:_resolve("ui.labels.another_multiline")
 end
 
 function Translations:ui_labels_loading(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.labels.loading", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["ui.labels.loading"] or "ui.labels.loading"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("ui.labels.loading", params)
 end
 
 function Translations:ui_labels_multiline_test()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.labels.multiline_test")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["ui.labels.multiline_test"] or "ui.labels.multiline_test"
+    return self:_resolve("ui.labels.multiline_test")
 end
 
 function Translations:ui_labels_player_count(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.labels.player_count", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["ui.labels.player_count"] or "ui.labels.player_count"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("ui.labels.player_count", params)
 end
 
 function Translations:ui_labels_room_code(params)
     params = params or {}
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.labels.room_code", params)
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    local template = locale_data["ui.labels.room_code"] or "ui.labels.room_code"
-    local result = template
-    for key, value in pairs(params) do
-        result = result:gsub("{" .. key .. "}", tostring(value))
-    end
-    return result
+    return self:_resolve("ui.labels.room_code", params)
 end
 
 function Translations:ui_labels_welcome()
-    if self._translator then
-        local success, result = pcall(function()
-            return self._translator:FormatByKey("ui.labels.welcome")
-        end)
-        if success and result ~= "" then
-            return result
-        end
-    end
-    
-    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS["en"]
-    return locale_data["ui.labels.welcome"] or "ui.labels.welcome"
+    return self:_resolve("ui.labels.welcome")
 end
 
 -- Namespace structure (syntax sugar)

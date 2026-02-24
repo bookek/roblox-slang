@@ -681,12 +681,16 @@ fn generate_plural_method_cloud(code: &mut String, base_key: &str, _translations
     code.push_str("end\n\n");
 }
 
-/// Generate a plural method for hybrid mode
+/// Generate a plural method for hybrid mode.
+///
+/// Builds the plural category string locally, then delegates the cloud-vs-embedded
+/// resolution to `self:_resolve(key, params)` — the shared helper emitted once
+/// by `generate_constructor_hybrid`.
 fn generate_plural_method_hybrid(
     code: &mut String,
     base_key: &str,
     _translations: &[&Translation],
-    base_locale: &str,
+    _base_locale: &str,
 ) {
     let method_name = base_key.replace(".", "_");
 
@@ -735,48 +739,22 @@ fn generate_plural_method_hybrid(
     code.push_str("    end\n");
     code.push_str("    \n");
 
-    // Try cloud first
-    code.push_str("    -- Try cloud first\n");
-    code.push_str("    if self._translator then\n");
+    // Build the plural key (e.g. "loading.items(one)") and delegate to _resolve.
+    // _resolve handles the cloud-vs-embedded fallback and parameter interpolation.
+    code.push_str("    -- Build plural key and resolve via shared helper\n");
     code.push_str(&format!(
-        "        local key = \"{}(\" .. category .. \")\"\n",
+        "    local pluralKey = \"{}(\" .. category .. \")\"\n",
         base_key
     ));
-    code.push_str("        local success, result = pcall(function()\n");
-    code.push_str("            return self._translator:FormatByKey(key, params)\n");
-    code.push_str("        end)\n");
-    code.push_str("        if success and result ~= \"\" then\n");
-    code.push_str("            return result\n");
-    code.push_str("        end\n");
-    code.push_str("    end\n");
+    code.push_str("    local result = self:_resolve(pluralKey, params)\n");
     code.push_str("    \n");
-
-    // Fallback to embedded
-    code.push_str("    -- Fallback to embedded data\n");
+    code.push_str("    -- If category key was missing, fall back to the 'other' form\n");
+    code.push_str("    if result == pluralKey then\n");
     code.push_str(&format!(
-        "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
-        base_locale
-    ));
-    code.push_str(&format!(
-        "    local embeddedKey = \"{}(\" .. category .. \")\"\n",
-        base_key
-    ));
-    code.push_str("    local template = locale_data[embeddedKey]\n");
-    code.push_str("    \n");
-    code.push_str("    -- Fallback to 'other' category if specific category not found\n");
-    code.push_str("    if not template then\n");
-    code.push_str(&format!(
-        "        template = locale_data[\"{}(other)\"] or embeddedKey\n",
+        "        return self:_resolve(\"{}(other)\", params)\n",
         base_key
     ));
     code.push_str("    end\n");
-    code.push_str("    \n");
-    code.push_str("    -- Simple parameter interpolation\n");
-    code.push_str("    local result = template\n");
-    code.push_str("    for paramKey, value in pairs(params) do\n");
-    code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
-    code.push_str("    end\n");
-    code.push_str("    \n");
     code.push_str("    return result\n");
     code.push_str("end\n\n");
 }
@@ -1363,6 +1341,43 @@ fn generate_constructor_hybrid(
     code.push_str("function Translations:onLocaleChanged(callback)\n");
     code.push_str("    table.insert(self._localeChangedCallbacks, callback)\n");
     code.push_str("end\n\n");
+
+    // Emit the private _resolve helper — used by every translation function to
+    // avoid repeating the try-cloud / fallback-to-embedded pattern N times.
+    code.push_str(
+        "--- Internal: resolve a translation key via cloud translator with embedded fallback\n",
+    );
+    code.push_str("--- @param key string The translation key\n");
+    code.push_str("--- @param params table? Optional interpolation parameters\n");
+    code.push_str("--- @return string\n");
+    code.push_str("function Translations:_resolve(key, params)\n");
+    code.push_str("    if self._translator then\n");
+    code.push_str("        local success, result = pcall(function()\n");
+    code.push_str("            if params then\n");
+    code.push_str("                return self._translator:FormatByKey(key, params)\n");
+    code.push_str("            else\n");
+    code.push_str("                return self._translator:FormatByKey(key)\n");
+    code.push_str("            end\n");
+    code.push_str("        end)\n");
+    code.push_str("        if success and result ~= \"\" then\n");
+    code.push_str("            return result\n");
+    code.push_str("        end\n");
+    code.push_str("    end\n");
+    code.push_str("    \n");
+    code.push_str("    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"en\"]\n");
+    code.push_str("    if params then\n");
+    code.push_str("        local template = locale_data[key] or key\n");
+    code.push_str("        local result = template\n");
+    code.push_str("        for paramKey, value in pairs(params) do\n");
+    code.push_str(
+        "            result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
+    );
+    code.push_str("        end\n");
+    code.push_str("        return result\n");
+    code.push_str("    else\n");
+    code.push_str("        return locale_data[key] or key\n");
+    code.push_str("    end\n");
+    code.push_str("end\n\n");
 }
 
 /// Generate translation method for embedded mode
@@ -1565,11 +1580,16 @@ fn generate_method_cloud(
     code.push_str("end\n\n");
 }
 
-/// Generate translation method for hybrid mode
+/// Generate translation method for hybrid mode.
+///
+/// Each method delegates entirely to the private `_resolve` helper that is
+/// emitted once by `generate_constructor_hybrid`. This eliminates the
+/// repeated try-translator + fallback-to-embedded pattern that would
+/// otherwise appear in every single generated function body.
 fn generate_method_hybrid(
     code: &mut String,
     translation: &Translation,
-    base_locale: &str,
+    _base_locale: &str,
     analytics_config: Option<&crate::config::AnalyticsConfig>,
 ) {
     let method_name = translation.key.replace(".", "_");
@@ -1580,7 +1600,7 @@ fn generate_method_hybrid(
     let track_missing = analytics_config.map(|c| c.track_missing).unwrap_or(false);
 
     if !params_with_format.is_empty() {
-        // Method with parameters
+        // Method with parameters — delegates to _resolve with params table
         code.push_str(&format!("function Translations:{}(params)\n", method_name));
         code.push_str("    params = params or {}\n");
 
@@ -1589,7 +1609,7 @@ fn generate_method_hybrid(
             code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
         }
 
-        // Apply format specifiers
+        // Apply format specifiers before resolving
         for (param_name, specifier) in &params_with_format {
             if *specifier != format::FormatSpecifier::None {
                 let format_code = format::generate_format_code(param_name, specifier);
@@ -1601,32 +1621,9 @@ fn generate_method_hybrid(
             }
         }
 
-        // Try cloud first
-        code.push_str("    if self._translator then\n");
-        code.push_str("        local success, result = pcall(function()\n");
-        code.push_str(&format!(
-            "            return self._translator:FormatByKey(\"{}\", params)\n",
-            translation.key
-        ));
-        code.push_str("        end)\n");
-        code.push_str("        if success and result ~= \"\" then\n");
-        code.push_str("            return result\n");
-        code.push_str("        end\n");
-        code.push_str("    end\n");
-        code.push_str("    \n");
-
-        // Fallback to embedded
-        code.push_str(&format!(
-            "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
-            base_locale
-        ));
-        code.push_str(&format!(
-            "    local template = locale_data[\"{}\"] or \"{}\"\n",
-            translation.key, translation.key
-        ));
-
-        // Track missing if enabled
+        // Track missing if enabled (checked against embedded data as ground truth)
         if analytics_enabled && track_missing {
+            code.push_str("    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"en\"]\n");
             code.push_str(&format!(
                 "    if not locale_data[\"{}\"] then\n",
                 translation.key
@@ -1638,15 +1635,12 @@ fn generate_method_hybrid(
             code.push_str("    end\n");
         }
 
-        code.push_str("    local result = template\n");
-        code.push_str("    for paramKey, value in pairs(params) do\n");
-        code.push_str(
-            "        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
-        );
-        code.push_str("    end\n");
-        code.push_str("    return result\n");
+        code.push_str(&format!(
+            "    return self:_resolve(\"{}\", params)\n",
+            translation.key
+        ));
     } else {
-        // Simple method
+        // Simple method — delegates to _resolve without params
         code.push_str(&format!("function Translations:{}()\n", method_name));
 
         // Track usage if enabled
@@ -1654,28 +1648,9 @@ fn generate_method_hybrid(
             code.push_str(&format!("    self:_trackUsage(\"{}\")\n", translation.key));
         }
 
-        // Try cloud first
-        code.push_str("    if self._translator then\n");
-        code.push_str("        local success, result = pcall(function()\n");
-        code.push_str(&format!(
-            "            return self._translator:FormatByKey(\"{}\")\n",
-            translation.key
-        ));
-        code.push_str("        end)\n");
-        code.push_str("        if success and result ~= \"\" then\n");
-        code.push_str("            return result\n");
-        code.push_str("        end\n");
-        code.push_str("    end\n");
-        code.push_str("    \n");
-
-        // Fallback to embedded
-        code.push_str(&format!(
-            "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
-            base_locale
-        ));
-
         // Track missing if enabled
         if analytics_enabled && track_missing {
+            code.push_str("    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"en\"]\n");
             code.push_str(&format!(
                 "    if not locale_data[\"{}\"] then\n",
                 translation.key
@@ -1688,8 +1663,8 @@ fn generate_method_hybrid(
         }
 
         code.push_str(&format!(
-            "    return locale_data[\"{}\"] or \"{}\"\n",
-            translation.key, translation.key
+            "    return self:_resolve(\"{}\")\n",
+            translation.key
         ));
     }
 
@@ -2522,14 +2497,13 @@ fn test_generate_method_hybrid_simple() {
     let mut code = String::new();
     generate_method_hybrid(&mut code, &translation, "en", None);
 
-    // Should try cloud first
-    assert!(code.contains("if self._translator then"));
-    assert!(code.contains("pcall(function()"));
-    assert!(code.contains("self._translator:FormatByKey(\"ui.button\")"));
+    // Should generate a thin wrapper that delegates to the shared _resolve helper
+    assert!(code.contains("function Translations:ui_button()"));
+    assert!(code.contains("self:_resolve(\"ui.button\")"));
 
-    // Should fallback to embedded
-    assert!(code.contains("EMBEDDED_TRANSLATIONS[self._locale]"));
-    assert!(code.contains("EMBEDDED_TRANSLATIONS[\"en\"]"));
+    // Should NOT inline the full try-translator / fallback block inside the method body
+    assert!(!code.contains("if self._translator then"));
+    assert!(!code.contains("pcall(function()"));
 }
 
 #[test]
@@ -2547,12 +2521,9 @@ fn test_generate_method_hybrid_with_params() {
     // Should have params parameter
     assert!(code.contains("function Translations:ui_greeting(params)"));
 
-    // Should try cloud first with params
-    assert!(code.contains("self._translator:FormatByKey(\"ui.greeting\", params)"));
-
-    // Should fallback to embedded with interpolation
-    assert!(code.contains("local template = locale_data[\"ui.greeting\"]"));
-    assert!(code.contains("for paramKey, value in pairs(params) do"));
+    // Should delegate to _resolve with params — no inline cloud/embedded logic
+    assert!(code.contains("self:_resolve(\"ui.greeting\", params)"));
+    assert!(!code.contains("self._translator:FormatByKey(\"ui.greeting\", params)"));
 }
 
 #[test]
