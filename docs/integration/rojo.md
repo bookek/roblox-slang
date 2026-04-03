@@ -126,6 +126,7 @@ print(t.ui.buttons:buy())  -- "Buy"
 ```lua
 -- LocalScript
 local Translations = require(game.ReplicatedStorage.Translations)
+-- Reads the player's Roblox account language setting (player.LocaleId)
 local t = Translations.newForPlayer(game.Players.LocalPlayer)
 print(t.ui.messages:greeting({ name = "Player" }))
 ```

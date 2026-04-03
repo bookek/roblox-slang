@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] - 2026-04-04
+
+### Changed
+
+- The Luau code generator used to guess user languages based on their IP address country code. That felt wrong when a player explicitly chose a different language in their Roblox account settings. We changed the generator to read `player.LocaleId` instead.
+- We added `#[allow(dead_code)]` to the old country mapping utility (`get_country_locale_map`) since the generator no longer uses it, which clears up a linter warning.
+
 ## [2.0.3] - 2026-02-25
 
 ### Changed
