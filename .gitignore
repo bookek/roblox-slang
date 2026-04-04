@@ -25,13 +25,3 @@ Thumbs.db
 # Environment variables and secrets
 .env
 secrets/
-
-# Kiro
-.kiro/
-
-# Local development documentation
-AGENTS.md
-roblox-docs/
-
-# Internal development tracking
-.dev-notes/

@@ -238,37 +238,23 @@ fn generate_constructor(
     code.push_str("end\n\n");
 }
 
-/// Generate locale detection methods
 fn generate_locale_detection(code: &mut String) {
-    use crate::utils::locales;
-
-    code.push_str("--- Detect player's locale based on their country\n");
+    code.push_str("--- Detect player's locale based on their account preference\n");
     code.push_str("--- @param player Player The player to detect locale for\n");
     code.push_str("--- @return string The detected locale code\n");
     code.push_str("function Translations.detectLocale(player)\n");
-    code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
-    code.push_str("    \n");
-    code.push_str("    -- Try to get player's country\n");
-    code.push_str("    local success, countryCode = pcall(function()\n");
-    code.push_str("        return LocalizationService:GetCountryRegionForPlayerAsync(player)\n");
-    code.push_str("    end)\n");
-    code.push_str("    \n");
-    code.push_str("    if not success or not countryCode then\n");
+    code.push_str("    local localeId = player.LocaleId\n");
+    code.push_str("    if not localeId or localeId == \"\" then\n");
     code.push_str("        return \"en\"  -- Fallback to English\n");
     code.push_str("    end\n");
     code.push_str("    \n");
-    code.push_str("    -- Map country code to locale\n");
-    code.push_str("    local countryLocaleMap = {\n");
-
-    // Generate country → locale mapping
-    let mappings = locales::get_country_locale_map();
-    for (country, locale) in mappings {
-        code.push_str(&format!("        [\"{}\"] = \"{}\",\n", country, locale));
-    }
-
-    code.push_str("    }\n");
-    code.push_str("    \n");
-    code.push_str("    return countryLocaleMap[countryCode] or \"en\"\n");
+    code.push_str("    -- Normalize and extract language code, preserving hyphenated locales like zh-cn\n");
+    code.push_str("    local normalized = string.lower(localeId):gsub(\"_\", \"-\")\n");
+    code.push_str("    local baseCode = string.match(normalized, \"^(%w+)\")\n");
+    code.push_str("    if baseCode == \"zh\" then\n");
+    code.push_str("        return normalized\n");
+    code.push_str("    end\n");
+    code.push_str("    return baseCode or \"en\"\n");
     code.push_str("end\n\n");
 
     code.push_str("--- Create a new Translations instance for a player (auto-detect locale)\n");

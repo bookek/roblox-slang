@@ -231,7 +231,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Translations = require(ReplicatedStorage.Translations)
 
 Players.PlayerAdded:Connect(function(player)
-    -- Automatically detects player's country/locale
+    -- Reads the player's Roblox account language setting (player.LocaleId)
     local t = Translations.newForPlayer(player)
     
     -- Send localized welcome message

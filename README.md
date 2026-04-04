@@ -465,7 +465,7 @@ print(t.ui.buttons:buy())  -- "Comprar"
 ### Auto-Detect Player Locale
 
 ```lua
--- Automatically uses player's country/locale
+-- Reads the player's Roblox account language setting (player.LocaleId)
 local t = Translations.newForPlayer(player)
 ```
 
