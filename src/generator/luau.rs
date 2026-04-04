@@ -248,7 +248,9 @@ fn generate_locale_detection(code: &mut String) {
     code.push_str("        return \"en\"  -- Fallback to English\n");
     code.push_str("    end\n");
     code.push_str("    \n");
-    code.push_str("    -- Normalize and extract language code, preserving hyphenated locales like zh-cn\n");
+    code.push_str(
+        "    -- Normalize and extract language code, preserving hyphenated locales like zh-cn\n",
+    );
     code.push_str("    local normalized = string.lower(localeId):gsub(\"_\", \"-\")\n");
     code.push_str("    local baseCode = string.match(normalized, \"^(%w+)\")\n");
     code.push_str("    if baseCode == \"zh\" then\n");
