@@ -22,6 +22,4 @@ test-projects/*/output/
 Thumbs.db
 *.log
 
-# Environment variables and secrets
-.env
-secrets/
+scratch/
