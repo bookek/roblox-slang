@@ -3,20 +3,8 @@ use anyhow::{Context, Result};
 use serde_yaml::Value;
 use std::collections::HashMap;
 use std::path::Path;
-
-/// Parse override file (YAML format)
-///
-/// Format:
-/// ```yaml
-/// en:
-///   ui.buttons.buy: "Purchase Now!"
-///   ui.messages.greeting: "Hey, {name}!"
-/// id:
-///   ui.buttons.buy: "Beli Sekarang!"
-/// ```
 pub fn parse_overrides(path: &Path) -> Result<Vec<Translation>> {
     if !path.exists() {
-        // Override file is optional
         return Ok(Vec::new());
     }
 
@@ -27,8 +15,6 @@ pub fn parse_overrides(path: &Path) -> Result<Vec<Translation>> {
         .context(format!("Failed to parse override YAML: {}", path.display()))?;
 
     let mut translations = Vec::new();
-
-    // Parse structure: locale -> key -> value
     if let Value::Mapping(locales) = yaml {
         for (locale_key, locale_value) in locales {
             if let Value::String(locale) = locale_key {
@@ -50,22 +36,15 @@ pub fn parse_overrides(path: &Path) -> Result<Vec<Translation>> {
 
     Ok(translations)
 }
-
-/// Merge overrides with main translations
-/// Overrides take priority over main translations
 pub fn merge_translations(main: Vec<Translation>, overrides: Vec<Translation>) -> Vec<Translation> {
     if overrides.is_empty() {
         return main;
     }
-
-    // Create a map of overrides for fast lookup
     let mut override_map: HashMap<(String, String), Translation> = HashMap::new();
     for override_trans in overrides {
         let key = (override_trans.locale.clone(), override_trans.key.clone());
         override_map.insert(key, override_trans);
     }
-
-    // Merge: use override if exists, otherwise use main
     let mut result = Vec::new();
     let mut used_overrides: HashMap<(String, String), bool> = HashMap::new();
 
@@ -79,8 +58,6 @@ pub fn merge_translations(main: Vec<Translation>, overrides: Vec<Translation>) -
             result.push(main_trans);
         }
     }
-
-    // Add any overrides that weren't in main translations
     for (key, override_trans) in override_map {
         if !used_overrides.contains_key(&key) {
             result.push(override_trans);
@@ -150,12 +127,8 @@ id:
         let merged = merge_translations(main, overrides);
 
         assert_eq!(merged.len(), 2);
-
-        // Check that override took priority
         let buy_trans = merged.iter().find(|t| t.key == "ui.buttons.buy").unwrap();
         assert_eq!(buy_trans.value, "Purchase Now!");
-
-        // Check that non-overridden translation remains
         let sell_trans = merged.iter().find(|t| t.key == "ui.buttons.sell").unwrap();
         assert_eq!(sell_trans.value, "Sell");
     }

@@ -6,17 +6,11 @@ use std::sync::mpsc::channel;
 use std::time::Duration;
 
 use crate::cli;
-
-/// Watch for file changes and rebuild automatically
 pub fn watch(config_path: &Path) -> Result<()> {
     println!("{} Starting watch mode...", "→".blue());
     println!("Watching for changes in translation files...");
     println!("Press Ctrl+C to stop\n");
-
-    // Initial build
     cli::build(config_path)?;
-
-    // Setup file watcher
     let (tx, rx) = channel();
 
     let mut debouncer = new_debouncer(
@@ -38,8 +32,6 @@ pub fn watch(config_path: &Path) -> Result<()> {
         },
     )
     .context("Failed to create file watcher")?;
-
-    // Watch translations directory
     let translations_dir = Path::new("translations");
     if translations_dir.exists() {
         debouncer
@@ -49,8 +41,6 @@ pub fn watch(config_path: &Path) -> Result<()> {
 
         println!("{} Watching: {}", "✓".green(), translations_dir.display());
     }
-
-    // Watch config file
     if config_path.exists() {
         debouncer
             .watcher()
@@ -61,12 +51,9 @@ pub fn watch(config_path: &Path) -> Result<()> {
     }
 
     println!();
-
-    // Event loop
     loop {
         match rx.recv() {
             Ok(event) => {
-                // Check if it's a relevant file change
                 let should_rebuild = event.paths.iter().any(|path| {
                     path.extension()
                         .and_then(|ext| ext.to_str())

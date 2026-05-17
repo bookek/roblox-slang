@@ -1,8 +1,3 @@
-//! CLI command implementations
-//!
-//! This module contains all CLI command handlers for the roblox-slang tool.
-//! Each subcommand is implemented in its own module.
-
 pub mod build;
 pub mod download;
 pub mod import;

@@ -1,12 +1,8 @@
 use crate::parser::Translation;
 use std::collections::{HashMap, HashSet};
-
-/// Detect conflicting keys (duplicates, etc.)
 pub fn detect_conflicts(translations: &[Translation]) -> Vec<String> {
     let mut conflicts = Vec::new();
     let mut seen_keys: HashMap<(String, String), usize> = HashMap::new();
-
-    // Check for duplicate keys in same locale
     for translation in translations {
         let key = (translation.locale.clone(), translation.key.clone());
         let count = seen_keys.entry(key.clone()).or_insert(0);
@@ -16,8 +12,6 @@ pub fn detect_conflicts(translations: &[Translation]) -> Vec<String> {
             conflicts.push(format!("Duplicate key '{}' in locale '{}'", key.1, key.0));
         }
     }
-
-    // Remove duplicates from conflicts list
     let unique_conflicts: HashSet<String> = conflicts.into_iter().collect();
     unique_conflicts.into_iter().collect()
 }
@@ -124,8 +118,6 @@ mod tests {
         ];
 
         let conflicts = detect_conflicts(&translations);
-
-        // Same key in different locales is NOT a conflict
         assert_eq!(conflicts.len(), 0);
     }
 
@@ -153,8 +145,6 @@ mod tests {
         ];
 
         let conflicts = detect_conflicts(&translations);
-
-        // Should report conflict once (not multiple times)
         assert_eq!(conflicts.len(), 1);
     }
 

@@ -4,12 +4,8 @@ use std::collections::HashMap;
 use std::path::Path;
 
 use crate::{config, generator, utils::flatten};
-
-/// Import translations from a Roblox CSV file
 pub fn import_csv(csv_path: &Path, config_path: &Path) -> Result<()> {
     println!("{} Importing translations from CSV...", "→".blue());
-
-    // Load config
     let config = config::load_config(config_path).context("Failed to load config")?;
 
     println!(
@@ -17,16 +13,12 @@ pub fn import_csv(csv_path: &Path, config_path: &Path) -> Result<()> {
         "✓".green(),
         config_path.display()
     );
-
-    // Read CSV file
     if !csv_path.exists() {
         bail!("CSV file not found: {}", csv_path.display());
     }
 
     let csv_content = std::fs::read_to_string(csv_path)
         .context(format!("Failed to read {}", csv_path.display()))?;
-
-    // Parse CSV
     let translations = generator::parse_csv(&csv_content).context("Failed to parse CSV")?;
 
     if translations.is_empty() {
@@ -39,8 +31,6 @@ pub fn import_csv(csv_path: &Path, config_path: &Path) -> Result<()> {
         "✓".green(),
         translations.len()
     );
-
-    // Group translations by locale
     let mut by_locale: HashMap<String, Vec<&crate::parser::Translation>> = HashMap::new();
     for translation in &translations {
         by_locale
@@ -48,24 +38,15 @@ pub fn import_csv(csv_path: &Path, config_path: &Path) -> Result<()> {
             .or_default()
             .push(translation);
     }
-
-    // Create input directory if it doesn't exist
     let input_dir = Path::new(&config.input_directory);
     std::fs::create_dir_all(input_dir).context("Failed to create input directory")?;
-
-    // Convert each locale to JSON and save
     let locale_count = by_locale.len();
     for (locale, locale_translations) in by_locale {
-        // Create flat map
         let mut flat_map: HashMap<String, String> = HashMap::new();
         for translation in locale_translations {
             flat_map.insert(translation.key.clone(), translation.value.clone());
         }
-
-        // Unflatten to nested JSON
         let json = flatten::unflatten_to_json(&flat_map);
-
-        // Write to file
         let output_path = input_dir.join(format!("{}.json", locale));
         let json_string =
             serde_json::to_string_pretty(&json).context("Failed to serialize JSON")?;

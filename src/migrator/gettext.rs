@@ -4,21 +4,14 @@ use anyhow::{Context, Result};
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
-
-/// Migrate from gettext .po format to Slang format
 pub fn migrate_gettext(
     input_path: &Path,
     output_path: &Path,
     transform: KeyTransform,
 ) -> Result<()> {
-    // Read input file
     let content = fs::read_to_string(input_path)
         .context(format!("Failed to read {}", input_path.display()))?;
-
-    // Parse .po file
     let translations = parse_po_file(&content)?;
-
-    // Transform keys if needed
     let transformed: HashMap<String, String> = translations
         .into_iter()
         .map(|(k, v)| {
@@ -26,19 +19,13 @@ pub fn migrate_gettext(
             (new_key, v)
         })
         .collect();
-
-    // Unflatten to nested structure
     let nested = unflatten_to_json(&transformed);
-
-    // Write output file
     fs::create_dir_all(output_path.parent().unwrap())?;
     let output_json = serde_json::to_string_pretty(&nested)?;
     fs::write(output_path, output_json)?;
 
     Ok(())
 }
-
-/// Parse a .po file and extract msgid/msgstr pairs
 fn parse_po_file(content: &str) -> Result<HashMap<String, String>> {
     let mut translations = HashMap::new();
     let mut current_msgid: Option<String> = None;
@@ -48,15 +35,10 @@ fn parse_po_file(content: &str) -> Result<HashMap<String, String>> {
 
     for line in content.lines() {
         let line = line.trim();
-
-        // Skip comments and empty lines
         if line.is_empty() || line.starts_with('#') {
             continue;
         }
-
-        // Parse msgid
         if line.starts_with("msgid ") {
-            // Save previous entry if exists
             if let (Some(id), Some(str)) = (current_msgid.take(), current_msgstr.take()) {
                 if !id.is_empty() && !str.is_empty() {
                     translations.insert(id, str);
@@ -66,15 +48,11 @@ fn parse_po_file(content: &str) -> Result<HashMap<String, String>> {
             current_msgid = Some(extract_quoted_string(line));
             in_msgid = true;
             in_msgstr = false;
-        }
-        // Parse msgstr
-        else if line.starts_with("msgstr ") {
+        } else if line.starts_with("msgstr ") {
             current_msgstr = Some(extract_quoted_string(line));
             in_msgid = false;
             in_msgstr = true;
-        }
-        // Handle multi-line strings
-        else if line.starts_with('"') {
+        } else if line.starts_with('"') {
             let text = extract_quoted_string(line);
             if in_msgstr {
                 if let Some(ref mut msgstr) = current_msgstr {
@@ -87,8 +65,6 @@ fn parse_po_file(content: &str) -> Result<HashMap<String, String>> {
             }
         }
     }
-
-    // Save last entry
     if let (Some(id), Some(str)) = (current_msgid, current_msgstr) {
         if !id.is_empty() && !str.is_empty() {
             translations.insert(id, str);
@@ -97,12 +73,8 @@ fn parse_po_file(content: &str) -> Result<HashMap<String, String>> {
 
     Ok(translations)
 }
-
-/// Extract string from quoted format: msgid "text" -> text
 fn extract_quoted_string(line: &str) -> String {
-    // Find first quote
     if let Some(start) = line.find('"') {
-        // Find last quote
         if let Some(end) = line.rfind('"') {
             if start < end {
                 return line[start + 1..end].to_string();
@@ -177,18 +149,12 @@ msgstr "This is a long "
         let temp_dir = TempDir::new().unwrap();
         let input_path = temp_dir.path().join("input.po");
         let output_path = temp_dir.path().join("output.json");
-
-        // Create input file
         let input_content = r#"
 msgid "ui.button"
 msgstr "Buy"
 "#;
         fs::write(&input_path, input_content).unwrap();
-
-        // Migrate
         migrate_gettext(&input_path, &output_path, KeyTransform::None).unwrap();
-
-        // Verify output
         let output_content = fs::read_to_string(&output_path).unwrap();
         let output_json: Value = serde_json::from_str(&output_content).unwrap();
 

@@ -1,25 +1,15 @@
-/// Format specifier types
-/// Based on Flutter Slang format specifiers
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum FormatSpecifier {
-    /// Integer formatting: {count:int}
     Int,
-    /// Fixed decimal: {price:fixed(2)}
     Fixed(usize),
-    /// Number formatting: {value:num}
     Num,
-    /// DateTime formatting: {date:datetime}
     DateTime,
-    /// Nested translation: {label:translate}
     Translate,
-    /// No specifier (default string)
     None,
 }
 
-/// Parse format specifier from parameter
-/// Example: "count:int" -> ("count", FormatSpecifier::Int)
 pub fn parse_format_specifier(param: &str) -> (String, FormatSpecifier) {
     if let Some(colon_pos) = param.find(':') {
         let name = param[..colon_pos].trim().to_string();
@@ -31,7 +21,6 @@ pub fn parse_format_specifier(param: &str) -> (String, FormatSpecifier) {
             "datetime" => FormatSpecifier::DateTime,
             "translate" => FormatSpecifier::Translate,
             s if s.starts_with("fixed(") && s.ends_with(')') => {
-                // Parse fixed(n)
                 let digits_str = &s[6..s.len() - 1];
                 let digits = digits_str.parse::<usize>().unwrap_or(2);
                 FormatSpecifier::Fixed(digits)
@@ -45,7 +34,6 @@ pub fn parse_format_specifier(param: &str) -> (String, FormatSpecifier) {
     }
 }
 
-/// Extract all parameters with their format specifiers from a translation string
 pub fn extract_parameters_with_format(text: &str) -> HashMap<String, FormatSpecifier> {
     let mut params = HashMap::new();
     let mut in_param = false;
@@ -75,7 +63,6 @@ pub fn extract_parameters_with_format(text: &str) -> HashMap<String, FormatSpeci
     params
 }
 
-/// Generate Luau code for format specifier
 pub fn generate_format_code(param_name: &str, specifier: &FormatSpecifier) -> String {
     match specifier {
         FormatSpecifier::Int => {
@@ -97,14 +84,12 @@ pub fn generate_format_code(param_name: &str, specifier: &FormatSpecifier) -> St
             )
         }
         FormatSpecifier::DateTime => {
-            // Roblox DateTime formatting
             format!(
                 "if typeof(params.{}) == \"DateTime\" then\n        params.{} = params.{}:FormatLocalTime(\"L LT\", \"en-us\")\n    end",
                 param_name, param_name, param_name
             )
         }
         FormatSpecifier::Translate => {
-            // Nested translation lookup
             format!(
                 "if type(params.{}) == \"string\" then\n        params.{} = self._translator:FormatByKey(params.{})\n    end",
                 param_name, param_name, param_name
@@ -175,7 +160,7 @@ mod tests {
     fn test_parse_invalid_fixed_defaults_to_2() {
         let (name, spec) = parse_format_specifier("price:fixed(abc)");
         assert_eq!(name, "price");
-        assert_eq!(spec, FormatSpecifier::Fixed(2)); // Defaults to 2 on parse error
+        assert_eq!(spec, FormatSpecifier::Fixed(2));
     }
 
     #[test]
@@ -205,8 +190,6 @@ mod tests {
     fn test_extract_multiple_same_param() {
         let text = "Value: {count:int}, Again: {count:int}";
         let params = extract_parameters_with_format(text);
-
-        // Should only have one entry (last one wins)
         assert_eq!(params.len(), 1);
         assert_eq!(params.get("count"), Some(&FormatSpecifier::Int));
     }
@@ -231,9 +214,6 @@ mod tests {
     fn test_extract_nested_braces() {
         let text = "Nested: {outer{inner}}";
         let params = extract_parameters_with_format(text);
-        // The parser does not support nested braces. When it encounters {outer{inner}},
-        // the second '{' resets the buffer, so only "inner" is extracted.
-        // This test documents the current edge case behavior.
         assert_eq!(params.len(), 1);
         assert!(params.contains_key("inner"));
         assert_eq!(params.get("inner"), Some(&FormatSpecifier::None));

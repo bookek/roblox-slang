@@ -3,8 +3,6 @@ use colored::Colorize;
 use std::path::Path;
 
 use crate::{config, parser, validator};
-
-/// Validate translations
 pub fn validate(
     config_path: &Path,
     check_missing: bool,
@@ -14,18 +12,11 @@ pub fn validate(
     source_dir: Option<&Path>,
 ) -> Result<()> {
     println!("{} Validating translations...", "→".blue());
-
-    // Load config
     let config = config::load_config(config_path).context("Failed to load config")?;
-
-    // Parse all translations
     let mut all_translations = Vec::new();
 
     for locale in &config.supported_locales {
-        // Try JSON first
         let json_path = Path::new(&config.input_directory).join(format!("{}.json", locale));
-
-        // Try YAML if JSON doesn't exist
         let yaml_path = Path::new(&config.input_directory).join(format!("{}.yaml", locale));
 
         let yml_path = Path::new(&config.input_directory).join(format!("{}.yml", locale));
@@ -52,8 +43,6 @@ pub fn validate(
     }
 
     let mut has_issues = false;
-
-    // Check for missing keys
     if check_missing {
         println!("\n{} Checking for missing translations...", "→".blue());
         let missing = validator::missing::detect_missing_keys(
@@ -74,8 +63,6 @@ pub fn validate(
             }
         }
     }
-
-    // Check for conflicts
     if check_conflicts {
         println!("\n{} Checking for conflicts...", "→".blue());
         let conflicts = validator::conflicts::detect_conflicts(&all_translations);
@@ -90,8 +77,6 @@ pub fn validate(
             }
         }
     }
-
-    // Check for unused keys
     if check_unused {
         if let Some(src_dir) = source_dir {
             println!(
@@ -99,8 +84,6 @@ pub fn validate(
                 "→".blue(),
                 src_dir.display()
             );
-
-            // Get all unique keys
             let keys: Vec<String> = all_translations
                 .iter()
                 .filter(|t| t.locale == config.base_locale)
@@ -126,8 +109,6 @@ pub fn validate(
             );
         }
     }
-
-    // Show coverage report
     if show_coverage {
         println!("\n{} Translation Coverage Report", "→".blue());
         println!();
@@ -137,15 +118,11 @@ pub fn validate(
             &config.base_locale,
             &config.supported_locales,
         );
-
-        // Print header
         println!(
             "{:<10} {:<10} {:<12} {:<10}",
             "Locale", "Keys", "Coverage", "Missing"
         );
         println!("{}", "-".repeat(45));
-
-        // Print each locale
         for locale in &config.supported_locales {
             if let Some(info) = coverage.get(locale) {
                 let coverage_str = format!("{:.1}%", info.coverage_percent);
@@ -161,8 +138,6 @@ pub fn validate(
                 );
             }
         }
-
-        // Calculate overall coverage
         let total_keys: usize = coverage.values().map(|c| c.total_keys).max().unwrap_or(0);
         let total_translated: usize = coverage.values().map(|c| c.translated_keys).sum();
         let total_possible = total_keys * config.supported_locales.len();

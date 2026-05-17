@@ -4,23 +4,14 @@ use crate::{parser, validator};
 use anyhow::{Context, Result};
 use colored::Colorize;
 use std::path::Path;
-
-/// Upload local translations to Roblox Cloud
 pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bool) -> Result<()> {
-    // Load configuration
     let config_path = Path::new("slang-roblox.yaml");
     let config = config::load_config(config_path).context("Failed to load configuration")?;
-
-    // Get table_id from CLI or config
     let table_id = table_id
         .or_else(|| config.cloud.as_ref().and_then(|c| c.table_id.clone()))
         .context("Table ID not provided. Specify via --table-id or set cloud.table_id in config")?;
-
-    // Run validation unless skipped
     if !skip_validation {
         println!("{} Running pre-upload validation...", "→".blue());
-
-        // Validate config structure
         if let Err(e) = config.validate() {
             eprintln!("{} Config validation failed: {}", "✗".red(), e);
             eprintln!(
@@ -29,13 +20,10 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
             );
             return Err(e);
         }
-
-        // Parse and validate translation data
         let mut all_translations = Vec::new();
         let mut parse_errors = Vec::new();
 
         for locale in &config.supported_locales {
-            // Try JSON first
             let json_path = Path::new(&config.input_directory).join(format!("{}.json", locale));
             let yaml_path = Path::new(&config.input_directory).join(format!("{}.yaml", locale));
             let yml_path = Path::new(&config.input_directory).join(format!("{}.yml", locale));
@@ -63,8 +51,6 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
 
             all_translations.extend(translations);
         }
-
-        // Report parse errors
         if !parse_errors.is_empty() {
             eprintln!("{} Translation parsing failed:", "✗".red());
             for error in &parse_errors {
@@ -85,8 +71,6 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
             );
             anyhow::bail!("No translations found");
         }
-
-        // Check for missing keys (critical for upload)
         let missing = validator::missing::detect_missing_keys(
             &all_translations,
             &config.base_locale,
@@ -100,7 +84,6 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
             );
             for (locale, keys) in &missing {
                 eprintln!("  {} missing in '{}':", keys.len(), locale.yellow());
-                // Show first 5 missing keys
                 for key in keys.iter().take(5) {
                     eprintln!("    - {}", key);
                 }
@@ -114,8 +97,6 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
             );
             anyhow::bail!("Missing translations detected");
         }
-
-        // Check for conflicts (critical for upload)
         let conflicts = validator::conflicts::detect_conflicts(&all_translations);
 
         if !conflicts.is_empty() {
@@ -140,21 +121,11 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
             config.supported_locales.len()
         );
     }
-
-    // Load authentication
     let auth = AuthConfig::load(&config).context("Failed to load authentication")?;
-
-    // Create client
     let client =
         RobloxCloudClient::new(auth.api_key).context("Failed to create Roblox Cloud client")?;
-
-    // Save locales before moving config
     let locales_str = config.supported_locales.join(", ");
-
-    // Create orchestrator
     let orchestrator = SyncOrchestrator::new(client, config);
-
-    // Upload
     if dry_run {
         println!("{} Dry-run mode: No changes will be made", "ℹ".cyan());
     }
@@ -167,8 +138,6 @@ pub async fn upload(table_id: Option<String>, dry_run: bool, skip_validation: bo
         .upload(&table_id, dry_run)
         .await
         .context("Upload failed")?;
-
-    // Display statistics
     println!("\n{} Upload complete!", "✓".green().bold());
     println!("  Entries uploaded: {}", stats.entries_uploaded);
     println!("  Locales processed: {}", stats.locales_processed);

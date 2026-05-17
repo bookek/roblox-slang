@@ -3,12 +3,8 @@ use colored::Colorize;
 use std::path::Path;
 
 use crate::config;
-
-/// Initialize a new Roblox Slang project
 pub fn init(with_overrides: bool) -> Result<()> {
     println!("{} Initializing Roblox Slang project...", "→".blue());
-
-    // Create config file
     let config_path = Path::new("slang-roblox.yaml");
     if config_path.exists() {
         println!(
@@ -24,8 +20,6 @@ pub fn init(with_overrides: bool) -> Result<()> {
             config_path.display()
         );
     }
-
-    // Create overrides file if requested
     if with_overrides {
         let overrides_path = Path::new("overrides.yaml");
         if overrides_path.exists() {
@@ -44,8 +38,6 @@ pub fn init(with_overrides: bool) -> Result<()> {
             );
         }
     }
-
-    // Create translations directory
     let translations_dir = Path::new("translations");
     if translations_dir.exists() {
         println!(
@@ -62,8 +54,6 @@ pub fn init(with_overrides: bool) -> Result<()> {
             translations_dir.display()
         );
     }
-
-    // Create example translation file
     let example_file = translations_dir.join("en.json");
     if example_file.exists() {
         println!(

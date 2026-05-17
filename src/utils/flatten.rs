@@ -1,7 +1,4 @@
 use std::collections::HashMap;
-
-/// Flatten a nested JSON structure to dot notation
-/// Used for converting nested translations to flat keys
 pub fn flatten_json(value: &serde_json::Value, prefix: String) -> HashMap<String, String> {
     let mut result = HashMap::new();
 
@@ -26,23 +23,16 @@ pub fn flatten_json(value: &serde_json::Value, prefix: String) -> HashMap<String
 
     result
 }
-
-/// Unflatten dot notation keys back to nested JSON structure
-/// Used for converting flat CSV keys back to nested format
 pub fn unflatten_to_json(flat: &HashMap<String, String>) -> serde_json::Value {
     let mut root = serde_json::Map::new();
 
     for (key, value) in flat {
         let parts: Vec<&str> = key.split('.').collect();
-
-        // Navigate to the correct nested position
         let mut current = &mut root;
         for (i, part) in parts.iter().enumerate() {
             if i == parts.len() - 1 {
-                // Last part - insert the value
                 current.insert(part.to_string(), serde_json::Value::String(value.clone()));
             } else {
-                // Intermediate part - ensure nested object exists
                 let part_string = part.to_string();
                 if !current.contains_key(&part_string) {
                     current.insert(
@@ -50,8 +40,6 @@ pub fn unflatten_to_json(flat: &HashMap<String, String>) -> serde_json::Value {
                         serde_json::Value::Object(serde_json::Map::new()),
                     );
                 }
-
-                // Move to the nested object
                 current = current
                     .get_mut(&part_string)
                     .and_then(|v| v.as_object_mut())
@@ -62,9 +50,6 @@ pub fn unflatten_to_json(flat: &HashMap<String, String>) -> serde_json::Value {
 
     serde_json::Value::Object(root)
 }
-
-/// Unflatten translations to nested JSON structure
-/// Used for writing translation files
 pub fn unflatten_translations(translations: &[crate::parser::Translation]) -> serde_json::Value {
     let mut flat = HashMap::new();
 
@@ -173,7 +158,6 @@ mod tests {
             "array": [1, 2, 3]
         });
         let result = flatten_json(&json, String::new());
-        // Non-string values should be skipped
         assert_eq!(result.len(), 0);
     }
 

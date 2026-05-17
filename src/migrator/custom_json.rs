@@ -5,23 +5,16 @@ use serde_json::Value;
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
-
-/// Migrate from custom JSON format to Slang format
 pub fn migrate_custom_json(
     input_path: &Path,
     output_path: &Path,
     transform: KeyTransform,
 ) -> Result<()> {
-    // Read input file
     let content = fs::read_to_string(input_path)
         .context(format!("Failed to read {}", input_path.display()))?;
 
     let json: Value = serde_json::from_str(&content).context("Failed to parse JSON")?;
-
-    // Extract translations based on common patterns
     let flat_translations = extract_translations(&json)?;
-
-    // Transform keys if needed
     let transformed: HashMap<String, String> = flat_translations
         .into_iter()
         .map(|(k, v)| {
@@ -29,53 +22,35 @@ pub fn migrate_custom_json(
             (new_key, v)
         })
         .collect();
-
-    // Unflatten to nested structure
     let nested = unflatten_to_json(&transformed);
-
-    // Write output file
     fs::create_dir_all(output_path.parent().unwrap())?;
     let output_json = serde_json::to_string_pretty(&nested)?;
     fs::write(output_path, output_json)?;
 
     Ok(())
 }
-
-/// Extract translations from various custom JSON formats
 fn extract_translations(json: &Value) -> Result<HashMap<String, String>> {
     let mut translations = HashMap::new();
-
-    // Pattern 1: { "translations": { "en": { "key": "value" } } }
     if let Some(trans_obj) = json.get("translations") {
         if let Some(locale_obj) = trans_obj.as_object() {
-            // Get first locale
             if let Some((_, locale_data)) = locale_obj.iter().next() {
                 extract_flat(locale_data, String::new(), &mut translations);
             }
         }
-    }
-    // Pattern 2: { "locales": { "en": { "key": "value" } } }
-    else if let Some(locales_obj) = json.get("locales") {
+    } else if let Some(locales_obj) = json.get("locales") {
         if let Some(locale_obj) = locales_obj.as_object() {
-            // Get first locale
             if let Some((_, locale_data)) = locale_obj.iter().next() {
                 extract_flat(locale_data, String::new(), &mut translations);
             }
         }
-    }
-    // Pattern 3: { "strings": { "key": "value" } }
-    else if let Some(strings_obj) = json.get("strings") {
+    } else if let Some(strings_obj) = json.get("strings") {
         extract_flat(strings_obj, String::new(), &mut translations);
-    }
-    // Pattern 4: Direct flat structure { "key": "value" }
-    else {
+    } else {
         extract_flat(json, String::new(), &mut translations);
     }
 
     Ok(translations)
 }
-
-/// Extract flat key-value pairs from JSON
 fn extract_flat(value: &Value, prefix: String, result: &mut HashMap<String, String>) {
     match value {
         Value::Object(map) => {
@@ -164,8 +139,6 @@ mod tests {
         let temp_dir = TempDir::new().unwrap();
         let input_path = temp_dir.path().join("input.json");
         let output_path = temp_dir.path().join("output.json");
-
-        // Create input file
         let input_json = serde_json::json!({
             "translations": {
                 "en": {
@@ -174,11 +147,7 @@ mod tests {
             }
         });
         fs::write(&input_path, serde_json::to_string(&input_json).unwrap()).unwrap();
-
-        // Migrate
         migrate_custom_json(&input_path, &output_path, KeyTransform::SnakeToCamel).unwrap();
-
-        // Verify output
         let output_content = fs::read_to_string(&output_path).unwrap();
         let output_json: Value = serde_json::from_str(&output_content).unwrap();
 

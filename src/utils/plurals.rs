@@ -1,6 +1,3 @@
-/// CLDR Plural Rules Implementation
-/// Based on Unicode CLDR: <https://cldr.unicode.org/index/cldr-spec/plural-rules>
-/// Detect if a translation key is a plural form
 pub fn is_plural_key(key: &str) -> bool {
     key.ends_with("(zero)")
         || key.ends_with("(one)")
@@ -10,8 +7,6 @@ pub fn is_plural_key(key: &str) -> bool {
         || key.ends_with("(other)")
 }
 
-/// Extract base key from plural key
-/// Example: "items(one)" -> "items"
 pub fn extract_base_key(key: &str) -> String {
     if let Some(pos) = key.rfind('(') {
         key[..pos].to_string()
@@ -52,8 +47,6 @@ mod tests {
         assert!(!is_plural_key("items"));
         assert!(!is_plural_key("items()"));
         assert!(!is_plural_key("items(invalid)"));
-        // Note: "(one)" is technically a valid plural key (empty base key)
-        // but in practice this should not be used
     }
 
     #[test]

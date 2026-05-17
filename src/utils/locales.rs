@@ -1,6 +1,4 @@
-/// Roblox supported locales
-/// Based on: <https://create.roblox.com/docs/production/localization/language-codes>
-/// Roblox supported locale information
+/// Locale codes accepted by Roblox localization tables.
 #[derive(Debug, Clone, PartialEq)]
 pub struct LocaleInfo {
     pub code: &'static str,
@@ -8,7 +6,6 @@ pub struct LocaleInfo {
     pub native_name: &'static str,
 }
 
-/// Get all Roblox supported locales
 pub fn get_roblox_locales() -> Vec<LocaleInfo> {
     vec![
         LocaleInfo {
@@ -99,14 +96,12 @@ pub fn get_roblox_locales() -> Vec<LocaleInfo> {
     ]
 }
 
-/// Check if a locale is supported by Roblox
 pub fn is_roblox_locale(code: &str) -> bool {
     get_roblox_locales()
         .iter()
         .any(|locale| locale.code == code)
 }
 
-/// Get all supported locale codes
 pub fn get_supported_locale_codes() -> Vec<&'static str> {
     get_roblox_locales()
         .iter()

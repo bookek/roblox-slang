@@ -1,45 +1,12 @@
-//! Input validation utilities
-//!
-//! This module provides validation functions for locale codes, translation keys,
-//! configuration values, and file paths to ensure data integrity and provide
-//! clear error messages for invalid input.
-
 use anyhow::{bail, Result};
 use std::path::Path;
 
 use crate::config::Config;
-
-/// Validates a locale code format
-///
-/// Valid formats:
-/// - Two-letter language code: `en`, `id`, `es`
-/// - Language with region: `en-US`, `zh-CN`, `pt-BR`
-///
-/// # Arguments
-///
-/// * `locale` - The locale code to validate
-///
-/// # Returns
-///
-/// Returns `Ok(())` if valid, or an error with a helpful message if invalid
-///
-/// # Examples
-///
-/// ```
-/// use roblox_slang::utils::validation::validate_locale_code;
-///
-/// assert!(validate_locale_code("en").is_ok());
-/// assert!(validate_locale_code("en-US").is_ok());
-/// assert!(validate_locale_code("EN").is_err()); // Uppercase not allowed
-/// assert!(validate_locale_code("en US").is_err()); // Space not allowed
-/// ```
-#[allow(dead_code)] // Public API for library users
+#[allow(dead_code)]
 pub fn validate_locale_code(locale: &str) -> Result<()> {
     if locale.is_empty() {
         bail!("Locale code cannot be empty");
     }
-
-    // Check for invalid characters (only letters, digits, and hyphens allowed)
     if !locale
         .chars()
         .all(|c| c.is_ascii_alphabetic() || c.is_ascii_digit() || c == '-')
@@ -68,8 +35,6 @@ pub fn validate_locale_code(locale: &str) -> Result<()> {
             invalid_chars
         );
     }
-
-    // Check format: either "xx" or "xx-YY" or "xx-YYY"
     let parts: Vec<&str> = locale.split('-').collect();
     if parts.is_empty() || parts.len() > 3 {
         bail!(
@@ -82,8 +47,6 @@ pub fn validate_locale_code(locale: &str) -> Result<()> {
             locale
         );
     }
-
-    // Validate language code (first part) - must be lowercase
     let language = parts[0];
     if language.len() < 2 || language.len() > 3 {
         bail!(
@@ -107,8 +70,6 @@ pub fn validate_locale_code(locale: &str) -> Result<()> {
             language.to_lowercase()
         );
     }
-
-    // Validate region/script code (if present) - can be uppercase or mixed case
     if parts.len() >= 2 {
         let region = parts[1];
         if region.len() < 2 || region.len() > 4 {
@@ -134,40 +95,10 @@ pub fn validate_locale_code(locale: &str) -> Result<()> {
 
     Ok(())
 }
-
-/// Validates a translation key format
-///
-/// Valid keys:
-/// - Must not be empty
-/// - Must not have leading or trailing dots
-/// - Must not have consecutive dots
-/// - Must not contain reserved characters
-///
-/// # Arguments
-///
-/// * `key` - The translation key to validate
-///
-/// # Returns
-///
-/// Returns `Ok(())` if valid, or an error with a helpful message if invalid
-///
-/// # Examples
-///
-/// ```
-/// use roblox_slang::utils::validation::validate_translation_key;
-///
-/// assert!(validate_translation_key("ui.button").is_ok());
-/// assert!(validate_translation_key("ui.buttons.buy").is_ok());
-/// assert!(validate_translation_key("").is_err()); // Empty
-/// assert!(validate_translation_key(".ui.button").is_err()); // Leading dot
-/// assert!(validate_translation_key("ui..button").is_err()); // Consecutive dots
-/// ```
 pub fn validate_translation_key(key: &str) -> Result<()> {
     if key.is_empty() {
         bail!("Translation key cannot be empty");
     }
-
-    // Check for leading dot
     if key.starts_with('.') {
         bail!(
             "Invalid translation key '{}': Cannot start with a dot\n\
@@ -177,8 +108,6 @@ pub fn validate_translation_key(key: &str) -> Result<()> {
             key
         );
     }
-
-    // Check for trailing dot
     if key.ends_with('.') {
         bail!(
             "Invalid translation key '{}': Cannot end with a dot\n\
@@ -188,8 +117,6 @@ pub fn validate_translation_key(key: &str) -> Result<()> {
             key
         );
     }
-
-    // Check for consecutive dots
     if key.contains("..") {
         bail!(
             "Invalid translation key '{}': Cannot contain consecutive dots\n\
@@ -199,8 +126,6 @@ pub fn validate_translation_key(key: &str) -> Result<()> {
             key
         );
     }
-
-    // Check for reserved characters
     let reserved_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|', '\0'];
     if let Some(invalid_char) = key.chars().find(|c| reserved_chars.contains(c)) {
         bail!(
@@ -214,8 +139,6 @@ pub fn validate_translation_key(key: &str) -> Result<()> {
             invalid_char
         );
     }
-
-    // Check for whitespace
     if key.chars().any(|c| c.is_whitespace()) {
         bail!(
             "Invalid translation key '{}': Cannot contain whitespace\n\
@@ -228,33 +151,12 @@ pub fn validate_translation_key(key: &str) -> Result<()> {
 
     Ok(())
 }
-
-/// Validates that a file path exists and is accessible
-///
-/// # Arguments
-///
-/// * `path` - The file path to validate
-/// * `description` - A description of what the file is (for error messages)
-///
-/// # Returns
-///
-/// Returns `Ok(())` if the file exists and is accessible, or an error if not
-///
-/// # Examples
-///
-/// ```no_run
-/// use std::path::Path;
-/// use roblox_slang::utils::validation::validate_file_exists;
-///
-/// let path = Path::new("translations/en.json");
-/// validate_file_exists(path, "translation file").unwrap();
-/// ```
 pub fn validate_file_exists(path: &Path, description: &str) -> Result<()> {
     if !path.exists() {
         bail!(
             "{} not found: {}\n\
              \n\
-             Please ensure the file exists at the specified path.\n\
+             Check that the file exists at the specified path.\n\
              \n\
              If you're starting a new project, run:\n\
              roblox-slang init",
@@ -287,33 +189,12 @@ pub fn validate_file_exists(path: &Path, description: &str) -> Result<()> {
 
     Ok(())
 }
-
-/// Validates that a directory path exists and is accessible
-///
-/// # Arguments
-///
-/// * `path` - The directory path to validate
-/// * `description` - A description of what the directory is (for error messages)
-///
-/// # Returns
-///
-/// Returns `Ok(())` if the directory exists and is accessible, or an error if not
-///
-/// # Examples
-///
-/// ```no_run
-/// use std::path::Path;
-/// use roblox_slang::utils::validation::validate_directory_exists;
-///
-/// let path = Path::new("translations");
-/// validate_directory_exists(path, "translations directory").unwrap();
-/// ```
 pub fn validate_directory_exists(path: &Path, description: &str) -> Result<()> {
     if !path.exists() {
         bail!(
             "{} not found: {}\n\
              \n\
-             Please ensure the directory exists at the specified path.\n\
+             Check that the directory exists at the specified path.\n\
              \n\
              If you're starting a new project, run:\n\
              roblox-slang init",
@@ -346,30 +227,8 @@ pub fn validate_directory_exists(path: &Path, description: &str) -> Result<()> {
 
     Ok(())
 }
-
-/// Validates that a path is safe (no path traversal attempts)
-///
-/// # Arguments
-///
-/// * `path` - The path to validate
-///
-/// # Returns
-///
-/// Returns `Ok(())` if the path is safe, or an error if it contains path traversal attempts
-///
-/// # Examples
-///
-/// ```
-/// use std::path::Path;
-/// use roblox_slang::utils::validation::validate_safe_path;
-///
-/// assert!(validate_safe_path(Path::new("translations/en.json")).is_ok());
-/// assert!(validate_safe_path(Path::new("../etc/passwd")).is_err());
-/// ```
 pub fn validate_safe_path(path: &Path) -> Result<()> {
     let path_str = path.to_string_lossy();
-
-    // Check for path traversal attempts
     if path_str.contains("..") {
         bail!(
             "Invalid path '{}': Path traversal not allowed\n\
@@ -379,12 +238,9 @@ pub fn validate_safe_path(path: &Path) -> Result<()> {
             path.display()
         );
     }
-
-    // Check for absolute paths outside project (on Unix)
     #[cfg(unix)]
     {
         if path.is_absolute() && !path_str.starts_with("/tmp") {
-            // Allow /tmp for tests
             if let Ok(current_dir) = std::env::current_dir() {
                 if let Ok(canonical) = path.canonicalize() {
                     if !canonical.starts_with(&current_dir) {
@@ -402,46 +258,9 @@ pub fn validate_safe_path(path: &Path) -> Result<()> {
 
     Ok(())
 }
-
-/// Validates a configuration object
-///
-/// This function performs comprehensive validation of a Config object,
-/// including locale code format validation, directory checks, and logical consistency.
-///
-/// # Arguments
-///
-/// * `config` - The configuration to validate
-///
-/// # Returns
-///
-/// Returns `Ok(())` if valid, or an error with a helpful message if invalid
-///
-/// # Examples
-///
-/// ```no_run
-/// use roblox_slang::config::Config;
-/// use roblox_slang::utils::validation::validate_config;
-///
-/// let config = Config {
-///     base_locale: "en".to_string(),
-///     supported_locales: vec!["en".to_string(), "id".to_string()],
-///     input_directory: "translations".to_string(),
-///     output_directory: "output".to_string(),
-///     namespace: None,
-///     overrides: None,
-///     analytics: None,
-///     cloud: None,
-///     localization: None,
-/// };
-///
-/// validate_config(&config).unwrap();
-/// ```
-#[allow(dead_code)] // Public API for library users
+#[allow(dead_code)]
 pub fn validate_config(config: &Config) -> Result<()> {
-    // First run the built-in validation
     config.validate()?;
-
-    // Additional validation: Check locale code formats
     validate_locale_code(&config.base_locale)
         .map_err(|e| anyhow::anyhow!("Configuration error in base_locale:\n{}", e))?;
 
@@ -449,15 +268,11 @@ pub fn validate_config(config: &Config) -> Result<()> {
         validate_locale_code(locale)
             .map_err(|e| anyhow::anyhow!("Configuration error in supported_locales:\n{}", e))?;
     }
-
-    // Validate directory paths are safe
     validate_safe_path(Path::new(&config.input_directory))
         .map_err(|e| anyhow::anyhow!("Configuration error in input_directory:\n{}", e))?;
 
     validate_safe_path(Path::new(&config.output_directory))
         .map_err(|e| anyhow::anyhow!("Configuration error in output_directory:\n{}", e))?;
-
-    // Validate namespace if present
     if let Some(ref namespace) = config.namespace {
         if namespace.is_empty() {
             bail!(
@@ -467,8 +282,6 @@ pub fn validate_config(config: &Config) -> Result<()> {
                  Example: namespace: MyGame"
             );
         }
-
-        // Check for invalid characters in namespace
         if !namespace.chars().all(|c| c.is_alphanumeric() || c == '_') {
             bail!(
                 "Configuration error: namespace '{}' contains invalid characters\n\
@@ -482,8 +295,6 @@ pub fn validate_config(config: &Config) -> Result<()> {
                 namespace
             );
         }
-
-        // Check if namespace starts with a digit
         if namespace.chars().next().unwrap().is_ascii_digit() {
             bail!(
                 "Configuration error: namespace '{}' cannot start with a digit\n\
@@ -496,8 +307,6 @@ pub fn validate_config(config: &Config) -> Result<()> {
             );
         }
     }
-
-    // Validate override config if present
     if let Some(ref override_config) = config.overrides {
         if override_config.enabled {
             validate_safe_path(Path::new(&override_config.file))
@@ -530,13 +339,10 @@ mod tests {
 
     #[test]
     fn test_validate_locale_code_uppercase() {
-        // Language code must be lowercase
         let result = validate_locale_code("EN");
         assert!(result.is_err());
         let err = result.unwrap_err().to_string();
         assert!(err.contains("lowercase"));
-
-        // But region code can be uppercase (this is valid)
         assert!(validate_locale_code("en-US").is_ok());
     }
 
@@ -679,8 +485,6 @@ mod tests {
         let result = validate_config(&config);
         assert!(result.is_err());
         let err = result.unwrap_err().to_string();
-        // The error comes from Config.validate() which checks if locale is supported by Roblox
-        // "EN" is not a valid Roblox locale, so it will fail with "Unsupported locale"
         assert!(err.contains("Unsupported") || err.contains("base_locale"));
     }
 
@@ -701,8 +505,6 @@ mod tests {
         let result = validate_config(&config);
         assert!(result.is_err());
         let err = result.unwrap_err().to_string();
-        // The error comes from Config.validate() which checks if locale is supported by Roblox
-        // "EN US" is not a valid Roblox locale, so it will fail with "Unsupported locale"
         assert!(err.contains("Unsupported") || err.contains("supported_locales"));
     }
 
