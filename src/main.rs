@@ -1,16 +1,7 @@
-mod cli;
-mod config;
-mod generator;
-mod migrator;
-mod parser;
-mod roblox;
-mod utils;
-mod validator;
-
 use anyhow::Result;
 use clap::{Parser, Subcommand};
+use roblox_slang::{cli, utils::validation};
 use std::path::Path;
-use utils::validation;
 
 #[derive(Parser)]
 #[command(name = "roblox-slang")]
@@ -21,7 +12,7 @@ use utils::validation;
                         Write translations in JSON/YAML, generate type-safe code with autocomplete support.\n\n\
                         For more information, visit: https://github.com/mathtechstudio/roblox-slang"
 )]
-#[command(author = "Iqbal Fauzi <iqbalfauzien@proton.me>")]
+#[command(author = "Iqbal Fauzien <iqbalfauzien@proton.me>")]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -29,72 +20,47 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Initialize a new Roblox Slang project
-    ///
-    /// Creates a new project with default configuration file and translation directory.
-    /// Use --with-overrides to also create an overrides.yaml template for A/B testing.
+    /// Create the config file and translation directory.
     Init {
-        /// Create example overrides.yaml file for translation overrides
         #[arg(long, help = "Create overrides.yaml template")]
         with_overrides: bool,
     },
 
-    /// Build translations and generate Luau code
-    ///
-    /// Parses translation files (JSON/YAML) and generates type-safe Luau code.
-    /// Outputs: Translations.lua, type definitions, and CSV for Roblox Cloud.
+    /// Build translations into Luau, types, and Roblox Cloud CSV.
     Build {
-        /// Watch for file changes and rebuild automatically
         #[arg(short, long, help = "Enable watch mode (auto-rebuild on changes)")]
         watch: bool,
     },
 
-    /// Import translations from a Roblox CSV file
-    ///
-    /// Converts Roblox Cloud CSV format to JSON translation files.
-    /// Useful for migrating existing translations or syncing with Roblox Cloud.
+    /// Convert a Roblox Cloud CSV file into JSON translation files.
     Import {
-        /// Path to the CSV file to import
         #[arg(value_name = "CSV_FILE", help = "Path to Roblox CSV file")]
         csv_file: String,
     },
 
-    /// Validate translations for errors and inconsistencies
-    ///
-    /// Checks for missing translations, unused keys, conflicts, and coverage.
-    /// Use --all to run all checks at once.
+    /// Check translations for missing keys, conflicts, unused keys, and coverage.
     Validate {
-        /// Check for missing translations across locales
         #[arg(long, help = "Check for missing translations")]
         missing: bool,
 
-        /// Check for unused translation keys in source code
         #[arg(long, help = "Check for unused keys")]
         unused: bool,
 
-        /// Check for duplicate keys or conflicts
         #[arg(long, help = "Check for conflicts")]
         conflicts: bool,
 
-        /// Show translation coverage report per locale
         #[arg(long, help = "Show coverage report")]
         coverage: bool,
 
-        /// Source directory to scan for unused keys
         #[arg(long, value_name = "DIR", help = "Source directory to scan")]
         source: Option<String>,
 
-        /// Run all validation checks
         #[arg(long, help = "Run all checks")]
         all: bool,
     },
 
-    /// Migrate translations from another format
-    ///
-    /// Converts translations from other formats (custom-json, gettext) to Roblox Slang format.
-    /// Supports key transformation strategies for compatibility.
+    /// Convert custom-json or gettext files to Roblox Slang JSON.
     Migrate {
-        /// Format to migrate from
         #[arg(
             long,
             value_name = "FORMAT",
@@ -102,15 +68,12 @@ enum Commands {
         )]
         from: String,
 
-        /// Input file path
         #[arg(long, value_name = "FILE", help = "Input file path")]
         input: String,
 
-        /// Output file path
         #[arg(long, value_name = "FILE", help = "Output file path")]
         output: String,
 
-        /// Key transformation strategy
         #[arg(
             long,
             value_name = "TRANSFORM",
@@ -119,17 +82,8 @@ enum Commands {
         transform: Option<String>,
     },
 
-    /// Upload local translations to Roblox Cloud Localization Table
-    ///
-    /// Reads local translation files, validates them, and uploads to Roblox Cloud.
-    /// Requires API key via ROBLOX_CLOUD_API_KEY environment variable or config file.
-    ///
-    /// Examples:
-    ///   roblox-slang upload --table-id abc123
-    ///   roblox-slang upload --dry-run
-    ///   roblox-slang upload --skip-validation
+    /// Upload local translations to Roblox Cloud.
     Upload {
-        /// Roblox Cloud Localization Table ID (or set in config: cloud.table_id)
         #[arg(
             long,
             value_name = "TABLE_ID",
@@ -137,26 +91,15 @@ enum Commands {
         )]
         table_id: Option<String>,
 
-        /// Preview changes without uploading to cloud
         #[arg(long, help = "Preview changes without uploading (shows statistics)")]
         dry_run: bool,
 
-        /// Skip pre-upload validation checks
         #[arg(long, help = "Skip validation before upload (not recommended)")]
         skip_validation: bool,
     },
 
-    /// Download translations from Roblox Cloud Localization Table
-    ///
-    /// Fetches translations from Roblox Cloud and writes them to local JSON files.
-    /// Creates one file per locale in the input directory.
-    /// Requires API key via ROBLOX_CLOUD_API_KEY environment variable or config file.
-    ///
-    /// Examples:
-    ///   roblox-slang download --table-id abc123
-    ///   roblox-slang download --dry-run
+    /// Download Roblox Cloud translations into local JSON files.
     Download {
-        /// Roblox Cloud Localization Table ID (or set in config: cloud.table_id)
         #[arg(
             long,
             value_name = "TABLE_ID",
@@ -164,7 +107,6 @@ enum Commands {
         )]
         table_id: Option<String>,
 
-        /// Preview changes without writing files to disk
         #[arg(
             long,
             help = "Preview changes without writing files (shows statistics)"
@@ -172,18 +114,8 @@ enum Commands {
         dry_run: bool,
     },
 
-    /// Synchronize translations bidirectionally between local and cloud
-    ///
-    /// Compares local and cloud translations, then applies the specified merge strategy.
-    /// Strategies: overwrite (local→cloud), merge (union, cloud wins), skip-conflicts (safe only).
-    /// Requires API key via ROBLOX_CLOUD_API_KEY environment variable or config file.
-    ///
-    /// Examples:
-    ///   roblox-slang sync --strategy merge
-    ///   roblox-slang sync --table-id abc123 --strategy overwrite
-    ///   roblox-slang sync --dry-run
+    /// Synchronize local and Roblox Cloud translations.
     Sync {
-        /// Roblox Cloud Localization Table ID (or set in config: cloud.table_id)
         #[arg(
             long,
             value_name = "TABLE_ID",
@@ -191,7 +123,6 @@ enum Commands {
         )]
         table_id: Option<String>,
 
-        /// Merge strategy: overwrite (local→cloud), merge (union), skip-conflicts (safe only)
         #[arg(
             long,
             value_name = "STRATEGY",
@@ -199,19 +130,16 @@ enum Commands {
         )]
         strategy: Option<String>,
 
-        /// Preview changes without syncing (shows what would change)
         #[arg(long, help = "Preview changes without syncing (shows statistics)")]
         dry_run: bool,
     },
 }
 
 fn main() -> Result<()> {
-    // Initialize logger
     env_logger::init();
 
     let cli = Cli::parse();
 
-    // Use tokio runtime for async commands
     let runtime = tokio::runtime::Runtime::new()?;
 
     match cli.command {
@@ -230,7 +158,6 @@ fn main() -> Result<()> {
         Commands::Import { csv_file } => {
             let csv_path = Path::new(&csv_file);
 
-            // Validate file path
             validation::validate_safe_path(csv_path)?;
             validation::validate_file_exists(csv_path, "CSV file")?;
 
@@ -247,7 +174,6 @@ fn main() -> Result<()> {
         } => {
             let config_path = Path::new("slang-roblox.yaml");
 
-            // If --all is specified, enable all checks
             let check_missing = all || missing;
             let check_unused = all || unused;
             let check_conflicts = all || conflicts;
@@ -280,7 +206,6 @@ fn main() -> Result<()> {
             let input_path = Path::new(&input);
             let output_path = Path::new(&output);
 
-            // Validate file paths
             validation::validate_safe_path(input_path)?;
             validation::validate_file_exists(input_path, "input file")?;
             validation::validate_safe_path(output_path)?;

@@ -1,17 +1,11 @@
 use anyhow::Result;
 use std::fs;
 use std::path::Path;
-
-/// Detect unused translation keys by scanning source files
 pub fn detect_unused_keys(translation_keys: &[String], source_dir: &Path) -> Result<Vec<String>> {
     if !source_dir.exists() {
         return Ok(Vec::new());
     }
-
-    // Read all Lua files
     let lua_files = find_lua_files(source_dir)?;
-
-    // Read all file contents
     let mut all_content = String::new();
     for file in lua_files {
         if let Ok(content) = fs::read_to_string(&file) {
@@ -19,15 +13,8 @@ pub fn detect_unused_keys(translation_keys: &[String], source_dir: &Path) -> Res
             all_content.push('\n');
         }
     }
-
-    // Check which keys are NOT found in any file
     let mut unused = Vec::new();
     for key in translation_keys {
-        // Check if key appears in any form:
-        // - As string literal: "ui.buttons.buy"
-        // - As method call: t.ui.buttons.buy()
-        // - As nested access: t.ui.buttons.buy
-
         let key_variations = [
             format!("\"{}\"", key), // String literal
             format!("'{}'", key),   // Single quote string
@@ -45,8 +32,6 @@ pub fn detect_unused_keys(translation_keys: &[String], source_dir: &Path) -> Res
 
     Ok(unused)
 }
-
-/// Recursively find all .lua and .luau files
 fn find_lua_files(dir: &Path) -> Result<Vec<std::path::PathBuf>> {
     let mut lua_files = Vec::new();
 
@@ -86,8 +71,6 @@ mod tests {
     #[test]
     fn test_detect_unused_keys() {
         let temp_dir = TempDir::new().unwrap();
-
-        // Create a test Lua file
         let lua_file = temp_dir.path().join("test.lua");
         let mut file = fs::File::create(&lua_file).unwrap();
         writeln!(file, "local text = t.ui.buttons.buy()").unwrap();
@@ -108,8 +91,6 @@ mod tests {
     #[test]
     fn test_find_lua_files() {
         let temp_dir = TempDir::new().unwrap();
-
-        // Create test files
         fs::File::create(temp_dir.path().join("test1.lua")).unwrap();
         fs::File::create(temp_dir.path().join("test2.luau")).unwrap();
         fs::File::create(temp_dir.path().join("test.txt")).unwrap();
@@ -122,8 +103,6 @@ mod tests {
     #[test]
     fn test_find_lua_files_nested() {
         let temp_dir = TempDir::new().unwrap();
-
-        // Create nested structure
         let subdir = temp_dir.path().join("subdir");
         fs::create_dir(&subdir).unwrap();
 
@@ -172,8 +151,6 @@ mod tests {
     fn test_detect_unused_keys_nonexistent_dir() {
         let keys = vec!["ui.button".to_string()];
         let unused = detect_unused_keys(&keys, Path::new("/nonexistent/path")).unwrap();
-
-        // Should return empty vec for nonexistent directory
         assert_eq!(unused.len(), 0);
     }
 
@@ -195,8 +172,6 @@ mod tests {
         let temp_dir = TempDir::new().unwrap();
         let lua_file = temp_dir.path().join("test.lua");
         fs::File::create(&lua_file).unwrap();
-
-        // Test with single file path
         let lua_files = find_lua_files(&lua_file).unwrap();
 
         assert_eq!(lua_files.len(), 1);
@@ -208,8 +183,6 @@ mod tests {
         let temp_dir = TempDir::new().unwrap();
         let txt_file = temp_dir.path().join("test.txt");
         fs::File::create(&txt_file).unwrap();
-
-        // Test with non-lua file
         let lua_files = find_lua_files(&txt_file).unwrap();
 
         assert_eq!(lua_files.len(), 0);

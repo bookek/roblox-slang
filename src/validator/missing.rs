@@ -1,35 +1,26 @@
 use crate::parser::Translation;
 use std::collections::{HashMap, HashSet};
-
-/// Detect missing keys in non-base locales
 pub fn detect_missing_keys(
     translations: &[Translation],
     base_locale: &str,
     supported_locales: &[String],
 ) -> HashMap<String, Vec<String>> {
-    // Get all keys from base locale
     let base_keys: HashSet<String> = translations
         .iter()
         .filter(|t| t.locale == base_locale)
         .map(|t| t.key.clone())
         .collect();
-
-    // Check each non-base locale for missing keys
     let mut missing_by_locale: HashMap<String, Vec<String>> = HashMap::new();
 
     for locale in supported_locales {
         if locale == base_locale {
             continue;
         }
-
-        // Get keys for this locale
         let locale_keys: HashSet<String> = translations
             .iter()
             .filter(|t| t.locale == locale.as_str())
             .map(|t| t.key.clone())
             .collect();
-
-        // Find missing keys
         let missing: Vec<String> = base_keys.difference(&locale_keys).cloned().collect();
 
         if !missing.is_empty() {
@@ -65,7 +56,6 @@ mod tests {
                 locale: "id".to_string(),
                 context: None,
             },
-            // ui.label missing in id
         ];
 
         let supported_locales = vec!["en".to_string(), "id".to_string()];
@@ -120,14 +110,12 @@ mod tests {
                 locale: "en".to_string(),
                 context: None,
             },
-            // id missing ui.label and ui.message
             Translation {
                 key: "ui.button".to_string(),
                 value: "Beli".to_string(),
                 locale: "id".to_string(),
                 context: None,
             },
-            // es missing ui.message
             Translation {
                 key: "ui.button".to_string(),
                 value: "Comprar".to_string(),
@@ -201,8 +189,6 @@ mod tests {
 
         let supported_locales = vec!["en".to_string(), "id".to_string()];
         let missing = detect_missing_keys(&translations, "en", &supported_locales);
-
-        // Extra keys in non-base locale are not considered "missing"
         assert_eq!(missing.len(), 0);
     }
 }

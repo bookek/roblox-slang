@@ -1,24 +1,18 @@
 use crate::parser::Translation;
 use anyhow::Result;
 use std::collections::HashMap;
-
-/// Generate CSV file for Roblox Cloud Localization Table
 pub fn generate_csv(
     translations: &[Translation],
     base_locale: &str,
     locales: &[String],
 ) -> Result<String> {
     let mut csv = String::new();
-
-    // Header row
     csv.push_str("Source,Context,Key");
     for locale in locales {
         csv.push(',');
         csv.push_str(locale);
     }
     csv.push('\n');
-
-    // Group translations by key
     let mut translation_map: HashMap<String, (Option<String>, HashMap<String, String>)> =
         HashMap::new();
 
@@ -31,16 +25,10 @@ pub fn generate_csv(
             .1
             .insert(translation.locale.clone(), translation.value.clone());
     }
-
-    // Get all unique keys (sorted for consistency)
     let mut keys: Vec<_> = translation_map.keys().cloned().collect();
     keys.sort();
-
-    // Generate rows
     for key in keys {
         let (context, locale_values) = translation_map.get(&key).unwrap();
-
-        // Source column (base locale value)
         let source = locale_values
             .get(base_locale)
             .map(|s| escape_csv_value(s))
@@ -48,19 +36,13 @@ pub fn generate_csv(
 
         csv.push_str(&source);
         csv.push(',');
-
-        // Context column (for disambiguation)
         let context_str = context
             .as_ref()
             .map(|c| escape_csv_value(c))
             .unwrap_or_else(|| String::from("\"\""));
         csv.push_str(&context_str);
         csv.push(',');
-
-        // Key column
         csv.push_str(&escape_csv_value(&key));
-
-        // Locale columns
         for locale in locales {
             csv.push(',');
             let value = locale_values
@@ -75,28 +57,20 @@ pub fn generate_csv(
 
     Ok(csv)
 }
-
-/// Escape CSV value (wrap in quotes and escape internal quotes)
 fn escape_csv_value(value: &str) -> String {
-    // Check if value needs escaping
     let needs_escape =
         value.contains('"') || value.contains(',') || value.contains('\n') || value.contains('\r');
 
     if needs_escape || !value.is_empty() {
-        // Escape internal quotes by doubling them
         let escaped = value.replace('"', "\"\"");
         format!("\"{}\"", escaped)
     } else {
         String::from("\"\"")
     }
 }
-
-/// Parse CSV file (for import/migration)
 pub fn parse_csv(content: &str) -> Result<Vec<Translation>> {
     let mut translations = Vec::new();
     let mut lines = content.lines();
-
-    // Parse header
     let header = lines
         .next()
         .ok_or_else(|| anyhow::anyhow!("CSV file is empty"))?;
@@ -105,11 +79,7 @@ pub fn parse_csv(content: &str) -> Result<Vec<Translation>> {
     if headers.len() < 3 {
         anyhow::bail!("Invalid CSV header: expected at least Source,Context,Key columns");
     }
-
-    // Extract locale columns (skip Source, Context, Key)
     let locales: Vec<String> = headers[3..].to_vec();
-
-    // Parse data rows
     for line in lines {
         if line.trim().is_empty() {
             continue;
@@ -128,8 +98,6 @@ pub fn parse_csv(content: &str) -> Result<Vec<Translation>> {
         } else {
             Some(values[1].clone())
         };
-
-        // Create translation for each locale
         for (i, locale) in locales.iter().enumerate() {
             let value_index = 3 + i;
             if value_index < values.len() {
@@ -148,8 +116,6 @@ pub fn parse_csv(content: &str) -> Result<Vec<Translation>> {
 
     Ok(translations)
 }
-
-/// Parse a single CSV line (handles quoted values)
 fn parse_csv_line(line: &str) -> Vec<String> {
     let mut values = Vec::new();
     let mut current = String::new();
@@ -160,7 +126,6 @@ fn parse_csv_line(line: &str) -> Vec<String> {
         match ch {
             '"' => {
                 if in_quotes {
-                    // Check for escaped quote
                     if chars.peek() == Some(&'"') {
                         current.push('"');
                         chars.next();
@@ -184,8 +149,6 @@ fn parse_csv_line(line: &str) -> Vec<String> {
             }
         }
     }
-
-    // Add last value
     values.push(current.trim().to_string());
 
     values
@@ -286,8 +249,6 @@ mod tests {
             &["en".to_string(), "id".to_string(), "es".to_string()],
         )
         .unwrap();
-
-        // Should have empty cells for missing locales
         assert!(csv.contains("\"Buy\",\"\",\"\""));
     }
 
@@ -316,8 +277,6 @@ mod tests {
 
         let csv = generate_csv(&translations, "en", &["en".to_string()]).unwrap();
         let lines: Vec<&str> = csv.lines().collect();
-
-        // Keys should be sorted alphabetically
         assert!(lines[1].contains("a.key"));
         assert!(lines[2].contains("m.key"));
         assert!(lines[3].contains("z.key"));
@@ -333,8 +292,6 @@ mod tests {
         }];
 
         let csv = generate_csv(&translations, "en", &["en".to_string()]).unwrap();
-
-        // Should properly escape quotes and preserve newlines
         assert!(csv.contains("\"Hello, \"\"World\"\"!\nNew line\""));
     }
 
@@ -377,8 +334,6 @@ mod tests {
 "#;
 
         let translations = parse_csv(csv_content).unwrap();
-
-        // Should only have 1 translation (id is empty)
         assert_eq!(translations.len(), 1);
         assert_eq!(translations[0].locale, "en");
     }
@@ -466,22 +421,14 @@ mod tests {
                 context: None,
             },
         ];
-
-        // Generate CSV
         let csv = generate_csv(
             &original_translations,
             "en",
             &["en".to_string(), "id".to_string()],
         )
         .unwrap();
-
-        // Parse it back
         let parsed_translations = parse_csv(&csv).unwrap();
-
-        // Should have same number of translations
         assert_eq!(parsed_translations.len(), original_translations.len());
-
-        // Check values match
         for original in &original_translations {
             assert!(parsed_translations.iter().any(|parsed| {
                 parsed.key == original.key

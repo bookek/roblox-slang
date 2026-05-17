@@ -1,23 +1,14 @@
-//! Migration tools
-//!
-//! This module provides tools for migrating translations from other formats
-//! (custom JSON, gettext) to roblox-slang format.
-
 pub mod custom_json;
 pub mod gettext;
 pub mod key_transform;
 
 use anyhow::Result;
 use std::path::Path;
-
-/// Migration format
 #[derive(Debug, Clone, Copy)]
 pub enum MigrationFormat {
     CustomJson,
     Gettext,
 }
-
-/// Key transformation strategy
 #[derive(Debug, Clone, Copy)]
 pub enum KeyTransform {
     SnakeToCamel,
@@ -25,8 +16,6 @@ pub enum KeyTransform {
     DotToNested,
     None,
 }
-
-/// Migrate translations from another format to Slang format
 pub fn migrate(
     format: MigrationFormat,
     input_path: &Path,

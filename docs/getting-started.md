@@ -30,12 +30,12 @@ rokit add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.4"
 ```
 
 #### Option B: Aftman
 
-> **Note:** Aftman is no longer actively maintained. We recommend using [Rokit](#option-a-rokit-recommended) or [Foreman](#option-c-foreman) for new projects.
+> Aftman is no longer actively maintained. For new projects, use [Rokit](#option-a-rokit-recommended) or [Foreman](#option-c-foreman).
 
 [Aftman](https://github.com/LPGhatguy/aftman) provides exact version dependencies and trust-based security.
 
@@ -51,7 +51,7 @@ aftman add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.4"
 ```
 
 #### Option C: Foreman
@@ -62,7 +62,7 @@ roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
 
 ```toml
 [tools]
-roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.2" }
+roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.4" }
 ```
 
 ```bash
@@ -73,12 +73,12 @@ foreman install
 
 Download pre-built binaries from [GitHub Releases](https://github.com/mathtechstudio/roblox-slang/releases):
 
-- `roblox-slang-2.0.2-linux-x86_64.zip`
-- `roblox-slang-2.0.2-linux-aarch64.zip`
-- `roblox-slang-2.0.2-windows-x86_64.zip`
-- `roblox-slang-2.0.2-windows-aarch64.zip`
-- `roblox-slang-2.0.2-macos-x86_64.zip`
-- `roblox-slang-2.0.2-macos-aarch64.zip`
+- `roblox-slang-2.0.4-linux-x86_64.zip`
+- `roblox-slang-2.0.4-linux-aarch64.zip`
+- `roblox-slang-2.0.4-windows-x86_64.zip`
+- `roblox-slang-2.0.4-windows-aarch64.zip`
+- `roblox-slang-2.0.4-macos-x86_64.zip`
+- `roblox-slang-2.0.4-macos-aarch64.zip`
 
 Extract the archive and add the binary to your PATH.
 
@@ -100,7 +100,7 @@ cargo install --locked --path .
 roblox-slang --version
 ```
 
-You should see: `roblox-slang 0.1.0`
+Expected output: `roblox-slang 2.0.4`
 
 ## Creating Your First Translation Project
 
@@ -128,7 +128,6 @@ base_locale: en
 # List of supported locales
 supported_locales:
   - en
-  - es
   - id
 
 # Where to find translation files
@@ -137,11 +136,11 @@ input_directory: translations
 # Where to generate Luau code
 output_directory: src/shared/Translations
 
-# Localization mode (NEW in v2.0.2)
+# Runtime localization mode
 localization:
   # embedded: Translations embedded in code (default, no cloud dependency)
   # cloud: Use Roblox Cloud LocalizationService only
-  # hybrid: Try cloud first, fallback to embedded
+  # hybrid: Try cloud first, then use embedded translations on error
   mode: embedded
 ```
 
@@ -166,20 +165,20 @@ Create `translations/en.json`:
 }
 ```
 
-Create `translations/es.json`:
+Create `translations/id.json`:
 
 ```json
 {
-  "welcome": "¡Bienvenido a mi juego!",
+  "welcome": "Selamat datang di game saya!",
   "ui": {
     "buttons": {
-      "play": "Jugar",
-      "settings": "Configuración",
-      "quit": "Salir"
+      "play": "Main",
+      "settings": "Pengaturan",
+      "quit": "Keluar"
     },
     "messages": {
-      "loading": "Cargando...",
-      "playerJoined": "{name} se unió al juego"
+      "loading": "Memuat...",
+      "playerJoined": "{name} bergabung ke game"
     }
   }
 }
@@ -217,8 +216,8 @@ print(t.ui.messages:playerJoined({ name = "Player1" }))
 -- Output: "Player1 joined the game"
 
 -- Switch locale at runtime
-t:setLocale("es")
-print(t:welcome())  -- "¡Bienvenido a mi juego!"
+t:setLocale("id")
+print(t:welcome())  -- "Selamat datang di game saya!"
 ```
 
 ### 6. Auto-Detect Player Locale
@@ -231,14 +230,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Translations = require(ReplicatedStorage.Translations)
 
 Players.PlayerAdded:Connect(function(player)
-    -- Reads the player's Roblox account language setting (player.LocaleId)
     local t = Translations.newForPlayer(player)
-    
-    -- Send localized welcome message
     local welcomeMsg = t.welcome()
-    -- Send to player...
 end)
 ```
+
+`newForPlayer` works in embedded, cloud, and hybrid mode. It reads
+`player.LocaleId`, normalizes the value, and uses `base_locale` from
+`slang-roblox.yaml` when the player locale is empty.
 
 ## Development Workflow
 
@@ -276,7 +275,7 @@ This will report:
 
 ## Choosing a Localization Mode
 
-**NEW in v2.0.2:** Roblox Slang supports three localization modes:
+Roblox Slang supports three localization modes:
 
 ### Embedded Mode (Default)
 
@@ -318,13 +317,12 @@ Uses Roblox Cloud LocalizationService exclusively.
 
 ### Hybrid Mode
 
-Best of both worlds: tries cloud first, falls back to embedded.
+Hybrid mode tries cloud first, then uses embedded translations on error.
 
 **Pros:**
 
 - Cloud features when available
 - Embedded fallback for reliability
-- Graceful degradation
 - Works in Studio and production
 
 **Cons:**
@@ -332,7 +330,7 @@ Best of both worlds: tries cloud first, falls back to embedded.
 - Slightly larger generated file size
 - More complex setup
 
-**When to use:** Games transitioning from embedded to cloud, or games that need offline support with cloud benefits.
+**When to use:** Games moving from embedded to cloud, or games that need offline text with cloud features.
 
 ## Common Issues
 

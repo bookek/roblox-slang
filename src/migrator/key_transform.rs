@@ -1,6 +1,4 @@
 use super::KeyTransform;
-
-/// Transform a key according to the specified strategy
 pub fn transform_key(key: &str, strategy: KeyTransform) -> String {
     match strategy {
         KeyTransform::SnakeToCamel => snake_to_camel(key),
@@ -9,8 +7,6 @@ pub fn transform_key(key: &str, strategy: KeyTransform) -> String {
         KeyTransform::None => key.to_string(),
     }
 }
-
-/// Convert snake_case to camelCase
 fn snake_to_camel(s: &str) -> String {
     let mut result = String::new();
     let mut capitalize_next = false;
@@ -91,7 +87,6 @@ mod tests {
 
     #[test]
     fn test_transform_key_dot_to_nested() {
-        // DotToNested doesn't transform the key itself, just returns as-is
         assert_eq!(
             transform_key("ui.button.buy", KeyTransform::DotToNested),
             "ui.button.buy"

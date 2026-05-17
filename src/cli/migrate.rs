@@ -3,8 +3,6 @@ use colored::Colorize;
 use std::path::Path;
 
 use crate::migrator::{KeyTransform, MigrationFormat};
-
-/// Migrate translations from another format to Slang format
 pub fn migrate(
     format: &str,
     input_path: &Path,
@@ -12,8 +10,6 @@ pub fn migrate(
     transform: Option<&str>,
 ) -> Result<()> {
     println!("{} Migrating translations...", "→".blue());
-
-    // Parse format
     let migration_format = match format.to_lowercase().as_str() {
         "custom-json" | "custom" | "json" => MigrationFormat::CustomJson,
         "gettext" | "po" => MigrationFormat::Gettext,
@@ -22,8 +18,6 @@ pub fn migrate(
             format
         ),
     };
-
-    // Parse transform
     let key_transform = match transform {
         Some("snake-to-camel") => KeyTransform::SnakeToCamel,
         Some("upper-to-lower") => KeyTransform::UpperToLower,
@@ -31,8 +25,6 @@ pub fn migrate(
         Some("none") | None => KeyTransform::None,
         Some(t) => bail!("Unsupported transform: {}. Supported: snake-to-camel, upper-to-lower, dot-to-nested, none", t),
     };
-
-    // Check input file exists
     if !input_path.exists() {
         bail!("Input file not found: {}", input_path.display());
     }
@@ -41,8 +33,6 @@ pub fn migrate(
     println!("{} Transform: {:?}", "→".blue(), key_transform);
     println!("{} Input: {}", "→".blue(), input_path.display());
     println!("{} Output: {}", "→".blue(), output_path.display());
-
-    // Perform migration
     crate::migrator::migrate(migration_format, input_path, output_path, key_transform)
         .context("Migration failed")?;
 

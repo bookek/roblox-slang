@@ -1,6 +1,6 @@
 # Configuration Reference
 
-Complete reference for `slang-roblox.yaml` configuration file.
+Reference for `slang-roblox.yaml`.
 
 ## Basic Configuration
 
@@ -13,7 +13,7 @@ supported_locales:
 input_directory: translations
 output_directory: output
 
-# Localization mode (NEW in v2.x)
+# Runtime localization mode
 localization:
   mode: embedded
 ```
@@ -22,10 +22,10 @@ localization:
 
 ### `base_locale` (required)
 
-The base locale used as fallback when translations are missing.
+The base locale used when a translation is missing or `player.LocaleId` is empty.
 
 **Type:** `string`  
-**Example:** `en`, `en-US`, `id`, `es-MX`
+**Example:** `en`, `id`, `es`, `zh-cn`
 
 ```yaml
 base_locale: en
@@ -41,9 +41,9 @@ base_locale: en
 - `fr` - French
 - `ja` - Japanese
 - `ko` - Korean
-- `zh-CN` - Chinese (Simplified)
-- `zh-TW` - Chinese (Traditional)
-- And [14 more Roblox-supported locales](https://create.roblox.com/docs/production/localization/language-codes)
+- `zh-cn` - Chinese (Simplified)
+- `zh-tw` - Chinese (Traditional)
+- `it`, `ru`, `th`, `tr`, `vi`, `pl`, `uk`
 
 ### `supported_locales` (required)
 
@@ -61,7 +61,7 @@ supported_locales:
   - de
 ```
 
-**Note:** The `base_locale` should be included in this list.
+Include `base_locale` in this list.
 
 ### `input_directory` (required)
 
@@ -124,7 +124,7 @@ local t = MyTranslations.new("en")
 
 ### `localization` (optional)
 
-**NEW in v2.x:** Configure how translations are loaded at runtime.
+Configure how translations are loaded at runtime.
 
 **Type:** `object`  
 **Default:** `{ mode: "embedded" }`
@@ -167,10 +167,12 @@ localization:
 **Generated code:**
 
 ```lua
--- Translations embedded in EMBEDDED_TRANSLATIONS table
 local t = Translations.new("en")
 print(t.ui.buttons:buy())  -- Direct lookup from embedded data
 ```
+
+`Translations.newForPlayer(player)` is available in embedded mode. It reads
+`player.LocaleId`, normalizes the value, and uses `base_locale` as the fallback.
 
 **`cloud`**
 
@@ -197,7 +199,6 @@ localization:
 **Generated code:**
 
 ```lua
--- Uses LocalizationService:GetTranslatorForLocaleAsync()
 local t = Translations.new("en")
 print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 ```
@@ -209,7 +210,7 @@ print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 
 **`hybrid`**
 
-Best of both worlds: tries cloud first, falls back to embedded on error.
+Hybrid mode tries cloud first, then uses embedded translations on error.
 
 ```yaml
 localization:
@@ -219,8 +220,7 @@ localization:
 **Pros:**
 
 - Cloud features when available (ATC, auto-translation)
-- Embedded fallback for reliability
-- Graceful degradation on cloud errors
+- Embedded fallback when LocalizationService fails
 - Works in Studio and production
 
 **Cons:**
@@ -231,7 +231,6 @@ localization:
 **Generated code:**
 
 ```lua
--- Tries LocalizationService with pcall, falls back to embedded
 local t = Translations.new("en")
 print(t.ui.buttons:buy())  -- Tries cloud, falls back to embedded
 ```
@@ -241,6 +240,20 @@ print(t.ui.buttons:buy())  -- Tries cloud, falls back to embedded
 - Games transitioning from embedded to cloud
 - Games that need offline support with cloud benefits
 - Development (Studio) vs production (cloud) workflows
+
+### Generated namespace API
+
+`Translations.new(locale)` attaches namespace tables to each translation
+instance. Use the colon-call form for nested keys:
+
+```lua
+local t = Translations.new("en")
+print(t.ui.buttons.primary:buy())
+```
+
+Generated runtime code and `.d.luau` types use the same sanitized namespace
+segments. For example, `buy-now` becomes `buy_now`, and Luau keywords get an
+underscore prefix.
 
 **Comparison:**
 
@@ -358,7 +371,7 @@ output_directory: src/shared/Translations
 # Custom namespace (optional)
 namespace: null
 
-# Localization mode (NEW in v2.x)
+# Runtime localization mode
 localization:
   mode: embedded  # or "cloud" or "hybrid"
 
@@ -414,7 +427,8 @@ This checks:
 
 ### 1. Keep Base Locale Complete
 
-Always ensure your base locale has all translation keys. Other locales can be incomplete (will fallback to base).
+Keep all translation keys in the base locale. Other locales can be incomplete;
+missing values fall back to the base locale.
 
 ### 2. Use Consistent Naming
 

@@ -4,10 +4,7 @@ use crate::utils::validation;
 use anyhow::{bail, Result};
 use serde_yaml::Value;
 use std::path::Path;
-
-/// Parse a YAML translation file
 pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
-    // Read file with better error context
     let content = std::fs::read_to_string(path).map_err(|e| {
         anyhow::anyhow!(
             "Failed to read translation file: {}\n\
@@ -18,8 +15,6 @@ pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
             e
         )
     })?;
-
-    // Check if file is empty
     if content.trim().is_empty() {
         bail!(
             "Translation file is empty: {}\n\
@@ -32,8 +27,6 @@ pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
             path.display()
         );
     }
-
-    // Parse YAML with detailed error messages
     let yaml: Value = serde_yaml::from_str(&content).map_err(|e| {
         let location = e.location();
         let (line, column) = if let Some(loc) = location {
@@ -41,8 +34,6 @@ pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
         } else {
             (0, 0)
         };
-
-        // Try to extract the problematic line
         let lines: Vec<&str> = content.lines().collect();
         let context_line = if line > 0 && line <= lines.len() {
             lines[line - 1]
@@ -73,12 +64,8 @@ pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
             " ".repeat(column.saturating_sub(1))
         )
     })?;
-
-    // Convert YAML to JSON for flattening
     let json = yaml_to_json(&yaml)?;
     let flattened = flatten::flatten_json(&json, String::new());
-
-    // Check if any translations were found - just return empty vector if none
     if flattened.is_empty() {
         log::warn!("No translations found in: {}", path.display());
         return Ok(Vec::new());
@@ -87,13 +74,12 @@ pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
     let translations = flattened
         .into_iter()
         .map(|(key, value)| {
-            // Validate translation key format
             validation::validate_translation_key(&key).map_err(|e| {
                 anyhow::anyhow!(
                     "Invalid translation key in: {}\n\
                      {}\n\
                      \n\
-                     Hint: Translation keys should use dot notation (e.g., 'ui.button.buy')",
+                     Hint: Use dot notation for translation keys (e.g., 'ui.button.buy')",
                     path.display(),
                     e
                 )
@@ -110,8 +96,6 @@ pub fn parse_yaml_file(path: &Path, locale: &str) -> Result<Vec<Translation>> {
 
     Ok(translations)
 }
-
-/// Convert YAML Value to JSON Value
 fn yaml_to_json(yaml: &Value) -> Result<serde_json::Value> {
     match yaml {
         Value::Null => Ok(serde_json::Value::Null),

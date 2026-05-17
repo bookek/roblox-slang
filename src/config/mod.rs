@@ -1,8 +1,3 @@
-//! Configuration management
-//!
-//! This module handles loading, validating, and creating configuration files
-//! for roblox-slang projects.
-
 mod defaults;
 mod schema;
 
@@ -10,10 +5,7 @@ pub use schema::*;
 
 use anyhow::{bail, Result};
 use std::path::Path;
-
-/// Load configuration from a YAML file
 pub fn load_config(path: &Path) -> Result<Config> {
-    // Check if config file exists
     if !path.exists() {
         bail!(
             "Configuration file not found: {}\n\
@@ -29,20 +21,16 @@ pub fn load_config(path: &Path) -> Result<Config> {
             path.display()
         );
     }
-
-    // Read config file
     let content = std::fs::read_to_string(path).map_err(|e| {
         anyhow::anyhow!(
             "Failed to read configuration file: {}\n\
              Error: {}\n\
              \n\
-             Hint: Check file permissions and ensure the file is readable.",
+             Hint: Check file permissions and readability.",
             path.display(),
             e
         )
     })?;
-
-    // Check if file is empty
     if content.trim().is_empty() {
         bail!(
             "Configuration file is empty: {}\n\
@@ -51,8 +39,6 @@ pub fn load_config(path: &Path) -> Result<Config> {
             path.display()
         );
     }
-
-    // Parse YAML config
     let config: Config = serde_yaml::from_str(&content).map_err(|e| {
         let location = e.location();
         let (line, column) = if let Some(loc) = location {
@@ -60,8 +46,6 @@ pub fn load_config(path: &Path) -> Result<Config> {
         } else {
             (0, 0)
         };
-
-        // Try to extract the problematic line
         let lines: Vec<&str> = content.lines().collect();
         let context_line = if line > 0 && line <= lines.len() {
             lines[line - 1]
@@ -91,8 +75,6 @@ pub fn load_config(path: &Path) -> Result<Config> {
             " ".repeat(column.saturating_sub(1))
         )
     })?;
-
-    // Validate config
     config.validate().map_err(|e| {
         anyhow::anyhow!(
             "{}\n\
@@ -105,8 +87,6 @@ pub fn load_config(path: &Path) -> Result<Config> {
 
     Ok(config)
 }
-
-/// Create a default configuration file
 pub fn create_default_config(path: &Path) -> Result<()> {
     let yaml = r#"# Roblox Slang Configuration
 # Documentation: https://github.com/mathtechstudio/roblox-slang
@@ -176,7 +156,7 @@ localization:
             "Failed to write configuration file: {}\n\
              Error: {}\n\
              \n\
-             Hint: Check directory permissions and ensure you have write access.",
+             Hint: Check directory permissions and write access.",
             path.display(),
             e
         )
@@ -184,8 +164,6 @@ localization:
 
     Ok(())
 }
-
-/// Create a default overrides file
 pub fn create_default_overrides(path: &Path) -> Result<()> {
     let yaml = r#"# Translation Overrides
 # Override specific translations per locale without modifying source files
@@ -208,7 +186,7 @@ pub fn create_default_overrides(path: &Path) -> Result<()> {
             "Failed to write overrides file: {}\n\
              Error: {}\n\
              \n\
-             Hint: Check directory permissions and ensure you have write access.",
+             Hint: Check directory permissions and write access.",
             path.display(),
             e
         )

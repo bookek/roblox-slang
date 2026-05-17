@@ -3,19 +3,12 @@ use crate::roblox::{AuthConfig, MergeStrategy, RobloxCloudClient, SyncOrchestrat
 use anyhow::{bail, Context, Result};
 use colored::Colorize;
 use std::path::Path;
-
-/// Synchronize translations between local and cloud
 pub async fn sync(table_id: Option<String>, strategy: Option<String>, dry_run: bool) -> Result<()> {
-    // Load configuration
     let config_path = Path::new("slang-roblox.yaml");
     let config = config::load_config(config_path).context("Failed to load configuration")?;
-
-    // Get table_id from CLI or config
     let table_id = table_id
         .or_else(|| config.cloud.as_ref().and_then(|c| c.table_id.clone()))
         .context("Table ID not provided. Specify via --table-id or set cloud.table_id in config")?;
-
-    // Get merge strategy from CLI or config
     let strategy_str = strategy
         .or_else(|| config.cloud.as_ref().and_then(|c| c.strategy.clone()))
         .unwrap_or_else(|| "merge".to_string());
@@ -36,18 +29,10 @@ pub async fn sync(table_id: Option<String>, strategy: Option<String>, dry_run: b
             );
         }
     };
-
-    // Load authentication
     let auth = AuthConfig::load(&config).context("Failed to load authentication")?;
-
-    // Create client
     let client =
         RobloxCloudClient::new(auth.api_key).context("Failed to create Roblox Cloud client")?;
-
-    // Create orchestrator
     let orchestrator = SyncOrchestrator::new(client, config.clone());
-
-    // Sync
     if dry_run {
         println!("{} Dry-run mode: No changes will be made", "ℹ".cyan());
     }
@@ -64,8 +49,6 @@ pub async fn sync(table_id: Option<String>, strategy: Option<String>, dry_run: b
         .sync(&table_id, merge_strategy, dry_run)
         .await
         .context("Sync failed")?;
-
-    // Display statistics
     println!("\n{} Sync complete!", "✓".green().bold());
     println!("  Entries added: {}", stats.entries_added);
     println!("  Entries updated: {}", stats.entries_updated);

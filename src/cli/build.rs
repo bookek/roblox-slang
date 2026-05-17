@@ -3,12 +3,8 @@ use colored::Colorize;
 use std::path::Path;
 
 use crate::{config, generator, parser};
-
-/// Build translations from source files
 pub fn build(config_path: &Path) -> Result<()> {
     println!("{} Building translations...", "→".blue());
-
-    // Load config
     let config = config::load_config(config_path).context("Failed to load config")?;
 
     println!(
@@ -16,16 +12,11 @@ pub fn build(config_path: &Path) -> Result<()> {
         "✓".green(),
         config_path.display()
     );
-
-    // Parse translations for each locale
     let mut all_translations = Vec::new();
     let mut total_keys = 0;
 
     for locale in &config.supported_locales {
-        // Try JSON first
         let json_path = Path::new(&config.input_directory).join(format!("{}.json", locale));
-
-        // Try YAML if JSON doesn't exist
         let yaml_path = Path::new(&config.input_directory).join(format!("{}.yaml", locale));
 
         let yml_path = Path::new(&config.input_directory).join(format!("{}.yml", locale));
@@ -65,8 +56,6 @@ pub fn build(config_path: &Path) -> Result<()> {
         println!("{} No translations found", "⚠".yellow());
         return Ok(());
     }
-
-    // Parse and merge overrides if enabled
     if let Some(override_config) = &config.overrides {
         if override_config.enabled {
             let override_path = Path::new(&override_config.file);
@@ -90,12 +79,8 @@ pub fn build(config_path: &Path) -> Result<()> {
             }
         }
     }
-
-    // Create output directory
     let output_dir = Path::new(&config.output_directory);
     std::fs::create_dir_all(output_dir).context("Failed to create output directory")?;
-
-    // Generate Luau code with analytics and localization config
     let luau_code = generator::generate_luau_with_full_config(
         &all_translations,
         &config.base_locale,
@@ -108,8 +93,6 @@ pub fn build(config_path: &Path) -> Result<()> {
     std::fs::write(&output_file, luau_code).context("Failed to write Luau file")?;
 
     println!("{} Generated {}", "✓".green(), output_file.display());
-
-    // Generate type definitions
     let types_dir = output_dir.join("types");
     std::fs::create_dir_all(&types_dir).context("Failed to create types directory")?;
 
@@ -120,8 +103,6 @@ pub fn build(config_path: &Path) -> Result<()> {
     std::fs::write(&types_file, type_defs).context("Failed to write type definitions")?;
 
     println!("{} Generated {}", "✓".green(), types_file.display());
-
-    // Generate CSV for Roblox Cloud
     let csv_content = generator::generate_csv(
         &all_translations,
         &config.base_locale,

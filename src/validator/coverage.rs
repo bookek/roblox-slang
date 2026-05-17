@@ -1,14 +1,11 @@
 use super::CoverageInfo;
 use crate::parser::Translation;
 use std::collections::{HashMap, HashSet};
-
-/// Generate coverage report for all locales
 pub fn generate_coverage_report(
     translations: &[Translation],
     base_locale: &str,
     supported_locales: &[String],
 ) -> HashMap<String, CoverageInfo> {
-    // Get all keys from base locale
     let base_keys: HashSet<String> = translations
         .iter()
         .filter(|t| t.locale == base_locale)
@@ -19,7 +16,6 @@ pub fn generate_coverage_report(
     let mut coverage: HashMap<String, CoverageInfo> = HashMap::new();
 
     for locale in supported_locales {
-        // Get keys for this locale
         let locale_keys: HashSet<String> = translations
             .iter()
             .filter(|t| t.locale == locale.as_str())
@@ -27,8 +23,6 @@ pub fn generate_coverage_report(
             .collect();
 
         let translated_keys = locale_keys.len();
-
-        // Find missing keys
         let missing: Vec<String> = base_keys.difference(&locale_keys).cloned().collect();
 
         let coverage_percent = if total_keys > 0 {
@@ -82,13 +76,9 @@ mod tests {
         let coverage = generate_coverage_report(&translations, "en", &supported_locales);
 
         assert_eq!(coverage.len(), 2);
-
-        // English should be 100%
         assert_eq!(coverage["en"].coverage_percent, 100.0);
         assert_eq!(coverage["en"].translated_keys, 2);
         assert_eq!(coverage["en"].missing_keys.len(), 0);
-
-        // Indonesian should be 50%
         assert_eq!(coverage["id"].coverage_percent, 50.0);
         assert_eq!(coverage["id"].translated_keys, 1);
         assert_eq!(coverage["id"].missing_keys.len(), 1);
