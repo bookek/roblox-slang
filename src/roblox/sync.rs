@@ -7,89 +7,31 @@ use anyhow::{Context, Result};
 use std::collections::HashMap;
 use std::path::Path;
 use std::time::Instant;
-
-/// Orchestrates synchronization between local translation files and Roblox Cloud
-///
-/// The `SyncOrchestrator` provides high-level operations for syncing translations:
-/// - `upload()` - Push local translations to cloud
-/// - `download()` - Pull translations from cloud
-/// - `sync()` - Bidirectional sync with merge strategies
-///
-/// # Example
-///
-/// ```no_run
-/// use roblox_slang::roblox::{RobloxCloudClient, SyncOrchestrator};
-/// use roblox_slang::config::Config;
-///
-/// # async fn example() -> anyhow::Result<()> {
-/// let client = RobloxCloudClient::new("api_key".to_string())?;
-/// let config = Config::default();
-/// let orchestrator = SyncOrchestrator::new(client, config);
-///
-/// // Upload translations
-/// let stats = orchestrator.upload("table_id", false).await?;
-/// println!("Uploaded {} entries", stats.entries_uploaded);
-/// # Ok(())
-/// # }
-/// ```
+fn merge_locale_translations(
+    mut existing: Vec<Translation>,
+    incoming: &[Translation],
+) -> Vec<Translation> {
+    for new_t in incoming {
+        if let Some(entry) = existing.iter_mut().find(|t| t.key == new_t.key) {
+            entry.value = new_t.value.clone();
+            entry.context = new_t.context.clone();
+        } else {
+            existing.push(new_t.clone());
+        }
+    }
+    existing
+}
 pub struct SyncOrchestrator {
-    /// HTTP client for Roblox Cloud API
     client: RobloxCloudClient,
-    /// Configuration
     config: Config,
 }
 
 impl SyncOrchestrator {
-    /// Create a new sync orchestrator
-    ///
-    /// # Arguments
-    ///
-    /// * `client` - Authenticated Roblox Cloud API client
-    /// * `config` - Project configuration
     pub fn new(client: RobloxCloudClient, config: Config) -> Self {
         Self { client, config }
     }
-
-    /// Upload local translations to Roblox Cloud
-    ///
-    /// Reads all translation files from the input directory, converts them to
-    /// Roblox Cloud format, and uploads to the specified localization table.
-    ///
-    /// # Arguments
-    ///
-    /// * `table_id` - Roblox localization table ID
-    /// * `dry_run` - If true, skip actual upload (preview only)
-    ///
-    /// # Returns
-    ///
-    /// Statistics about the upload operation including entries uploaded,
-    /// locales processed, and duration.
-    ///
-    /// # Errors
-    ///
-    /// Returns error if:
-    /// - Translation files cannot be read
-    /// - API request fails
-    /// - Network error occurs
-    ///
-    /// # Example
-    ///
-    /// ```no_run
-    /// # use roblox_slang::roblox::{RobloxCloudClient, SyncOrchestrator};
-    /// # use roblox_slang::config::Config;
-    /// # async fn example() -> anyhow::Result<()> {
-    /// # let client = RobloxCloudClient::new("api_key".to_string())?;
-    /// # let config = Config::default();
-    /// # let orchestrator = SyncOrchestrator::new(client, config);
-    /// let stats = orchestrator.upload("table_id", false).await?;
-    /// println!("Uploaded {} entries in {:?}", stats.entries_uploaded, stats.duration);
-    /// # Ok(())
-    /// # }
-    /// ```
     pub async fn upload(&self, table_id: &str, dry_run: bool) -> Result<UploadStats> {
         let start = Instant::now();
-
-        // Read all local translation files
         let translations = self.read_local_translations()?;
 
         let entries_count = translations.len();
@@ -98,11 +40,7 @@ impl SyncOrchestrator {
         let locales_count = locales.len();
 
         if !dry_run {
-            // Convert to LocalizationEntry format
             let entries = self.translations_to_entries(&translations);
-
-            // Upload to cloud in batches (Roblox API has a limit per request)
-            // Based on testing, the API fails with 500 error when uploading too many entries at once
             const BATCH_SIZE: usize = 20;
 
             let game_id = self
@@ -127,49 +65,8 @@ impl SyncOrchestrator {
             duration,
         })
     }
-
-    /// Download translations from Roblox Cloud
-    ///
-    /// Fetches all translations from the specified localization table and writes
-    /// them to local translation files (one file per locale).
-    ///
-    /// # Arguments
-    ///
-    /// * `table_id` - Roblox localization table ID
-    /// * `dry_run` - If true, skip file writes (preview only)
-    ///
-    /// # Returns
-    ///
-    /// Statistics about the download operation including entries downloaded,
-    /// locales created/updated, and duration.
-    ///
-    /// # Errors
-    ///
-    /// Returns error if:
-    /// - API request fails
-    /// - Files cannot be written
-    /// - Network error occurs
-    ///
-    /// # Example
-    ///
-    /// ```no_run
-    /// # use roblox_slang::roblox::{RobloxCloudClient, SyncOrchestrator};
-    /// # use roblox_slang::config::Config;
-    /// # async fn example() -> anyhow::Result<()> {
-    /// # let client = RobloxCloudClient::new("api_key".to_string())?;
-    /// # let config = Config::default();
-    /// # let orchestrator = SyncOrchestrator::new(client, config);
-    /// let stats = orchestrator.download("table_id", false).await?;
-    /// println!("Downloaded {} entries", stats.entries_downloaded);
-    /// println!("Created {} locales, updated {} locales",
-    ///          stats.locales_created, stats.locales_updated);
-    /// # Ok(())
-    /// # }
-    /// ```
     pub async fn download(&self, table_id: &str, dry_run: bool) -> Result<DownloadStats> {
         let start = Instant::now();
-
-        // Download from cloud
         let game_id = self
             .config
             .cloud
@@ -183,11 +80,7 @@ impl SyncOrchestrator {
             .context("Failed to download translations")?;
 
         let entries_count = entries.len();
-
-        // Convert to Translation format
         let translations = self.entries_to_translations(&entries);
-
-        // Group by locale
         let mut by_locale: HashMap<String, Vec<Translation>> = HashMap::new();
         for translation in translations {
             by_locale
@@ -200,7 +93,6 @@ impl SyncOrchestrator {
         let mut locales_updated = 0;
 
         if !dry_run {
-            // Write translation files for each locale
             for (locale, locale_translations) in &by_locale {
                 let file_path =
                     Path::new(&self.config.input_directory).join(format!("{}.json", locale));
@@ -216,7 +108,6 @@ impl SyncOrchestrator {
                 }
             }
         } else {
-            // In dry-run, count what would be created/updated
             for locale in by_locale.keys() {
                 let file_path =
                     Path::new(&self.config.input_directory).join(format!("{}.json", locale));
@@ -238,51 +129,6 @@ impl SyncOrchestrator {
             duration,
         })
     }
-
-    /// Synchronize translations between local and cloud with merge strategy
-    ///
-    /// Performs bidirectional sync by comparing local and cloud translations,
-    /// computing differences, and applying the specified merge strategy.
-    ///
-    /// # Merge Strategies
-    ///
-    /// - `Overwrite` - Upload all local translations (cloud is overwritten)
-    /// - `Merge` - Upload local-only, download cloud-only, prefer cloud for conflicts
-    /// - `SkipConflicts` - Upload local-only, download cloud-only, skip conflicts
-    ///
-    /// # Arguments
-    ///
-    /// * `table_id` - Roblox localization table ID
-    /// * `strategy` - Merge strategy to use
-    /// * `dry_run` - If true, skip all writes (preview only)
-    ///
-    /// # Returns
-    ///
-    /// Statistics about the sync operation including entries added/updated/deleted,
-    /// conflicts skipped, and duration.
-    ///
-    /// # Errors
-    ///
-    /// Returns error if:
-    /// - API requests fail
-    /// - Files cannot be read/written
-    /// - Network error occurs
-    ///
-    /// # Example
-    ///
-    /// ```no_run
-    /// # use roblox_slang::roblox::{RobloxCloudClient, SyncOrchestrator, MergeStrategy};
-    /// # use roblox_slang::config::Config;
-    /// # async fn example() -> anyhow::Result<()> {
-    /// # let client = RobloxCloudClient::new("api_key".to_string())?;
-    /// # let config = Config::default();
-    /// # let orchestrator = SyncOrchestrator::new(client, config);
-    /// let stats = orchestrator.sync("table_id", MergeStrategy::Merge, false).await?;
-    /// println!("Added: {}, Updated: {}, Conflicts: {}",
-    ///          stats.entries_added, stats.entries_updated, stats.conflicts_skipped);
-    /// # Ok(())
-    /// # }
-    /// ```
     pub async fn sync(
         &self,
         table_id: &str,
@@ -290,12 +136,8 @@ impl SyncOrchestrator {
         dry_run: bool,
     ) -> Result<SyncStats> {
         let start = Instant::now();
-
-        // Get local translations
         let local_translations = self.read_local_translations()?;
         let local_map = self.translations_to_map(&local_translations);
-
-        // Get cloud translations
         let game_id = self
             .config
             .cloud
@@ -309,11 +151,7 @@ impl SyncOrchestrator {
             .context("Failed to download translations")?;
         let cloud_translations = self.entries_to_translations(&cloud_entries);
         let cloud_map = self.translations_to_map(&cloud_translations);
-
-        // Compute diff
         let diff = MergeEngine::compute_diff(&local_map, &cloud_map);
-
-        // Apply strategy
         let merge_result = MergeEngine::apply_strategy(&diff, strategy, &local_map);
 
         let mut entries_added = 0;
@@ -321,7 +159,6 @@ impl SyncOrchestrator {
         let entries_deleted = 0;
 
         if !dry_run {
-            // Upload to_upload entries
             if !merge_result.to_upload.is_empty() {
                 let upload_translations: Vec<Translation> = merge_result
                     .to_upload
@@ -349,8 +186,6 @@ impl SyncOrchestrator {
 
                 entries_added = merge_result.to_upload.len();
             }
-
-            // Download to_download entries
             if !merge_result.to_download.is_empty() {
                 let download_translations: Vec<Translation> = merge_result
                     .to_download
@@ -362,8 +197,6 @@ impl SyncOrchestrator {
                         context: None,
                     })
                     .collect();
-
-                // Group by locale and write files
                 let mut by_locale: HashMap<String, Vec<Translation>> = HashMap::new();
                 for translation in download_translations {
                     by_locale
@@ -372,22 +205,32 @@ impl SyncOrchestrator {
                         .push(translation);
                 }
 
-                for (locale, locale_translations) in &by_locale {
+                for (locale, incoming) in &by_locale {
                     let file_path =
                         Path::new(&self.config.input_directory).join(format!("{}.json", locale));
 
-                    self.write_translation_file(&file_path, locale_translations)?;
+                    let merged = if file_path.exists() {
+                        let existing =
+                            parser::parse_json_file(&file_path, locale).with_context(|| {
+                                format!(
+                                    "Failed to parse existing {} for merge",
+                                    file_path.display()
+                                )
+                            })?;
+                        merge_locale_translations(existing, incoming)
+                    } else {
+                        incoming.clone()
+                    };
+
+                    self.write_translation_file(&file_path, &merged)?;
                 }
 
                 entries_updated = merge_result.to_download.len();
             }
-
-            // Write conflicts file if any
             if !merge_result.conflicts.is_empty() {
                 self.write_conflicts_file(&merge_result.conflicts)?;
             }
         } else {
-            // In dry-run, just count
             entries_added = merge_result.to_upload.len();
             entries_updated = merge_result.to_download.len();
         }
@@ -402,10 +245,6 @@ impl SyncOrchestrator {
             duration,
         })
     }
-
-    // Helper methods
-
-    /// Read all local translation files
     fn read_local_translations(&self) -> Result<Vec<Translation>> {
         let mut all_translations = Vec::new();
 
@@ -425,12 +264,8 @@ impl SyncOrchestrator {
 
         Ok(all_translations)
     }
-
-    /// Convert translations to LocalizationEntry format
     fn translations_to_entries(&self, translations: &[Translation]) -> Vec<LocalizationEntry> {
         use super::types::{EntryMetadata, Identifier, Translation as ApiTranslation};
-
-        // Group by key
         let mut by_key: HashMap<String, Vec<&Translation>> = HashMap::new();
         for translation in translations {
             by_key
@@ -438,8 +273,6 @@ impl SyncOrchestrator {
                 .or_default()
                 .push(translation);
         }
-
-        // Convert to LocalizationEntry
         by_key
             .into_iter()
             .map(|(key, translations)| {
@@ -470,22 +303,16 @@ impl SyncOrchestrator {
             })
             .collect()
     }
-
-    /// Convert LocalizationEntry to Translation format
     fn entries_to_translations(&self, entries: &[LocalizationEntry]) -> Vec<Translation> {
         let mut translations = Vec::new();
 
         for entry in entries {
-            // Add source text as base locale translation
-            // Roblox Cloud doesn't return base locale translations when they match source text
             translations.push(Translation {
                 key: entry.identifier.key.clone(),
                 locale: self.config.base_locale.clone(),
                 value: entry.identifier.source.clone(),
                 context: entry.identifier.context.clone(),
             });
-
-            // Add all other translations from API response
             for api_translation in &entry.translations {
                 translations.push(Translation {
                     key: entry.identifier.key.clone(),
@@ -498,8 +325,6 @@ impl SyncOrchestrator {
 
         translations
     }
-
-    /// Convert translations to HashMap for merge engine
     fn translations_to_map(
         &self,
         translations: &[Translation],
@@ -509,16 +334,10 @@ impl SyncOrchestrator {
             .map(|t| ((t.key.clone(), t.locale.clone()), t.value.clone()))
             .collect()
     }
-
-    /// Write translation file in nested JSON format
     fn write_translation_file(&self, path: &Path, translations: &[Translation]) -> Result<()> {
         use crate::utils::flatten::unflatten_translations;
         use std::fs;
-
-        // Convert flat translations to nested structure
         let nested = unflatten_translations(translations);
-
-        // Write to file
         let json =
             serde_json::to_string_pretty(&nested).context("Failed to serialize translations")?;
 
@@ -526,12 +345,8 @@ impl SyncOrchestrator {
 
         Ok(())
     }
-
-    /// Write conflicts to YAML file
     fn write_conflicts_file(&self, conflicts: &[super::merge::Conflict]) -> Result<()> {
         use std::fs;
-
-        // Group conflicts by locale
         let mut by_locale: HashMap<String, Vec<&super::merge::Conflict>> = HashMap::new();
         for conflict in conflicts {
             by_locale
@@ -539,8 +354,6 @@ impl SyncOrchestrator {
                 .or_default()
                 .push(conflict);
         }
-
-        // Create YAML structure
         let mut yaml_content = String::from("# Translation Conflicts\n");
         yaml_content.push_str("# Resolve these conflicts manually\n\n");
 
@@ -678,16 +491,10 @@ mod tests {
         }];
 
         let translations = orchestrator.entries_to_translations(&entries);
-
-        // Should have 2 translations: base locale (from source) + es
         assert_eq!(translations.len(), 2);
-
-        // First translation should be base locale from source
         assert_eq!(translations[0].key, "ui.button");
         assert_eq!(translations[0].locale, "en");
         assert_eq!(translations[0].value, "Buy");
-
-        // Second translation should be from API response
         assert_eq!(translations[1].key, "ui.button");
         assert_eq!(translations[1].locale, "es");
         assert_eq!(translations[1].value, "Comprar");
@@ -721,19 +528,11 @@ mod tests {
         }];
 
         let translations = orchestrator.entries_to_translations(&entries);
-
-        // Should have 3 translations: en (source) + es + id
         assert_eq!(translations.len(), 3);
-
-        // Check base locale
         let en_translation = translations.iter().find(|t| t.locale == "en").unwrap();
         assert_eq!(en_translation.value, "Hello");
-
-        // Check Spanish
         let es_translation = translations.iter().find(|t| t.locale == "es").unwrap();
         assert_eq!(es_translation.value, "Hola");
-
-        // Check Indonesian
         let id_translation = translations.iter().find(|t| t.locale == "id").unwrap();
         assert_eq!(id_translation.value, "Halo");
     }
@@ -760,8 +559,6 @@ mod tests {
         }];
 
         let translations = orchestrator.entries_to_translations(&entries);
-
-        // All translations should have the same context
         for translation in &translations {
             assert_eq!(translation.context, Some("shop".to_string()));
         }
@@ -821,5 +618,99 @@ mod tests {
             map.get(&("ui.button".to_string(), "es".to_string())),
             Some(&"Comprar".to_string())
         );
+    }
+
+    #[test]
+    fn test_merge_locale_translations_preserves_local_keys() {
+        let existing = vec![
+            Translation {
+                key: "greeting".to_string(),
+                locale: "en".to_string(),
+                value: "Hello".to_string(),
+                context: None,
+            },
+            Translation {
+                key: "farewell".to_string(),
+                locale: "en".to_string(),
+                value: "Goodbye".to_string(),
+                context: None,
+            },
+        ];
+        let incoming = vec![Translation {
+            key: "greeting".to_string(),
+            locale: "en".to_string(),
+            value: "Hi there".to_string(),
+            context: None,
+        }];
+
+        let merged = merge_locale_translations(existing, &incoming);
+
+        assert_eq!(merged.len(), 2, "must preserve both keys");
+        assert_eq!(
+            merged.iter().find(|t| t.key == "greeting").unwrap().value,
+            "Hi there",
+            "greeting must be updated"
+        );
+        assert_eq!(
+            merged.iter().find(|t| t.key == "farewell").unwrap().value,
+            "Goodbye",
+            "farewell must be preserved"
+        );
+    }
+
+    #[test]
+    fn test_merge_locale_translations_adds_new_keys() {
+        let existing = vec![Translation {
+            key: "greeting".to_string(),
+            locale: "en".to_string(),
+            value: "Hello".to_string(),
+            context: None,
+        }];
+
+        let incoming = vec![Translation {
+            key: "new_key".to_string(),
+            locale: "en".to_string(),
+            value: "New Value".to_string(),
+            context: Some("added by cloud".to_string()),
+        }];
+
+        let merged = merge_locale_translations(existing, &incoming);
+
+        assert_eq!(merged.len(), 2);
+        let new = merged.iter().find(|t| t.key == "new_key").unwrap();
+        assert_eq!(new.value, "New Value");
+        assert_eq!(new.context, Some("added by cloud".to_string()));
+    }
+
+    #[test]
+    fn test_merge_locale_translations_empty_existing() {
+        let existing = vec![];
+
+        let incoming = vec![Translation {
+            key: "greeting".to_string(),
+            locale: "en".to_string(),
+            value: "Hello".to_string(),
+            context: None,
+        }];
+
+        let merged = merge_locale_translations(existing, &incoming);
+        assert_eq!(merged.len(), 1);
+        assert_eq!(merged[0].key, "greeting");
+    }
+
+    #[test]
+    fn test_merge_locale_translations_empty_incoming() {
+        let existing = vec![Translation {
+            key: "greeting".to_string(),
+            locale: "en".to_string(),
+            value: "Hello".to_string(),
+            context: None,
+        }];
+
+        let incoming: Vec<Translation> = vec![];
+
+        let merged = merge_locale_translations(existing, &incoming);
+        assert_eq!(merged.len(), 1);
+        assert_eq!(merged[0].value, "Hello");
     }
 }
