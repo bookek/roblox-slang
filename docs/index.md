@@ -1,10 +1,10 @@
 # Roblox Slang Documentation
 
-Complete documentation for Roblox Slang - type-safe internationalization for Roblox games.
+Docs for Roblox Slang, a translation generator for Roblox games.
 
 ## Getting Started
 
-New to Roblox Slang? Start here:
+Start here:
 
 - **[Getting Started](getting-started.md)** - Installation and first project setup
 
@@ -12,7 +12,7 @@ New to Roblox Slang? Start here:
 
 Learn about the main features:
 
-- **[Configuration](guides/configuration.md)** - Complete configuration reference
+- **[Configuration](guides/configuration.md)** - Configuration reference
 - **[String Interpolation](guides/string-interpolation.md)** - Use parameters in translations
 - **[Pluralization](guides/pluralization.md)** - Handle plural forms with CLDR rules
 - **[Roblox Cloud Integration](guides/roblox-cloud.md)** - Upload to Roblox Cloud for access to Roblox features
@@ -23,9 +23,7 @@ Learn about the main features:
 
 ## Reference
 
-Detailed reference documentation:
-
-- **[CLI Reference](reference/cli-reference.md)** - Complete command-line interface guide
+- **[CLI Reference](reference/cli-reference.md)** - CLI command reference
 
 ## Quick Links
 
@@ -74,19 +72,25 @@ print(t:items(5))  -- "5 items"
 -- Switch locale
 t:setLocale("es")
 print(t.ui.buttons:buy())  -- "Comprar"
+
+-- Player locale
+local playerTranslations = Translations.newForPlayer(player)
 ```
 
 ## Documentation Structure
 
 ```yaml
 docs/
-├── README.md                    # This file
-├── getting-started.md           # Installation and setup
-├── configuration.md             # Config file reference
-├── string-interpolation.md      # Parameter usage
-├── pluralization.md             # Plural forms
-├── roblox-cloud.md             # Cloud integration
-└── cli-reference.md            # CLI commands
+├── getting-started.md
+├── guides/
+│   ├── configuration.md
+│   ├── pluralization.md
+│   ├── roblox-cloud.md
+│   └── string-interpolation.md
+├── integration/
+│   └── rojo.md
+└── reference/
+    └── cli-reference.md
 ```
 
 ## External Resources
