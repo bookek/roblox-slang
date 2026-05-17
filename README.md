@@ -37,10 +37,10 @@ local text = translator:FormatByKey("UI_Buttns_Confirm") -- ERROR at runtime!
 
 ```lua
 local t = Translations.new("en")
-local text = t.ui.buttons.confirm() -- Autocomplete works, type-safe
+local text = t.ui.buttons:confirm() -- Autocomplete with Luau types
 
--- Typo = build-time error
-local text = t.ui.buttns.confirm() -- ERROR: Property doesn't exist (caught at build time)
+-- Typo = Luau type error
+local text = t.ui.buttns:confirm() -- Property does not exist
 ```
 
 ## Features
@@ -49,7 +49,7 @@ local text = t.ui.buttns.confirm() -- ERROR: Property doesn't exist (caught at b
 - **Three localization modes** - Embedded (default), Cloud, or Hybrid for flexibility
 - **String interpolation** - `{name}`, `{count:int}` with parameter validation
 - **Pluralization** - CLDR rules (zero/one/two/few/many/other)
-- **Nested namespaces** - Clean syntax: `t.ui.buttons:buy()`
+- **Nested namespaces** - `t.ui.buttons:buy()` with deep paths such as `ui.buttons.primary.buy`
 - **Watch mode** - Auto-rebuild on file changes
 - **CSV generation** - Export to Roblox Cloud Localization format
 - **Cloud sync** - Bidirectional sync with Roblox Cloud Localization Tables
@@ -77,12 +77,12 @@ rokit add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.4"
 ```
 
 ### Via Aftman
 
-> **Note:** Aftman is no longer actively maintained. We recommend using [Rokit](#via-rokit-recommended) or [Foreman](#via-foreman) for new projects.
+> Aftman is no longer actively maintained. For new projects, use [Rokit](#via-rokit-recommended) or [Foreman](#via-foreman).
 
 [Aftman](https://github.com/LPGhatguy/aftman) provides exact version dependencies and a trust-based security model.
 
@@ -98,7 +98,7 @@ aftman add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
+roblox-slang = "mathtechstudio/roblox-slang@2.0.4"
 ```
 
 ### Via Foreman
@@ -109,7 +109,7 @@ roblox-slang = "mathtechstudio/roblox-slang@2.0.2"
 
 ```toml
 [tools]
-roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.2" }
+roblox-slang = { github = "mathtechstudio/roblox-slang", version = "2.0.4" }
 ```
 
 ```bash
@@ -120,12 +120,12 @@ foreman install
 
 Download pre-built binaries for your platform:
 
-- `roblox-slang-2.0.2-linux-x86_64.zip`
-- `roblox-slang-2.0.2-linux-aarch64.zip`
-- `roblox-slang-2.0.2-windows-x86_64.zip`
-- `roblox-slang-2.0.2-windows-aarch64.zip`
-- `roblox-slang-2.0.2-macos-x86_64.zip`
-- `roblox-slang-2.0.2-macos-aarch64.zip`
+- `roblox-slang-2.0.4-linux-x86_64.zip`
+- `roblox-slang-2.0.4-linux-aarch64.zip`
+- `roblox-slang-2.0.4-windows-x86_64.zip`
+- `roblox-slang-2.0.4-windows-aarch64.zip`
+- `roblox-slang-2.0.4-macos-x86_64.zip`
+- `roblox-slang-2.0.4-macos-aarch64.zip`
 
 Extract and add to your PATH, or use a tool manager for automatic updates.
 
@@ -145,7 +145,7 @@ cargo install --locked --path .
 
 ```bash
 roblox-slang --version
-# Output: roblox-slang 2.0.2
+# Output: roblox-slang 2.0.4
 ```
 
 ## Quick Start
@@ -184,21 +184,21 @@ Creates:
 }
 ```
 
-`translations/es.json`:
+`translations/id.json`:
 
 ```json
 {
   "ui": {
     "buttons": {
-      "buy": "Comprar",
-      "sell": "Vender"
+      "buy": "Beli",
+      "sell": "Jual"
     },
     "messages": {
-      "greeting": "¡Hola, {name}!",
+      "greeting": "Halo, {name}!",
       "items": {
-        "zero": "Sin artículos",
-        "one": "1 artículo",
-        "other": "{count} artículos"
+        "zero": "Tidak ada item",
+        "one": "1 item",
+        "other": "{count} item"
       }
     }
   }
@@ -276,8 +276,8 @@ print(t.ui.messages:items(1))  -- "1 item"
 print(t.ui.messages:items(5))  -- "5 items"
 
 -- Switch locale at runtime
-t:setLocale("es")
-print(t.ui.buttons:buy())  -- "Comprar"
+t:setLocale("id")
+print(t.ui.buttons:buy())  -- "Beli"
 
 -- Auto-detect player locale
 local function onPlayerAdded(player)
@@ -297,7 +297,6 @@ base_locale: en
 # Supported locales
 supported_locales:
   - en
-  - es
   - id
 
 # Input directory for translation files
@@ -311,13 +310,13 @@ output_directory: output
 # Optional: Namespace for generated module (null = no namespace)
 namespace: null
 
-# Localization mode (NEW in v2.0.2)
+# Runtime localization mode
 # Controls how translations are loaded at runtime
 localization:
   # Mode: embedded (default) - Translations embedded in generated code, no cloud dependency
   # Other options:
   #   - cloud: Use Roblox Cloud LocalizationService only (requires cloud upload)
-  #   - hybrid: Try cloud first, fallback to embedded (best of both worlds)
+  #   - hybrid: Try cloud first, then use embedded translations on error
   mode: embedded
 
 # Optional: Translation overrides (for A/B testing, seasonal events)
@@ -336,7 +335,7 @@ analytics:
 
 ### Localization Modes
 
-**NEW in v2.0.2:** Choose how translations are loaded at runtime.
+Choose how translations are loaded at runtime.
 
 #### Embedded Mode (Default)
 
@@ -360,6 +359,10 @@ localization:
 local t = Translations.new("en")
 print(t.ui.buttons:buy())  -- Direct lookup from embedded data
 ```
+
+`Translations.newForPlayer(player)` is also available in embedded mode. It reads
+`player.LocaleId` and falls back to `base_locale` when Roblox does not provide a
+locale.
 
 #### Cloud Mode
 
@@ -391,7 +394,7 @@ print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 
 #### Hybrid Mode
 
-Best of both worlds: tries cloud first, falls back to embedded on error.
+Hybrid mode tries cloud first, then uses embedded translations on error.
 
 ```yaml
 localization:
@@ -401,8 +404,7 @@ localization:
 **Benefits:**
 
 - Cloud features when available (ATC, auto-translation)
-- Embedded fallback for reliability
-- Graceful degradation on cloud errors
+- Embedded fallback when LocalizationService fails
 - Works in Studio and production
 
 **Usage:**
@@ -417,6 +419,19 @@ print(t.ui.buttons:buy())  -- Tries cloud, falls back to embedded
 - Games transitioning from embedded to cloud
 - Games that need offline support with cloud benefits
 - Development (Studio) vs production (cloud) workflows
+
+### Generated API Notes
+
+`Translations.new(locale)` creates the namespace tables for that instance. Use
+the documented colon-call form:
+
+```lua
+local t = Translations.new("en")
+print(t.ui.buttons.primary:buy())
+```
+
+Hyphens and Luau keywords in translation keys are sanitized in both generated
+runtime code and `.d.luau` types.
 
 ### String Interpolation
 
@@ -458,16 +473,18 @@ print(t:items(5))  -- "5 items"
 local t = Translations.new("en")
 print(t.ui.buttons:buy())  -- "Buy"
 
-t:setLocale("es")
-print(t.ui.buttons:buy())  -- "Comprar"
+t:setLocale("id")
+print(t.ui.buttons:buy())  -- "Beli"
 ```
 
 ### Auto-Detect Player Locale
 
 ```lua
--- Reads the player's Roblox account language setting (player.LocaleId)
 local t = Translations.newForPlayer(player)
 ```
+
+`newForPlayer` works in embedded, cloud, and hybrid mode. It reads
+`player.LocaleId`, normalizes the value, and uses `base_locale` as the fallback.
 
 ### Translation Overrides
 
@@ -479,8 +496,8 @@ For A/B testing or seasonal events:
 en:
   ui.buttons.buy: "Purchase Now!"  # Override for A/B test
   
-es:
-  ui.buttons.buy: "¡Comprar Ahora!"
+id:
+  ui.buttons.buy: "Beli Sekarang!"
 ```
 
 Priority: `overrides.yaml` > `translations/*.json`
@@ -514,11 +531,11 @@ Quick links:
 | `roblox-slang validate --all` | Check for missing/unused keys and conflicts |
 | `roblox-slang migrate --from <format>` | Migrate from other formats |
 
-See [CLI Reference](docs/reference/cli-reference.md) for complete command documentation.
+See [CLI Reference](docs/reference/cli-reference.md) for command details.
 
 ## Roblox Cloud Integration
 
-Roblox Slang provides seamless integration with Roblox Cloud Localization Tables through bidirectional sync commands.
+Roblox Slang can sync local translation files with Roblox Cloud Localization Tables.
 
 ### Quick Start
 

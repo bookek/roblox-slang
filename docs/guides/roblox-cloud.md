@@ -10,11 +10,11 @@ Roblox Slang provides bidirectional synchronization between your local translati
 - **Download**: Pull cloud translations to local files
 - **Sync**: Bidirectional sync with conflict resolution
 
-**NEW in v2.x:** You can now choose how translations are loaded at runtime:
+Runtime code can load translations in three modes:
 
 - **Embedded mode** (default): Translations embedded in code, no cloud dependency
 - **Cloud mode**: Uses Roblox Cloud LocalizationService exclusively
-- **Hybrid mode**: Tries cloud first, falls back to embedded
+- **Hybrid mode**: Tries cloud first, then uses embedded translations on error
 
 This guide focuses on cloud sync commands. For runtime localization modes, see [Configuration Guide](configuration.md#localization).
 
@@ -42,7 +42,7 @@ Roblox Cloud uses API keys to authenticate and authorize API access with granula
        - `Write` - For uploading translations
    - **Security** (optional but recommended):
      - **IP Restrictions**: Add IP addresses using CIDR notation (e.g., `192.168.0.0/24`)
-       - Note: Do not use IP restrictions if using the key in Roblox places
+       - Do not use IP restrictions if the key runs from Roblox places
      - **Expiration Date**: Set an expiration date for additional security
 
 5. Click **Save & Generate Key**
@@ -125,17 +125,20 @@ cloud:
   table_id: "your_table_id_here"
   strategy: "merge"  # overwrite, merge, or skip-conflicts
 
-# Localization mode (NEW in v2.x)
+# Runtime localization mode
 # Use "cloud" mode to load translations from LocalizationService at runtime
 localization:
   mode: embedded  # or "cloud" or "hybrid"
 ```
 
-**Note:** The `cloud` configuration above is for sync commands (upload/download/sync). The `localization.mode` controls how translations are loaded at runtime in your game. See [Using Cloud Mode](#using-cloud-mode) below.
+The `cloud` section is for sync commands: upload, download, and sync.
+`localization.mode` controls how generated runtime code loads text in-game.
+See [Using Cloud Mode](#using-cloud-mode) below.
 
 ## Using Cloud Mode
 
-**NEW in v2.x:** After uploading translations to Roblox Cloud, you can configure your game to load translations from LocalizationService at runtime.
+After uploading translations to Roblox Cloud, set the game runtime to load text
+from LocalizationService.
 
 ### Cloud Mode Configuration
 
@@ -157,17 +160,16 @@ localization:
 2. Set `localization.mode: cloud` in config
 3. Rebuild: `roblox-slang build`
 
-**Generated code will use LocalizationService:**
+**Generated code:**
 
 ```lua
--- Generated Translations.lua uses LocalizationService
 local t = Translations.new("en")
 print(t.ui.buttons:buy())  -- Fetches from LocalizationService
 ```
 
-### Hybrid Mode (Recommended)
+### Hybrid Mode
 
-For best reliability, use hybrid mode which tries cloud first, falls back to embedded:
+Hybrid mode tries cloud first, then uses embedded translations on error:
 
 ```yaml
 localization:
@@ -177,7 +179,7 @@ localization:
 **Benefits:**
 
 - Cloud features when available
-- Embedded fallback for reliability
+- Embedded fallback when LocalizationService fails
 - Works in Studio and production
 
 **Workflow:**
