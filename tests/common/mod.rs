@@ -4,16 +4,10 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 use tempfile::TempDir;
-
-/// Create a temporary test project with basic structure
 pub fn create_test_project() -> TempDir {
     let temp = TempDir::new().unwrap();
-
-    // Create directories
     fs::create_dir(temp.path().join("translations")).unwrap();
     fs::create_dir(temp.path().join("output")).unwrap();
-
-    // Create config file
     let config = r#"base_locale: en
 supported_locales:
   - en
@@ -25,12 +19,8 @@ output_directory: output
 
     temp
 }
-
-/// Create a test project with sample translations
 pub fn create_test_project_with_translations() -> TempDir {
     let temp = create_test_project();
-
-    // Create English translations
     let en_json = r#"{
   "ui": {
     "buttons": {
@@ -43,8 +33,6 @@ pub fn create_test_project_with_translations() -> TempDir {
   }
 }"#;
     fs::write(temp.path().join("translations/en.json"), en_json).unwrap();
-
-    // Create Indonesian translations
     let id_json = r#"{
   "ui": {
     "buttons": {
@@ -60,8 +48,6 @@ pub fn create_test_project_with_translations() -> TempDir {
 
     temp
 }
-
-/// Create a test project with custom config
 #[allow(dead_code)]
 pub fn create_test_project_with_config(config: &str) -> TempDir {
     let temp = TempDir::new().unwrap();
@@ -72,8 +58,6 @@ pub fn create_test_project_with_config(config: &str) -> TempDir {
 
     temp
 }
-
-/// Generate test translations with specified count
 #[allow(dead_code)]
 pub fn generate_translations(count: usize) -> serde_json::Map<String, serde_json::Value> {
     let mut translations = serde_json::Map::new();
@@ -86,8 +70,6 @@ pub fn generate_translations(count: usize) -> serde_json::Map<String, serde_json
 
     translations
 }
-
-/// Generate nested translations with specified depth and breadth
 #[allow(dead_code)]
 pub fn generate_nested_translations(depth: usize, breadth: usize) -> serde_json::Value {
     fn build_nested(current_depth: usize, max_depth: usize, breadth: usize) -> serde_json::Value {
@@ -106,19 +88,13 @@ pub fn generate_nested_translations(depth: usize, breadth: usize) -> serde_json:
 
     build_nested(0, depth, breadth)
 }
-
-/// Assert that a file exists
 pub fn assert_file_exists(path: &Path) {
     assert!(path.exists(), "File not found: {}", path.display());
 }
-
-/// Assert that a file does not exist
 #[allow(dead_code)]
 pub fn assert_file_not_exists(path: &Path) {
-    assert!(!path.exists(), "File should not exist: {}", path.display());
+    assert!(!path.exists(), "File must not exist: {}", path.display());
 }
-
-/// Assert that a file contains a specific string
 pub fn assert_file_contains(path: &Path, content: &str) {
     let file_content = fs::read_to_string(path)
         .unwrap_or_else(|_| panic!("Failed to read file: {}", path.display()));
@@ -130,8 +106,6 @@ pub fn assert_file_contains(path: &Path, content: &str) {
         content
     );
 }
-
-/// Assert that a file does not contain a specific string
 #[allow(dead_code)]
 pub fn assert_file_not_contains(path: &Path, content: &str) {
     let file_content = fs::read_to_string(path)
@@ -139,13 +113,11 @@ pub fn assert_file_not_contains(path: &Path, content: &str) {
 
     assert!(
         !file_content.contains(content),
-        "File {} should not contain '{}'",
+        "File {} must not contain '{}'",
         path.display(),
         content
     );
 }
-
-/// Assert that a directory exists
 #[allow(dead_code)]
 pub fn assert_dir_exists(path: &Path) {
     assert!(
@@ -154,8 +126,6 @@ pub fn assert_dir_exists(path: &Path) {
         path.display()
     );
 }
-
-/// Run CLI command and capture output
 #[allow(dead_code)]
 pub fn run_cli(args: &[&str]) -> Result<String, String> {
     let output = Command::new("cargo")
@@ -170,16 +140,12 @@ pub fn run_cli(args: &[&str]) -> Result<String, String> {
         Err(String::from_utf8_lossy(&output.stderr).to_string())
     }
 }
-
-/// Get file size in bytes
 #[allow(dead_code)]
 pub fn get_file_size(path: &Path) -> u64 {
     fs::metadata(path)
         .unwrap_or_else(|_| panic!("Failed to get metadata for: {}", path.display()))
         .len()
 }
-
-/// Count lines in a file
 #[allow(dead_code)]
 pub fn count_lines(path: &Path) -> usize {
     let content = fs::read_to_string(path)
@@ -187,8 +153,6 @@ pub fn count_lines(path: &Path) -> usize {
 
     content.lines().count()
 }
-
-/// Create a CSV file with test data
 #[allow(dead_code)]
 pub fn create_test_csv(path: &Path, locales: &[&str], keys: &[&str]) {
     let mut csv = String::from("Source,Context,Key");
@@ -208,8 +172,6 @@ pub fn create_test_csv(path: &Path, locales: &[&str], keys: &[&str]) {
 
     fs::write(path, csv).unwrap();
 }
-
-/// Wait for a file to be created (with timeout)
 #[allow(dead_code)]
 pub fn wait_for_file(path: &Path, timeout_secs: u64) -> bool {
     use std::time::{Duration, Instant};
@@ -226,8 +188,6 @@ pub fn wait_for_file(path: &Path, timeout_secs: u64) -> bool {
 
     false
 }
-
-/// Compare two JSON files for equality (ignoring formatting)
 #[allow(dead_code)]
 pub fn assert_json_files_equal(path1: &Path, path2: &Path) {
     let content1 = fs::read_to_string(path1)

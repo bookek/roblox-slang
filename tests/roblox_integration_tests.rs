@@ -335,13 +335,8 @@ async fn test_invalid_table_id_400() {
 
 #[tokio::test]
 async fn test_network_timeout() {
-    // Test that client has proper timeout configured
     let client = RobloxCloudClient::new("test_api_key".to_string()).unwrap();
-
-    // Try to connect to non-existent server
     let result = client.get_table_entries("test-table-id", None).await;
-
-    // Should fail with network error
     assert!(result.is_err());
 }
 
@@ -374,8 +369,6 @@ async fn test_malformed_json_response() {
 #[tokio::test]
 async fn test_correct_endpoint_paths() {
     let mut server = mockito::Server::new_async().await;
-
-    // Test GET entries endpoint
     let mock_get = server
         .mock(
             "GET",
@@ -386,8 +379,6 @@ async fn test_correct_endpoint_paths() {
         .with_body(r#"{"entries": []}"#)
         .create_async()
         .await;
-
-    // Test PATCH update endpoint
     let mock_patch = server
         .mock(
             "PATCH",
@@ -398,8 +389,6 @@ async fn test_correct_endpoint_paths() {
         .with_body(r#"{"success": true}"#)
         .create_async()
         .await;
-
-    // Test GET metadata endpoint
     let mock_metadata = server
         .mock(
             "GET",
@@ -413,13 +402,9 @@ async fn test_correct_endpoint_paths() {
 
     let mut client = RobloxCloudClient::new("test_key".to_string()).unwrap();
     client.set_base_url_for_testing(server.url());
-
-    // Test all endpoints
     let _ = client.get_table_entries("test-id", None).await;
     let _ = client.update_table_entries("test-id", &[], None).await;
     let _ = client.get_table_metadata("test-id").await;
-
-    // Verify correct paths were called
     mock_get.assert_async().await;
     mock_patch.assert_async().await;
     mock_metadata.assert_async().await;
