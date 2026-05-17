@@ -15,10 +15,7 @@ use std::collections::HashMap;
 //
 // Run with: cargo bench
 
-// ====================================================================================
 // Helper Functions
-// ====================================================================================
-
 /// Generate test translations with nested structure
 fn generate_nested_translations(count: usize) -> Value {
     let mut map = serde_json::Map::new();
@@ -60,9 +57,7 @@ fn generate_flat_translations(count: usize) -> HashMap<String, String> {
     map
 }
 
-// ====================================================================================
 // JSON Parsing Benchmarks
-// ====================================================================================
 
 fn bench_json_parsing(c: &mut Criterion) {
     let mut group = c.benchmark_group("json_parsing");
@@ -86,9 +81,7 @@ fn bench_json_parsing(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // YAML Parsing Benchmarks
-// ====================================================================================
 
 fn bench_yaml_parsing(c: &mut Criterion) {
     let mut group = c.benchmark_group("yaml_parsing");
@@ -112,9 +105,7 @@ fn bench_yaml_parsing(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // Flatten Benchmarks
-// ====================================================================================
 
 fn bench_flatten_json(c: &mut Criterion) {
     let mut group = c.benchmark_group("flatten");
@@ -137,9 +128,7 @@ fn bench_flatten_json(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // Luau Code Generation Benchmarks
-// ====================================================================================
 
 fn bench_luau_generation(c: &mut Criterion) {
     let mut group = c.benchmark_group("luau_generation");
@@ -171,9 +160,7 @@ fn bench_luau_generation(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // CSV Generation Benchmarks
-// ====================================================================================
 
 fn bench_csv_generation(c: &mut Criterion) {
     let mut group = c.benchmark_group("csv_generation");
@@ -210,9 +197,7 @@ fn bench_csv_generation(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // End-to-End Build Benchmarks
-// ====================================================================================
 
 fn bench_complete_build(c: &mut Criterion) {
     let mut group = c.benchmark_group("complete_build");
@@ -257,9 +242,7 @@ fn bench_complete_build(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // String Operations Benchmarks
-// ====================================================================================
 
 fn bench_string_operations(c: &mut Criterion) {
     let mut group = c.benchmark_group("string_operations");
@@ -298,9 +281,7 @@ fn bench_string_operations(c: &mut Criterion) {
     group.finish();
 }
 
-// ====================================================================================
 // Benchmark Groups
-// ====================================================================================
 
 criterion_group!(
     benches,
