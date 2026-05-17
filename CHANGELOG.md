@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-05-18
+
+Do not hate **monday**, **monday** hates you too. Despite a busy schedule, significant effort went into this major release to deliver critical improvements in namespace binding, identifier safety, and synchronization reliability.
+
+### Added
+
+- Added `Translations.detectLocale(player)` and `Translations.newForPlayer(player)` to the default `embedded` localization mode.
+- Added build-time collision checks to prevent conflicting translation keys that sanitize to the same identifier.
+
+### Changed
+
+- **BREAKING**: Replaced class-level namespaces with per-instance closures bound inside `_setupNamespaces` at instantiation. Namespace API methods now support both colon (`t.ui.buttons:buy()`) and dot (`t.ui.buttons.buy()`) syntax correctly.
+- Improved the `sync` command to safely merge cloud downloads with existing local translations, resolving the risk of deleting local-only keys.
+- Sanitized translation keys to produce valid Luau identifiers in generated code and `.d.luau` types.
+
+### Security
+
+- Updated `rustls-webpki` and `rand` dependencies to patch security vulnerabilities.
+
 ## [2.0.4] - 2026-04-04
 
 ### Changed
