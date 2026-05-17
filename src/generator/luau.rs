@@ -562,6 +562,9 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
 
     for translation in &regular_translations {
         let parts: Vec<&str> = translation.key.split('.').collect();
+        if parts.len() <= 1 {
+            continue;
+        }
         let namespace = sanitize_namespace_path(&parts[0..parts.len() - 1].join("."));
         let method = sanitize_segment(parts[parts.len() - 1]);
         let flat_method = sanitize_luau_identifier(&translation.key);
@@ -586,6 +589,9 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
 
     for base_key in &plural_keys_sorted {
         let parts: Vec<&str> = base_key.split('.').collect();
+        if parts.len() <= 1 {
+            continue;
+        }
         let namespace = sanitize_namespace_path(&parts[0..parts.len() - 1].join("."));
         let method = sanitize_segment(parts[parts.len() - 1]);
         let flat_method = sanitize_luau_identifier(base_key);
