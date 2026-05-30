@@ -4,197 +4,130 @@ local Translations = {}
 Translations.__index = Translations
 
 function Translations.new(locale)
-    local self = setmetatable({}, Translations)
-    self._locale = locale or "en"
-    self._localeChangedCallbacks = {}
-    
-    -- Get LocalizationService translator (required)
-    local LocalizationService = game:GetService("LocalizationService")
-    local success, translator = pcall(function()
-        return LocalizationService:GetTranslatorForLocaleAsync(self._locale)
-    end)
-    
-    if not success then
-        error(
-            "Failed to get translator for locale: " .. self._locale .. "\n" ..
-            "\nHint: Make sure you've uploaded translations to Roblox Cloud." ..
-            "\nRun: roblox-slang upload --table-id YOUR_TABLE_ID"
-        )
-    end
-    
-    self._translator = translator
-    
-    return self
+	local self = setmetatable({}, Translations)
+	self._locale = locale or "en"
+	self._localeChangedCallbacks = {}
+
+	local LocalizationService = game:GetService("LocalizationService")
+	local success, translator = pcall(function()
+		return LocalizationService:GetTranslatorForLocaleAsync(self._locale)
+	end)
+
+	if not success then
+		error(
+			"Failed to get translator for locale: "
+				.. self._locale
+				.. "\n"
+				.. "\nHint: Make sure you've uploaded translations to Roblox Cloud."
+				.. "\nRun: roblox-slang upload --table-id YOUR_TABLE_ID"
+		)
+	end
+
+	self._translator = translator
+
+	Translations._setupNamespaces(self)
+	return self
 end
 
 function Translations:setLocale(locale)
-    if self._locale == locale then
-        return
-    end
-    
-    local oldLocale = self._locale
-    self._locale = locale
-    
-    -- Get new translator
-    local LocalizationService = game:GetService("LocalizationService")
-    local success, translator = pcall(function()
-        return LocalizationService:GetTranslatorForLocaleAsync(locale)
-    end)
-    
-    if success then
-        self._translator = translator
-    else
-        warn("Failed to switch to locale: " .. locale)
-        self._locale = oldLocale
-        return
-    end
-    
-    -- Fire locale changed callbacks
-    for _, callback in ipairs(self._localeChangedCallbacks) do
-        task.spawn(callback, locale, oldLocale)
-    end
+	if self._locale == locale then
+		return
+	end
+
+	local oldLocale = self._locale
+	self._locale = locale
+
+	local LocalizationService = game:GetService("LocalizationService")
+	local success, translator = pcall(function()
+		return LocalizationService:GetTranslatorForLocaleAsync(locale)
+	end)
+
+	if success then
+		self._translator = translator
+	else
+		warn("Failed to switch to locale: " .. locale)
+		self._locale = oldLocale
+		return
+	end
+
+	for _, callback in ipairs(self._localeChangedCallbacks) do
+		task.spawn(callback, locale, oldLocale)
+	end
 end
 
 function Translations:getLocale()
-    return self._locale
+	return self._locale
 end
 
 function Translations:onLocaleChanged(callback)
-    table.insert(self._localeChangedCallbacks, callback)
+	table.insert(self._localeChangedCallbacks, callback)
 end
 
 function Translations:getAsset(assetKey)
-    local key = "assets." .. assetKey .. "." .. self._locale
-    local success, result = pcall(function()
-        return self._translator:FormatByKey(key)
-    end)
-    
-    if success then
-        return result
-    end
-    
-    -- Fallback to base locale
-    local fallbackKey = "assets." .. assetKey .. ".en"
-    return self._translator:FormatByKey(fallbackKey)
+	local key = "assets." .. assetKey .. "." .. self._locale
+	local success, result = pcall(function()
+		return self._translator:FormatByKey(key)
+	end)
+
+	if success then
+		return result
+	end
+	local fallbackKey = "assets." .. assetKey .. ".en"
+	return self._translator:FormatByKey(fallbackKey)
 end
 
 function Translations.detectLocale(player)
-    local LocalizationService = game:GetService("LocalizationService")
-    
-    -- Try to get player's country
-    local success, countryCode = pcall(function()
-        return LocalizationService:GetCountryRegionForPlayerAsync(player)
-    end)
-    
-    if not success or not countryCode then
-        return "en"  -- Fallback to English
-    end
-    
-    -- Map country code to locale
-    local countryLocaleMap = {
-        ["US"] = "en",
-        ["GB"] = "en",
-        ["CA"] = "en",
-        ["AU"] = "en",
-        ["NZ"] = "en",
-        ["IE"] = "en",
-        ["ZA"] = "en",
-        ["SG"] = "en",
-        ["PH"] = "en",
-        ["ES"] = "es",
-        ["MX"] = "es",
-        ["AR"] = "es",
-        ["CO"] = "es",
-        ["CL"] = "es",
-        ["PE"] = "es",
-        ["VE"] = "es",
-        ["EC"] = "es",
-        ["GT"] = "es",
-        ["CU"] = "es",
-        ["BO"] = "es",
-        ["DO"] = "es",
-        ["HN"] = "es",
-        ["PY"] = "es",
-        ["SV"] = "es",
-        ["NI"] = "es",
-        ["CR"] = "es",
-        ["PA"] = "es",
-        ["UY"] = "es",
-        ["FR"] = "fr",
-        ["BE"] = "fr",
-        ["CH"] = "fr",
-        ["LU"] = "fr",
-        ["MC"] = "fr",
-        ["DE"] = "de",
-        ["AT"] = "de",
-        ["LI"] = "de",
-        ["PT"] = "pt",
-        ["BR"] = "pt",
-        ["AO"] = "pt",
-        ["MZ"] = "pt",
-        ["ID"] = "id",
-        ["IT"] = "it",
-        ["SM"] = "it",
-        ["VA"] = "it",
-        ["JP"] = "ja",
-        ["KR"] = "ko",
-        ["RU"] = "ru",
-        ["BY"] = "ru",
-        ["KZ"] = "ru",
-        ["TH"] = "th",
-        ["TR"] = "tr",
-        ["VN"] = "vi",
-        ["PL"] = "pl",
-        ["CN"] = "zh-cn",
-        ["TW"] = "zh-tw",
-        ["HK"] = "zh-tw",
-        ["MO"] = "zh-tw",
-        ["UA"] = "uk",
-    }
-    
-    return countryLocaleMap[countryCode] or "en"
+	local localeId = player.LocaleId
+	if not localeId or localeId == "" then
+		return "en"
+	end
+
+	local normalized = string.lower(localeId):gsub("_", "-")
+	local baseCode = string.match(normalized, "^(%w+)")
+	if baseCode == "zh" then
+		return normalized
+	end
+	return baseCode or "en"
 end
 
 function Translations.newForPlayer(player)
-    local locale = Translations.detectLocale(player)
-    return Translations.new(locale)
+	local locale = Translations.detectLocale(player)
+	return Translations.new(locale)
 end
 
 function Translations:ui_buttons_buy()
-    return self._translator:FormatByKey("ui.buttons.buy")
+	return self._translator:FormatByKey("ui.buttons.buy")
 end
 
 function Translations:ui_buttons_cancel()
-    return self._translator:FormatByKey("ui.buttons.cancel")
+	return self._translator:FormatByKey("ui.buttons.cancel")
 end
 
 function Translations:ui_buttons_sell()
-    return self._translator:FormatByKey("ui.buttons.sell")
+	return self._translator:FormatByKey("ui.buttons.sell")
 end
 
 function Translations:ui_labels_welcome()
-    return self._translator:FormatByKey("ui.labels.welcome")
+	return self._translator:FormatByKey("ui.labels.welcome")
 end
 
-Translations.ui = {}
-Translations.ui.buttons = {}
-Translations.ui.labels = {}
+function Translations._setupNamespaces(self)
+	self.ui = {}
+	self.ui.buttons = {}
+	self.ui.labels = {}
 
-function Translations.ui.buttons.buy(self)
-    return self:ui_buttons_buy()
+	self.ui.buttons.buy = function()
+		return self:ui_buttons_buy()
+	end
+	self.ui.buttons.cancel = function()
+		return self:ui_buttons_cancel()
+	end
+	self.ui.buttons.sell = function()
+		return self:ui_buttons_sell()
+	end
+	self.ui.labels.welcome = function()
+		return self:ui_labels_welcome()
+	end
 end
-
-function Translations.ui.buttons.cancel(self)
-    return self:ui_buttons_cancel()
-end
-
-function Translations.ui.buttons.sell(self)
-    return self:ui_buttons_sell()
-end
-
-function Translations.ui.labels.welcome(self)
-    return self:ui_labels_welcome()
-end
-
 
 return Translations
