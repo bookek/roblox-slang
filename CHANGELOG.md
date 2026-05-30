@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.1] - 2026-05-30
+
+Stylua came to the party, saw the generated whitespace, and asked everyone to
+stand in line. This patch does that, while also cleaning up the sync and
+validation edges found after `3.0.0`.
+
+### Fixed
+
+- Fixed Roblox Cloud sync wording and stats so the command no longer reports delete behavior it does not perform.
+- Fixed generated Luau and type definition output so checked-in fixtures pass Stylua without a second cleanup pass.
+- Fixed CSV import and export handling for quoted, multiline, and empty fields.
+- Fixed validator output ordering and unused-key detection for generated namespace calls.
+
 ## [3.0.0] - 2026-05-18
 
 Do not hate **monday**, **monday** hates you too. Despite a busy schedule, significant effort went into this major release to deliver critical improvements in namespace binding, identifier safety, and synchronization reliability.

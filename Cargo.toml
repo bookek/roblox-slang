@@ -1,6 +1,6 @@
 [package]
 name = "roblox-slang"
-version = "3.0.0"
+version = "3.0.1"
 rust-version = "1.88"
 authors = ["Iqbal Fauzi <iqbalfauzien@proton.me>"]
 license = "MIT"

@@ -30,7 +30,7 @@ rokit add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@3.0.0"
+roblox-slang = "mathtechstudio/roblox-slang@3.0.1"
 ```
 
 #### Option B: Aftman
@@ -51,7 +51,7 @@ aftman add --global mathtechstudio/roblox-slang
 
 ```toml
 [tools]
-roblox-slang = "mathtechstudio/roblox-slang@3.0.0"
+roblox-slang = "mathtechstudio/roblox-slang@3.0.1"
 ```
 
 #### Option C: Foreman
@@ -62,7 +62,7 @@ roblox-slang = "mathtechstudio/roblox-slang@3.0.0"
 
 ```toml
 [tools]
-roblox-slang = { github = "mathtechstudio/roblox-slang", version = "3.0.0" }
+roblox-slang = { github = "mathtechstudio/roblox-slang", version = "3.0.1" }
 ```
 
 ```bash
@@ -73,12 +73,12 @@ foreman install
 
 Download pre-built binaries from [GitHub Releases](https://github.com/mathtechstudio/roblox-slang/releases):
 
-- `roblox-slang-3.0.0-linux-x86_64.zip`
-- `roblox-slang-3.0.0-linux-aarch64.zip`
-- `roblox-slang-3.0.0-windows-x86_64.zip`
-- `roblox-slang-3.0.0-windows-aarch64.zip`
-- `roblox-slang-3.0.0-macos-x86_64.zip`
-- `roblox-slang-3.0.0-macos-aarch64.zip`
+- `roblox-slang-3.0.1-linux-x86_64.zip`
+- `roblox-slang-3.0.1-linux-aarch64.zip`
+- `roblox-slang-3.0.1-windows-x86_64.zip`
+- `roblox-slang-3.0.1-windows-aarch64.zip`
+- `roblox-slang-3.0.1-macos-x86_64.zip`
+- `roblox-slang-3.0.1-macos-aarch64.zip`
 
 Extract the archive and add the binary to your PATH.
 
@@ -100,7 +100,7 @@ cargo install --locked --path .
 roblox-slang --version
 ```
 
-Expected output: `roblox-slang 3.0.0`
+Expected output: `roblox-slang 3.0.1`
 
 ## Creating Your First Translation Project
 
