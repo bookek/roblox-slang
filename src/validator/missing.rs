@@ -1,16 +1,17 @@
 use crate::parser::Translation;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, HashSet};
+
 pub fn detect_missing_keys(
     translations: &[Translation],
     base_locale: &str,
     supported_locales: &[String],
-) -> HashMap<String, Vec<String>> {
+) -> BTreeMap<String, Vec<String>> {
     let base_keys: HashSet<String> = translations
         .iter()
         .filter(|t| t.locale == base_locale)
         .map(|t| t.key.clone())
         .collect();
-    let mut missing_by_locale: HashMap<String, Vec<String>> = HashMap::new();
+    let mut missing_by_locale: BTreeMap<String, Vec<String>> = BTreeMap::new();
 
     for locale in supported_locales {
         if locale == base_locale {
@@ -21,7 +22,8 @@ pub fn detect_missing_keys(
             .filter(|t| t.locale == locale.as_str())
             .map(|t| t.key.clone())
             .collect();
-        let missing: Vec<String> = base_keys.difference(&locale_keys).cloned().collect();
+        let mut missing: Vec<String> = base_keys.difference(&locale_keys).cloned().collect();
+        missing.sort();
 
         if !missing.is_empty() {
             missing_by_locale.insert(locale.clone(), missing);

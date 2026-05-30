@@ -3,10 +3,14 @@ use super::merge::{MergeEngine, MergeStrategy};
 use super::types::{DownloadStats, LocalizationEntry, SyncStats, UploadStats};
 use crate::config::Config;
 use crate::parser::{self, Translation};
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use std::collections::HashMap;
-use std::path::Path;
+use std::fs;
+use std::path::{Path, PathBuf};
 use std::time::Instant;
+
+const UPLOAD_BATCH_SIZE: usize = 20;
+
 fn merge_locale_translations(
     mut existing: Vec<Translation>,
     incoming: &[Translation],
@@ -41,20 +45,13 @@ impl SyncOrchestrator {
 
         if !dry_run {
             let entries = self.translations_to_entries(&translations);
-            const BATCH_SIZE: usize = 20;
-
             let game_id = self
                 .config
                 .cloud
                 .as_ref()
                 .and_then(|c| c.game_id.as_deref());
 
-            for chunk in entries.chunks(BATCH_SIZE) {
-                self.client
-                    .update_table_entries(table_id, chunk, game_id)
-                    .await
-                    .context("Failed to upload translations")?;
-            }
+            self.upload_entries(table_id, &entries, game_id).await?;
         }
 
         let duration = start.elapsed();
@@ -94,8 +91,7 @@ impl SyncOrchestrator {
 
         if !dry_run {
             for (locale, locale_translations) in &by_locale {
-                let file_path =
-                    Path::new(&self.config.input_directory).join(format!("{}.json", locale));
+                let file_path = self.translation_file_path(locale);
 
                 let existed = file_path.exists();
 
@@ -109,8 +105,7 @@ impl SyncOrchestrator {
             }
         } else {
             for locale in by_locale.keys() {
-                let file_path =
-                    Path::new(&self.config.input_directory).join(format!("{}.json", locale));
+                let file_path = self.translation_file_path(locale);
 
                 if file_path.exists() {
                     locales_updated += 1;
@@ -156,18 +151,14 @@ impl SyncOrchestrator {
 
         let mut entries_added = 0;
         let mut entries_updated = 0;
-        let entries_deleted = 0;
 
         if !dry_run {
             if !merge_result.to_upload.is_empty() {
                 let upload_translations: Vec<Translation> = merge_result
                     .to_upload
                     .iter()
-                    .map(|(key, locale, value)| Translation {
-                        key: key.clone(),
-                        locale: locale.clone(),
-                        value: value.clone(),
-                        context: None,
+                    .map(|(key, locale, value)| {
+                        find_translation(&local_translations, key, locale, value)
                     })
                     .collect();
 
@@ -179,10 +170,7 @@ impl SyncOrchestrator {
                     .as_ref()
                     .and_then(|c| c.game_id.as_deref());
 
-                self.client
-                    .update_table_entries(table_id, &entries, game_id)
-                    .await
-                    .context("Failed to upload translations")?;
+                self.upload_entries(table_id, &entries, game_id).await?;
 
                 entries_added = merge_result.to_upload.len();
             }
@@ -190,11 +178,8 @@ impl SyncOrchestrator {
                 let download_translations: Vec<Translation> = merge_result
                     .to_download
                     .iter()
-                    .map(|(key, locale, value)| Translation {
-                        key: key.clone(),
-                        locale: locale.clone(),
-                        value: value.clone(),
-                        context: None,
+                    .map(|(key, locale, value)| {
+                        find_translation(&cloud_translations, key, locale, value)
                     })
                     .collect();
                 let mut by_locale: HashMap<String, Vec<Translation>> = HashMap::new();
@@ -206,17 +191,10 @@ impl SyncOrchestrator {
                 }
 
                 for (locale, incoming) in &by_locale {
-                    let file_path =
-                        Path::new(&self.config.input_directory).join(format!("{}.json", locale));
+                    let file_path = self.translation_file_path(locale);
 
                     let merged = if file_path.exists() {
-                        let existing =
-                            parser::parse_json_file(&file_path, locale).with_context(|| {
-                                format!(
-                                    "Failed to parse existing {} for merge",
-                                    file_path.display()
-                                )
-                            })?;
+                        let existing = self.read_translation_file(&file_path, locale)?;
                         merge_locale_translations(existing, incoming)
                     } else {
                         incoming.clone()
@@ -240,7 +218,6 @@ impl SyncOrchestrator {
         Ok(SyncStats {
             entries_added,
             entries_updated,
-            entries_deleted,
             conflicts_skipped: merge_result.conflicts.len(),
             duration,
         })
@@ -249,20 +226,54 @@ impl SyncOrchestrator {
         let mut all_translations = Vec::new();
 
         for locale in &self.config.supported_locales {
-            let file_path =
-                Path::new(&self.config.input_directory).join(format!("{}.json", locale));
-
-            if !file_path.exists() {
+            let Some(file_path) = self.existing_translation_file_path(locale) else {
                 continue;
-            }
+            };
 
-            let translations = parser::parse_json_file(&file_path, locale)
-                .context(format!("Failed to parse {}", file_path.display()))?;
+            let translations = self.read_translation_file(&file_path, locale)?;
 
             all_translations.extend(translations);
         }
 
         Ok(all_translations)
+    }
+    async fn upload_entries(
+        &self,
+        table_id: &str,
+        entries: &[LocalizationEntry],
+        game_id: Option<&str>,
+    ) -> Result<()> {
+        for chunk in entries.chunks(UPLOAD_BATCH_SIZE) {
+            self.client
+                .update_table_entries(table_id, chunk, game_id)
+                .await
+                .context("Failed to upload translations")?;
+        }
+
+        Ok(())
+    }
+    fn existing_translation_file_path(&self, locale: &str) -> Option<PathBuf> {
+        let input_dir = Path::new(&self.config.input_directory);
+
+        ["json", "yaml", "yml"]
+            .into_iter()
+            .map(|ext| input_dir.join(format!("{}.{}", locale, ext)))
+            .find(|path| path.exists())
+    }
+    fn translation_file_path(&self, locale: &str) -> PathBuf {
+        self.existing_translation_file_path(locale)
+            .unwrap_or_else(|| {
+                Path::new(&self.config.input_directory).join(format!("{}.json", locale))
+            })
+    }
+    fn read_translation_file(&self, path: &Path, locale: &str) -> Result<Vec<Translation>> {
+        match path.extension().and_then(|ext| ext.to_str()) {
+            Some("json") => parser::parse_json_file(path, locale)
+                .context(format!("Failed to parse {}", path.display())),
+            Some("yaml") | Some("yml") => parser::parse_yaml_file(path, locale)
+                .context(format!("Failed to parse {}", path.display())),
+            _ => bail!("Unsupported translation file: {}", path.display()),
+        }
     }
     fn translations_to_entries(&self, translations: &[Translation]) -> Vec<LocalizationEntry> {
         use super::types::{EntryMetadata, Identifier, Translation as ApiTranslation};
@@ -336,17 +347,26 @@ impl SyncOrchestrator {
     }
     fn write_translation_file(&self, path: &Path, translations: &[Translation]) -> Result<()> {
         use crate::utils::flatten::unflatten_translations;
-        use std::fs;
-        let nested = unflatten_translations(translations);
-        let json =
-            serde_json::to_string_pretty(&nested).context("Failed to serialize translations")?;
 
-        fs::write(path, json).context(format!("Failed to write {}", path.display()))?;
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent).context(format!("Failed to create {}", parent.display()))?;
+        }
+
+        let nested = unflatten_translations(translations);
+        let content = match path.extension().and_then(|ext| ext.to_str()) {
+            Some("yaml") | Some("yml") => {
+                serde_yaml::to_string(&nested).context("Failed to serialize translations")?
+            }
+            _ => {
+                serde_json::to_string_pretty(&nested).context("Failed to serialize translations")?
+            }
+        };
+
+        fs::write(path, content).context(format!("Failed to write {}", path.display()))?;
 
         Ok(())
     }
     fn write_conflicts_file(&self, conflicts: &[super::merge::Conflict]) -> Result<()> {
-        use std::fs;
         let mut by_locale: HashMap<String, Vec<&super::merge::Conflict>> = HashMap::new();
         for conflict in conflicts {
             by_locale
@@ -368,6 +388,8 @@ impl SyncOrchestrator {
         }
 
         let conflicts_path = Path::new(&self.config.output_directory).join("conflicts.yaml");
+        fs::create_dir_all(&self.config.output_directory)
+            .context(format!("Failed to create {}", self.config.output_directory))?;
 
         fs::write(&conflicts_path, yaml_content)
             .context(format!("Failed to write {}", conflicts_path.display()))?;
@@ -376,9 +398,29 @@ impl SyncOrchestrator {
     }
 }
 
+fn find_translation(
+    translations: &[Translation],
+    key: &str,
+    locale: &str,
+    value: &str,
+) -> Translation {
+    translations
+        .iter()
+        .find(|translation| translation.key == key && translation.locale == locale)
+        .cloned()
+        .unwrap_or_else(|| Translation {
+            key: key.to_string(),
+            locale: locale.to_string(),
+            value: value.to_string(),
+            context: None,
+        })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs;
+    use tempfile::TempDir;
 
     #[test]
     fn test_sync_orchestrator_new() {
@@ -712,5 +754,50 @@ mod tests {
         let merged = merge_locale_translations(existing, &incoming);
         assert_eq!(merged.len(), 1);
         assert_eq!(merged[0].value, "Hello");
+    }
+
+    #[test]
+    fn test_read_local_translations_accepts_yaml() {
+        let temp_dir = TempDir::new().unwrap();
+        let input_dir = temp_dir.path().join("translations");
+        fs::create_dir(&input_dir).unwrap();
+        fs::write(input_dir.join("en.yaml"), "ui:\n  button:\n    buy: Buy\n").unwrap();
+
+        let config = Config {
+            input_directory: input_dir.to_string_lossy().to_string(),
+            supported_locales: vec!["en".to_string()],
+            base_locale: "en".to_string(),
+            ..Default::default()
+        };
+
+        let client = RobloxCloudClient::new("test_key".to_string()).unwrap();
+        let orchestrator = SyncOrchestrator::new(client, config);
+        let translations = orchestrator.read_local_translations().unwrap();
+
+        assert_eq!(translations.len(), 1);
+        assert_eq!(translations[0].key, "ui.button.buy");
+    }
+
+    #[test]
+    fn test_write_translation_file_preserves_yaml_extension() {
+        let temp_dir = TempDir::new().unwrap();
+        let path = temp_dir.path().join("translations").join("en.yaml");
+        let config = Config::default();
+        let client = RobloxCloudClient::new("test_key".to_string()).unwrap();
+        let orchestrator = SyncOrchestrator::new(client, config);
+        let translations = vec![Translation {
+            key: "ui.button.buy".to_string(),
+            locale: "en".to_string(),
+            value: "Buy".to_string(),
+            context: None,
+        }];
+
+        orchestrator
+            .write_translation_file(&path, &translations)
+            .unwrap();
+
+        let content = fs::read_to_string(path).unwrap();
+        assert!(content.contains("ui:"));
+        assert!(content.contains("buy: Buy"));
     }
 }

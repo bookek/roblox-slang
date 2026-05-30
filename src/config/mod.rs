@@ -75,7 +75,7 @@ pub fn load_config(path: &Path) -> Result<Config> {
             " ".repeat(column.saturating_sub(1))
         )
     })?;
-    config.validate().map_err(|e| {
+    crate::utils::validation::validate_config(&config).map_err(|e| {
         anyhow::anyhow!(
             "{}\n\
              \n\
@@ -146,7 +146,7 @@ localization:
 #   # Default merge strategy for sync command
 #   # Options:
 #   #   - merge: Upload local-only, download cloud-only, prefer cloud for conflicts (recommended)
-#   #   - overwrite: Replace all cloud translations with local (destructive)
+#   #   - overwrite: Upload all local translations to cloud
 #   #   - skip-conflicts: Only sync non-conflicting entries
 #   strategy: merge
 "#;

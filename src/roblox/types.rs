@@ -144,7 +144,6 @@ pub struct DownloadStats {
 pub struct SyncStats {
     pub entries_added: usize,
     pub entries_updated: usize,
-    pub entries_deleted: usize,
     pub conflicts_skipped: usize,
     pub duration: Duration,
 }
@@ -284,14 +283,12 @@ mod tests {
         let stats = SyncStats {
             entries_added: 10,
             entries_updated: 20,
-            entries_deleted: 5,
             conflicts_skipped: 2,
             duration: Duration::from_secs(10),
         };
 
         assert_eq!(stats.entries_added, 10);
         assert_eq!(stats.entries_updated, 20);
-        assert_eq!(stats.entries_deleted, 5);
         assert_eq!(stats.conflicts_skipped, 2);
     }
 

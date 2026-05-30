@@ -58,6 +58,6 @@ localization:
 #   # Default merge strategy for sync command
 #   # Options:
 #   #   - merge: Upload local-only, download cloud-only, prefer cloud for conflicts (recommended)
-#   #   - overwrite: Replace all cloud translations with local (destructive)
+#   #   - overwrite: Upload all local translations to cloud
 #   #   - skip-conflicts: Only sync non-conflicting entries
   # strategy: merge
