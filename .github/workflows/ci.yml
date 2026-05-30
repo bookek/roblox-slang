@@ -52,6 +52,9 @@ jobs:
       - name: Run edge case tests
         run: cargo test --test edge_cases --verbose
 
+      - name: Run Roblox Cloud client tests
+        run: cargo test --test roblox_integration_tests --verbose
+
       - name: Run doc tests
         run: cargo test --doc --verbose
 
