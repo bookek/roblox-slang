@@ -85,6 +85,24 @@ pub(crate) fn sort_namespace_paths(paths: &mut [String]) {
     });
 }
 
+pub(crate) fn format_generated_luau(code: &str) -> String {
+    let mut formatted = String::new();
+
+    for line in code.lines() {
+        let line = line.trim_end();
+        let leading_spaces = line.bytes().take_while(|byte| *byte == b' ').count();
+        let tab_count = leading_spaces / 4;
+        let leftover_spaces = leading_spaces % 4;
+
+        formatted.push_str(&"\t".repeat(tab_count));
+        formatted.push_str(&" ".repeat(leftover_spaces));
+        formatted.push_str(&line[leading_spaces..]);
+        formatted.push('\n');
+    }
+
+    formatted
+}
+
 fn check_identifier_collisions(translations: &[&Translation]) -> Result<()> {
     let mut seen: HashMap<String, &str> = HashMap::new();
 
@@ -136,12 +154,20 @@ pub fn generate_luau_with_full_config(
         .collect();
 
     if base_translations.is_empty() {
-        return Ok(code + "return {}\n");
+        code.push_str("return {}\n");
+        return Ok(format_generated_luau(&code));
     }
 
     let mode = localization_config
         .map(|c| c.mode.as_str())
         .unwrap_or("embedded");
+
+    if !matches!(mode, "embedded" | "cloud" | "hybrid") {
+        bail!(
+            "Invalid localization mode: '{}'. Expected 'embedded', 'cloud', or 'hybrid'",
+            mode
+        );
+    }
 
     if mode == "embedded" || mode == "hybrid" {
         let supported_locales: Vec<String> = translations
@@ -160,10 +186,7 @@ pub fn generate_luau_with_full_config(
         "embedded" => generate_constructor_embedded(&mut code, base_locale, analytics_config),
         "cloud" => generate_constructor_cloud(&mut code, base_locale, analytics_config),
         "hybrid" => generate_constructor_hybrid(&mut code, base_locale, analytics_config),
-        _ => unreachable!(
-            "Invalid localization mode: {}. Expected 'embedded', 'cloud', or 'hybrid'",
-            mode
-        ),
+        _ => unreachable!(),
     }
 
     generate_locale_detection(&mut code, base_locale);
@@ -187,9 +210,9 @@ pub fn generate_luau_with_full_config(
 
     generate_namespace_structure(&mut code, &base_translations);
 
-    code.push_str("\nreturn Translations\n");
+    code.push_str("return Translations\n");
 
-    Ok(code)
+    Ok(format_generated_luau(&code))
 }
 
 fn generate_locale_detection(code: &mut String, base_locale: &str) {
@@ -198,7 +221,7 @@ fn generate_locale_detection(code: &mut String, base_locale: &str) {
     code.push_str("    if not localeId or localeId == \"\" then\n");
     code.push_str(&format!("        return \"{}\"\n", base_locale));
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local normalized = string.lower(localeId):gsub(\"_\", \"-\")\n");
     code.push_str("    local baseCode = string.match(normalized, \"^(%w+)\")\n");
     code.push_str("    if baseCode == \"zh\" then\n");
@@ -218,7 +241,7 @@ fn generate_analytics_methods(code: &mut String, config: &crate::config::Analyti
     code.push_str("    if not self._analytics_enabled or not self._track_missing then\n");
     code.push_str("        return\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if self._analytics_callback then\n");
     code.push_str("        pcall(function()\n");
     code.push_str("            self._analytics_callback(\"missing_translation\", {\n");
@@ -229,7 +252,7 @@ fn generate_analytics_methods(code: &mut String, config: &crate::config::Analyti
     code.push_str("        end)\n");
     code.push_str("        return\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str(
         "    warn(string.format(\"[Slang] Missing translation: %s (%s)\", key, self._locale))\n",
     );
@@ -240,7 +263,7 @@ fn generate_analytics_methods(code: &mut String, config: &crate::config::Analyti
         code.push_str("    if not self._analytics_enabled or not self._track_usage then\n");
         code.push_str("        return\n");
         code.push_str("    end\n");
-        code.push_str("    \n");
+        code.push('\n');
         code.push_str("    self._usage_stats[key] = (self._usage_stats[key] or 0) + 1\n");
         code.push_str("end\n\n");
 
@@ -264,9 +287,9 @@ fn generate_plural_method_embedded(
     ));
     code.push_str("    params = params or {}\n");
     code.push_str("    params.count = count\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local category = \"other\"\n");
-    code.push_str("    \n");
+    code.push('\n');
 
     code.push_str("    if self._locale == \"en\" then\n");
     code.push_str("        if count == 1 then\n");
@@ -299,7 +322,7 @@ fn generate_plural_method_embedded(
     code.push_str("            category = \"many\"\n");
     code.push_str("        end\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
 
     code.push_str(&format!(
         "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
@@ -310,19 +333,19 @@ fn generate_plural_method_embedded(
         base_key
     ));
     code.push_str("    local template = locale_data[key]\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if not template then\n");
     code.push_str(&format!(
         "        template = locale_data[\"{}(other)\"] or key\n",
         base_key
     ));
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local result = template\n");
     code.push_str("    for paramKey, value in pairs(params) do\n");
     code.push_str("        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    return result\n");
     code.push_str("end\n\n");
 }
@@ -336,9 +359,9 @@ fn generate_plural_method_cloud(code: &mut String, base_key: &str, _translations
     ));
     code.push_str("    params = params or {}\n");
     code.push_str("    params.count = count\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local category = \"other\"\n");
-    code.push_str("    \n");
+    code.push('\n');
 
     code.push_str("    if self._locale == \"en\" then\n");
     code.push_str("        if count == 1 then\n");
@@ -371,7 +394,7 @@ fn generate_plural_method_cloud(code: &mut String, base_key: &str, _translations
     code.push_str("            category = \"many\"\n");
     code.push_str("        end\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
 
     code.push_str(&format!(
         "    local key = \"{}(\" .. category .. \")\"\n",
@@ -380,11 +403,11 @@ fn generate_plural_method_cloud(code: &mut String, base_key: &str, _translations
     code.push_str("    local success, result = pcall(function()\n");
     code.push_str("        return self._translator:FormatByKey(key, params)\n");
     code.push_str("    end)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if success then\n");
     code.push_str("        return result\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str(&format!(
         "    return self._translator:FormatByKey(\"{}(other)\", params)\n",
         base_key
@@ -406,9 +429,9 @@ fn generate_plural_method_hybrid(
     ));
     code.push_str("    params = params or {}\n");
     code.push_str("    params.count = count\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local category = \"other\"\n");
-    code.push_str("    \n");
+    code.push('\n');
 
     code.push_str("    if self._locale == \"en\" then\n");
     code.push_str("        if count == 1 then\n");
@@ -441,14 +464,14 @@ fn generate_plural_method_hybrid(
     code.push_str("            category = \"many\"\n");
     code.push_str("        end\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
 
     code.push_str(&format!(
         "    local pluralKey = \"{}(\" .. category .. \")\"\n",
         base_key
     ));
     code.push_str("    local result = self:_resolve(pluralKey, params)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if result == pluralKey then\n");
     code.push_str(&format!(
         "        return self:_resolve(\"{}(other)\", params)\n",
@@ -558,7 +581,7 @@ fn generate_namespace_structure(code: &mut String, translations: &[&Translation]
         code.push_str(&format!("    self.{} = {{}}\n", namespace));
     }
 
-    code.push_str("    \n");
+    code.push('\n');
 
     for translation in &regular_translations {
         let parts: Vec<&str> = translation.key.split('.').collect();
@@ -698,7 +721,7 @@ fn generate_constructor_embedded(
 
     if let Some(config) = analytics_config {
         if config.enabled {
-            code.push_str("    \n");
+            code.push('\n');
             code.push_str("    self._analytics_enabled = true\n");
             code.push_str(&format!(
                 "    self._track_missing = {}\n",
@@ -718,7 +741,7 @@ fn generate_constructor_embedded(
         }
     }
 
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    Translations._setupNamespaces(self)\n");
     code.push_str("    return self\n");
     code.push_str("end\n\n");
@@ -727,10 +750,10 @@ fn generate_constructor_embedded(
     code.push_str("    if self._locale == locale then\n");
     code.push_str("        return\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local oldLocale = self._locale\n");
     code.push_str("    self._locale = locale\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    for _, callback in ipairs(self._localeChangedCallbacks) do\n");
     code.push_str("        task.spawn(callback, locale, oldLocale)\n");
     code.push_str("    end\n");
@@ -760,7 +783,7 @@ fn generate_constructor_cloud(
 
     if let Some(config) = analytics_config {
         if config.enabled {
-            code.push_str("    \n");
+            code.push('\n');
             code.push_str("    self._analytics_enabled = true\n");
             code.push_str(&format!(
                 "    self._track_missing = {}\n",
@@ -780,26 +803,26 @@ fn generate_constructor_cloud(
         }
     }
 
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
     code.push_str("    local success, translator = pcall(function()\n");
     code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(self._locale)\n");
     code.push_str("    end)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if not success then\n");
     code.push_str("        error(\n");
+    code.push_str("            \"Failed to get translator for locale: \"\n");
+    code.push_str("                .. self._locale\n");
+    code.push_str("                .. \"\\n\"\n");
     code.push_str(
-        "            \"Failed to get translator for locale: \" .. self._locale .. \"\\n\" ..\n",
+        "                .. \"\\nHint: Make sure you've uploaded translations to Roblox Cloud.\"\n",
     );
-    code.push_str(
-        "            \"\\nHint: Make sure you've uploaded translations to Roblox Cloud.\" ..\n",
-    );
-    code.push_str("            \"\\nRun: roblox-slang upload --table-id YOUR_TABLE_ID\"\n");
+    code.push_str("                .. \"\\nRun: roblox-slang upload --table-id YOUR_TABLE_ID\"\n");
     code.push_str("        )\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    self._translator = translator\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    Translations._setupNamespaces(self)\n");
     code.push_str("    return self\n");
     code.push_str("end\n\n");
@@ -808,15 +831,15 @@ fn generate_constructor_cloud(
     code.push_str("    if self._locale == locale then\n");
     code.push_str("        return\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local oldLocale = self._locale\n");
     code.push_str("    self._locale = locale\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
     code.push_str("    local success, translator = pcall(function()\n");
     code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(locale)\n");
     code.push_str("    end)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if success then\n");
     code.push_str("        self._translator = translator\n");
     code.push_str("    else\n");
@@ -824,7 +847,7 @@ fn generate_constructor_cloud(
     code.push_str("        self._locale = oldLocale\n");
     code.push_str("        return\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    for _, callback in ipairs(self._localeChangedCallbacks) do\n");
     code.push_str("        task.spawn(callback, locale, oldLocale)\n");
     code.push_str("    end\n");
@@ -843,12 +866,10 @@ fn generate_constructor_cloud(
     code.push_str("    local success, result = pcall(function()\n");
     code.push_str("        return self._translator:FormatByKey(key)\n");
     code.push_str("    end)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if success then\n");
     code.push_str("        return result\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
-    code.push_str("  \n");
     code.push_str(&format!(
         "    local fallbackKey = \"assets.\" .. assetKey .. \".{}\"\n",
         base_locale
@@ -872,7 +893,7 @@ fn generate_constructor_hybrid(
 
     if let Some(config) = analytics_config {
         if config.enabled {
-            code.push_str("    \n");
+            code.push('\n');
             code.push_str("    self._analytics_enabled = true\n");
             code.push_str(&format!(
                 "    self._track_missing = {}\n",
@@ -892,12 +913,12 @@ fn generate_constructor_hybrid(
         }
     }
 
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
     code.push_str("    local success, translator = pcall(function()\n");
     code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(self._locale)\n");
     code.push_str("    end)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if success then\n");
     code.push_str("        self._translator = translator\n");
     code.push_str("    else\n");
@@ -906,7 +927,7 @@ fn generate_constructor_hybrid(
     );
     code.push_str("        self._translator = nil\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    Translations._setupNamespaces(self)\n");
     code.push_str("    return self\n");
     code.push_str("end\n\n");
@@ -915,21 +936,21 @@ fn generate_constructor_hybrid(
     code.push_str("    if self._locale == locale then\n");
     code.push_str("        return\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local oldLocale = self._locale\n");
     code.push_str("    self._locale = locale\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    local LocalizationService = game:GetService(\"LocalizationService\")\n");
     code.push_str("    local success, translator = pcall(function()\n");
     code.push_str("        return LocalizationService:GetTranslatorForLocaleAsync(locale)\n");
     code.push_str("    end)\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    if success then\n");
     code.push_str("        self._translator = translator\n");
     code.push_str("    else\n");
     code.push_str("        self._translator = nil\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str("    for _, callback in ipairs(self._localeChangedCallbacks) do\n");
     code.push_str("        task.spawn(callback, locale, oldLocale)\n");
     code.push_str("    end\n");
@@ -956,7 +977,7 @@ fn generate_constructor_hybrid(
     code.push_str("            return result\n");
     code.push_str("        end\n");
     code.push_str("    end\n");
-    code.push_str("    \n");
+    code.push('\n');
     code.push_str(&format!(
         "    local locale_data = EMBEDDED_TRANSLATIONS[self._locale] or EMBEDDED_TRANSLATIONS[\"{}\"]\n",
         base_locale
@@ -1029,14 +1050,14 @@ fn generate_method_embedded(
             code.push_str("    end\n");
         }
 
-        code.push_str("    \n");
+        code.push('\n');
         code.push_str("    local result = template\n");
         code.push_str("    for paramKey, value in pairs(params) do\n");
         code.push_str(
             "        result = result:gsub(\"{\" .. paramKey .. \"}\", tostring(value))\n",
         );
         code.push_str("    end\n");
-        code.push_str("    \n");
+        code.push('\n');
         code.push_str("    return result\n");
     } else {
         code.push_str(&format!("function Translations:{}()\n", method_name));
@@ -2198,6 +2219,31 @@ fn test_generate_luau_with_full_config_default_mode() {
 }
 
 #[test]
+fn test_generate_luau_with_full_config_invalid_mode_returns_error() {
+    use crate::config::LocalizationConfig;
+
+    let translations = vec![Translation {
+        key: "test.key".to_string(),
+        value: "Test Value".to_string(),
+        locale: "en".to_string(),
+        context: None,
+    }];
+
+    let localization_config = LocalizationConfig {
+        mode: "invalid".to_string(),
+    };
+
+    let result =
+        generate_luau_with_full_config(&translations, "en", None, Some(&localization_config));
+
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("Invalid localization mode"));
+}
+
+#[test]
 fn test_generate_luau_with_full_config_multiple_locales() {
     use crate::config::LocalizationConfig;
 
@@ -2554,17 +2600,17 @@ fn test_namespace_dedupes_sanitized_parent_paths() {
     let code = generate_luau_with_full_config(&translations, "en", None, None).unwrap();
 
     assert_eq!(
-        code.matches("    self.ui_menu = {}\n").count(),
+        code.matches("\tself.ui_menu = {}\n").count(),
         1,
         "sanitized parent namespace must only be initialized once"
     );
-    let parent_index = code.find("    self.ui_menu = {}\n").unwrap();
-    let child_a_index = code.find("    self.ui_menu.a = {}\n").unwrap();
-    let child_b_index = code.find("    self.ui_menu.b = {}\n").unwrap();
+    let parent_index = code.find("\tself.ui_menu = {}\n").unwrap();
+    let child_a_index = code.find("\tself.ui_menu.a = {}\n").unwrap();
+    let child_b_index = code.find("\tself.ui_menu.b = {}\n").unwrap();
     assert!(
         parent_index < child_a_index && parent_index < child_b_index,
         "parent namespace must be initialized before sanitized child namespaces"
     );
-    assert!(code.contains("    self.ui_menu.a.open = function()"));
-    assert!(code.contains("    self.ui_menu.b.close = function()"));
+    assert!(code.contains("\tself.ui_menu.a.open = function()"));
+    assert!(code.contains("\tself.ui_menu.b.close = function()"));
 }

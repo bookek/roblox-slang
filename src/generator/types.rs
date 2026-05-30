@@ -3,7 +3,10 @@ use crate::utils::plurals;
 use anyhow::Result;
 use std::collections::{BTreeMap, HashSet};
 
-use super::luau::{sanitize_luau_identifier, sanitized_namespace_prefixes, sanitized_path_parts};
+use super::luau::{
+    format_generated_luau, sanitize_luau_identifier, sanitized_namespace_prefixes,
+    sanitized_path_parts,
+};
 
 pub fn generate_type_definitions(
     translations: &[Translation],
@@ -19,7 +22,8 @@ pub fn generate_type_definitions(
         .collect();
 
     if base_translations.is_empty() {
-        return Ok(code + "export type Translations = {}\n");
+        code.push_str("export type Translations = {}\n");
+        return Ok(format_generated_luau(&code));
     }
 
     code.push_str("export type Translations = {\n");
@@ -32,7 +36,7 @@ pub fn generate_type_definitions(
 
     code.push_str("    _locale: string,\n");
     code.push_str("    _translator: any,\n");
-    code.push_str("    _localeChangedCallbacks: {any},\n\n");
+    code.push_str("    _localeChangedCallbacks: { any },\n\n");
 
     code.push_str("    setLocale: (self: TranslationsInstance, locale: string) -> (),\n");
     code.push_str("    getLocale: (self: TranslationsInstance) -> string,\n");
@@ -93,7 +97,7 @@ pub fn generate_type_definitions(
 
     code.push_str("}\n");
 
-    Ok(code)
+    Ok(format_generated_luau(&code))
 }
 
 fn build_namespace_tree(
@@ -348,14 +352,14 @@ mod tests {
         let code = generate_type_definitions(&translations, "en").unwrap();
 
         assert_eq!(
-            code.matches("    ui_menu: {\n").count(),
+            code.matches("\tui_menu: {\n").count(),
             1,
             "sanitized top-level namespace must only be emitted once"
         );
-        assert!(code.contains("        a: {\n"));
-        assert!(code.contains("        b: {\n"));
-        assert!(code.contains("            open: (self: any) -> string,"));
-        assert!(code.contains("            close: (self: any) -> string,"));
+        assert!(code.contains("\t\ta: {\n"));
+        assert!(code.contains("\t\tb: {\n"));
+        assert!(code.contains("\t\t\topen: (self: any) -> string,"));
+        assert!(code.contains("\t\t\tclose: (self: any) -> string,"));
     }
 
     #[test]
@@ -383,11 +387,10 @@ mod tests {
 
         let code = generate_type_definitions(&translations, "en").unwrap();
 
-        assert!(code.contains("    ui: {\n"));
-        assert!(code.contains("        buttons: {\n"));
-        assert!(code.contains("            primary: {\n"));
-        assert!(code.contains("                buy: (self: any) -> string,"));
-        assert!(code
-            .contains("                items: (self: any, count: number, params: {}?) -> string,"));
+        assert!(code.contains("\tui: {\n"));
+        assert!(code.contains("\t\tbuttons: {\n"));
+        assert!(code.contains("\t\t\tprimary: {\n"));
+        assert!(code.contains("\t\t\t\tbuy: (self: any) -> string,"));
+        assert!(code.contains("\t\t\t\titems: (self: any, count: number, params: {}?) -> string,"));
     }
 }

@@ -1,4 +1,7 @@
 use roblox_slang::roblox::client::RobloxCloudClient;
+use roblox_slang::roblox::{MergeStrategy, SyncOrchestrator};
+use roblox_slang::Config;
+use std::fs;
 
 #[tokio::test]
 async fn test_get_entries_success() {
@@ -117,6 +120,70 @@ async fn test_update_entries_success() {
     assert!(result.is_ok());
 
     mock.assert_async().await;
+}
+
+#[tokio::test]
+async fn test_sync_uploads_entries_in_batches() {
+    let temp_dir = tempfile::TempDir::new().unwrap();
+    let input_dir = temp_dir.path().join("translations");
+    let output_dir = temp_dir.path().join("output");
+    fs::create_dir(&input_dir).unwrap();
+
+    let mut json = serde_json::Map::new();
+    for index in 0..25 {
+        json.insert(
+            format!("key{}", index),
+            serde_json::Value::String(format!("Value {}", index)),
+        );
+    }
+    fs::write(
+        input_dir.join("en.json"),
+        serde_json::to_string(&serde_json::Value::Object(json)).unwrap(),
+    )
+    .unwrap();
+
+    let mut server = mockito::Server::new_async().await;
+    let get_mock = server
+        .mock(
+            "GET",
+            "/legacy-localization-tables/v1/localization-table/tables/table-id/entries",
+        )
+        .with_status(200)
+        .with_header("content-type", "application/json")
+        .with_body(r#"{"entries":[]}"#)
+        .create_async()
+        .await;
+    let patch_mock = server
+        .mock(
+            "PATCH",
+            "/legacy-localization-tables/v1/localization-table/tables/table-id",
+        )
+        .with_status(200)
+        .with_header("content-type", "application/json")
+        .with_body(r#"{"failedEntriesAndTranslations":[],"modifiedEntriesAndTranslations":[]}"#)
+        .expect(2)
+        .create_async()
+        .await;
+
+    let config = Config {
+        input_directory: input_dir.to_string_lossy().to_string(),
+        output_directory: output_dir.to_string_lossy().to_string(),
+        supported_locales: vec!["en".to_string()],
+        base_locale: "en".to_string(),
+        ..Default::default()
+    };
+
+    let mut client = RobloxCloudClient::new("test_key".to_string()).unwrap();
+    client.set_base_url_for_testing(server.url());
+    let orchestrator = SyncOrchestrator::new(client, config);
+    let stats = orchestrator
+        .sync("table-id", MergeStrategy::Merge, false)
+        .await
+        .unwrap();
+
+    assert_eq!(stats.entries_added, 25);
+    get_mock.assert_async().await;
+    patch_mock.assert_async().await;
 }
 
 #[tokio::test]
@@ -335,7 +402,8 @@ async fn test_invalid_table_id_400() {
 
 #[tokio::test]
 async fn test_network_timeout() {
-    let client = RobloxCloudClient::new("test_api_key".to_string()).unwrap();
+    let mut client = RobloxCloudClient::new("test_api_key".to_string()).unwrap();
+    client.set_base_url_for_testing("http://127.0.0.1:9".to_string());
     let result = client.get_table_entries("test-table-id", None).await;
     assert!(result.is_err());
 }
@@ -437,13 +505,14 @@ async fn test_api_key_header_present() {
 #[tokio::test]
 async fn test_user_agent_header() {
     let mut server = mockito::Server::new_async().await;
+    let expected_user_agent = format!("roblox-slang/{}", env!("CARGO_PKG_VERSION"));
 
     let mock = server
         .mock(
             "GET",
             "/legacy-localization-tables/v1/localization-table/tables/test-id/entries",
         )
-        .match_header("user-agent", "roblox-slang/2.0.2")
+        .match_header("user-agent", expected_user_agent.as_str())
         .with_status(200)
         .with_body(r#"{"entries": []}"#)
         .create_async()

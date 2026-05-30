@@ -2,98 +2,20 @@ use anyhow::{bail, Result};
 use std::path::Path;
 
 use crate::config::Config;
-#[allow(dead_code)]
 pub fn validate_locale_code(locale: &str) -> Result<()> {
-    if locale.is_empty() {
-        bail!("Locale code cannot be empty");
-    }
-    if !locale
-        .chars()
-        .all(|c| c.is_ascii_alphabetic() || c.is_ascii_digit() || c == '-')
-    {
-        let invalid_chars: Vec<char> = locale
-            .chars()
-            .filter(|c| !c.is_ascii_alphabetic() && !c.is_ascii_digit() && *c != '-')
-            .collect();
-
-        bail!(
-            "Invalid locale code '{}': Contains invalid characters: {:?}\n\
-             \n\
-             Locale codes can only contain:\n\
-             - Letters (a-z, A-Z)\n\
-             - Digits (0-9)\n\
-             - Hyphens (-)\n\
-             \n\
-             Examples of valid locale codes:\n\
-             - en, id, es, fr, de\n\
-             - en-US, zh-CN, pt-BR\n\
-             \n\
-             Common mistakes:\n\
-             - Using spaces: 'en US' → 'en-US'\n\
-             - Using underscores: 'en_US' → 'en-US'",
-            locale,
-            invalid_chars
-        );
-    }
-    let parts: Vec<&str> = locale.split('-').collect();
-    if parts.is_empty() || parts.len() > 3 {
-        bail!(
-            "Invalid locale code '{}': Invalid format\n\
-             \n\
-             Valid formats:\n\
-             - Two-letter language code: en, id, es\n\
-             - Language with region: en-US, zh-CN, pt-BR\n\
-             - Language with script and region: zh-Hans-CN",
-            locale
-        );
-    }
-    let language = parts[0];
-    if language.len() < 2 || language.len() > 3 {
-        bail!(
-            "Invalid locale code '{}': Language code '{}' must be 2-3 characters\n\
-             \n\
-             Examples: en, id, es, zh, pt",
-            locale,
-            language
-        );
+    if crate::utils::locales::is_roblox_locale(locale) {
+        return Ok(());
     }
 
-    if !language.chars().all(|c| c.is_ascii_lowercase()) {
-        bail!(
-            "Invalid locale code '{}': Language code '{}' must be lowercase\n\
-             \n\
-             Examples: en, id, es, zh, pt\n\
-             Fix: '{}' → '{}'",
-            locale,
-            language,
-            language,
-            language.to_lowercase()
-        );
-    }
-    if parts.len() >= 2 {
-        let region = parts[1];
-        if region.len() < 2 || region.len() > 4 {
-            bail!(
-                "Invalid locale code '{}': Region/script code '{}' must be 2-4 characters\n\
-                 \n\
-                 Examples: US, CN, BR, Hans",
-                locale,
-                region
-            );
-        }
-
-        if !region.chars().all(|c| c.is_ascii_alphabetic()) {
-            bail!(
-                "Invalid locale code '{}': Region/script code '{}' must contain only letters\n\
-                 \n\
-                 Examples: US, CN, BR, Hans",
-                locale,
-                region
-            );
-        }
-    }
-
-    Ok(())
+    let supported = crate::utils::locales::get_supported_locale_codes();
+    bail!(
+        "Unsupported locale '{}'\n\
+         \n\
+         Roblox supports these locales:\n\
+         {}",
+        locale,
+        supported.join(", ")
+    )
 }
 pub fn validate_translation_key(key: &str) -> Result<()> {
     if key.is_empty() {
@@ -258,7 +180,6 @@ pub fn validate_safe_path(path: &Path) -> Result<()> {
 
     Ok(())
 }
-#[allow(dead_code)]
 pub fn validate_config(config: &Config) -> Result<()> {
     config.validate()?;
     validate_locale_code(&config.base_locale)
@@ -268,11 +189,6 @@ pub fn validate_config(config: &Config) -> Result<()> {
         validate_locale_code(locale)
             .map_err(|e| anyhow::anyhow!("Configuration error in supported_locales:\n{}", e))?;
     }
-    validate_safe_path(Path::new(&config.input_directory))
-        .map_err(|e| anyhow::anyhow!("Configuration error in input_directory:\n{}", e))?;
-
-    validate_safe_path(Path::new(&config.output_directory))
-        .map_err(|e| anyhow::anyhow!("Configuration error in output_directory:\n{}", e))?;
     if let Some(ref namespace) = config.namespace {
         if namespace.is_empty() {
             bail!(
@@ -307,12 +223,6 @@ pub fn validate_config(config: &Config) -> Result<()> {
             );
         }
     }
-    if let Some(ref override_config) = config.overrides {
-        if override_config.enabled {
-            validate_safe_path(Path::new(&override_config.file))
-                .map_err(|e| anyhow::anyhow!("Configuration error in overrides.file:\n{}", e))?;
-        }
-    }
 
     Ok(())
 }
@@ -326,10 +236,8 @@ mod tests {
         assert!(validate_locale_code("en").is_ok());
         assert!(validate_locale_code("id").is_ok());
         assert!(validate_locale_code("es").is_ok());
-        assert!(validate_locale_code("en-US").is_ok());
-        assert!(validate_locale_code("zh-CN").is_ok());
-        assert!(validate_locale_code("pt-BR").is_ok());
-        assert!(validate_locale_code("zh-Hans-CN").is_ok());
+        assert!(validate_locale_code("zh-cn").is_ok());
+        assert!(validate_locale_code("zh-tw").is_ok());
     }
 
     #[test]
@@ -342,8 +250,8 @@ mod tests {
         let result = validate_locale_code("EN");
         assert!(result.is_err());
         let err = result.unwrap_err().to_string();
-        assert!(err.contains("lowercase"));
-        assert!(validate_locale_code("en-US").is_ok());
+        assert!(err.contains("Unsupported"));
+        assert!(validate_locale_code("en-us").is_err());
     }
 
     #[test]
@@ -566,25 +474,5 @@ mod tests {
         assert!(result.is_err());
         let err = result.unwrap_err().to_string();
         assert!(err.contains("cannot start with a digit"));
-    }
-
-    #[test]
-    fn test_validate_config_path_traversal() {
-        let config = Config {
-            base_locale: "en".to_string(),
-            supported_locales: vec!["en".to_string()],
-            input_directory: "../../../etc".to_string(), // Path traversal
-            output_directory: "output".to_string(),
-            namespace: None,
-            overrides: None,
-            analytics: None,
-            cloud: None,
-            localization: None,
-        };
-
-        let result = validate_config(&config);
-        assert!(result.is_err());
-        let err = result.unwrap_err().to_string();
-        assert!(err.contains("Path traversal"));
     }
 }

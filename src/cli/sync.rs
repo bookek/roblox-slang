@@ -22,7 +22,7 @@ pub async fn sync(table_id: Option<String>, strategy: Option<String>, dry_run: b
                 "Invalid merge strategy: '{}'\n\
                  \n\
                  Valid strategies:\n\
-                 - overwrite: Replace all cloud translations with local\n\
+                 - overwrite: Upload all local translations to cloud\n\
                  - merge: Merge local and cloud, prefer cloud for conflicts\n\
                  - skip-conflicts: Only sync non-conflicting entries",
                 strategy_str
@@ -52,7 +52,6 @@ pub async fn sync(table_id: Option<String>, strategy: Option<String>, dry_run: b
     println!("\n{} Sync complete!", "✓".green().bold());
     println!("  Entries added: {}", stats.entries_added);
     println!("  Entries updated: {}", stats.entries_updated);
-    println!("  Entries deleted: {}", stats.entries_deleted);
 
     if stats.conflicts_skipped > 0 {
         println!(

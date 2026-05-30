@@ -28,7 +28,7 @@ impl RobloxCloudClient {
     pub fn new(api_key: String) -> Result<Self> {
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(30))
-            .user_agent("roblox-slang/2.0.2")
+            .user_agent(format!("roblox-slang/{}", env!("CARGO_PKG_VERSION")))
             .build()
             .context("Failed to create HTTP client")?;
 

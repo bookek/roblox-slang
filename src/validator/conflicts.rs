@@ -1,5 +1,6 @@
 use crate::parser::Translation;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
+
 pub fn detect_conflicts(translations: &[Translation]) -> Vec<String> {
     let mut conflicts = Vec::new();
     let mut seen_keys: HashMap<(String, String), usize> = HashMap::new();
@@ -12,8 +13,9 @@ pub fn detect_conflicts(translations: &[Translation]) -> Vec<String> {
             conflicts.push(format!("Duplicate key '{}' in locale '{}'", key.1, key.0));
         }
     }
-    let unique_conflicts: HashSet<String> = conflicts.into_iter().collect();
-    unique_conflicts.into_iter().collect()
+    conflicts.sort();
+    conflicts.dedup();
+    conflicts
 }
 
 #[cfg(test)]

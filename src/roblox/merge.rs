@@ -10,7 +10,6 @@ pub struct Diff {
     pub added_local: Vec<(String, String, String)>, // (key, locale, value)
     pub added_cloud: Vec<(String, String, String)>, // (key, locale, value)
     pub modified_both: Vec<(String, String, String, String)>, // (key, locale, local_value, cloud_value)
-    pub deleted_local: Vec<(String, String)>,                 // (key, locale)
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Conflict {
@@ -35,7 +34,6 @@ impl MergeEngine {
         let mut added_local = Vec::new();
         let mut added_cloud = Vec::new();
         let mut modified_both = Vec::new();
-        let mut deleted_local = Vec::new();
         for ((key, locale), local_value) in local {
             if let Some(cloud_value) = cloud.get(&(key.clone(), locale.clone())) {
                 if local_value != cloud_value {
@@ -55,17 +53,11 @@ impl MergeEngine {
                 added_cloud.push((key.clone(), locale.clone(), cloud_value.clone()));
             }
         }
-        for (key, locale) in cloud.keys() {
-            if !local.contains_key(&(key.clone(), locale.clone())) {
-                deleted_local.push((key.clone(), locale.clone()));
-            }
-        }
 
         Diff {
             added_local,
             added_cloud,
             modified_both,
-            deleted_local,
         }
     }
     pub fn apply_strategy(
@@ -188,7 +180,6 @@ mod tests {
         assert_eq!(diff.modified_both[0].1, "en");
         assert_eq!(diff.modified_both[0].2, "Buy");
         assert_eq!(diff.modified_both[0].3, "Purchase");
-        assert_eq!(diff.deleted_local.len(), 1);
     }
 
     #[test]
@@ -241,7 +232,6 @@ mod tests {
         assert_eq!(diff.added_local.len(), 0);
         assert_eq!(diff.added_cloud.len(), 0);
         assert_eq!(diff.modified_both.len(), 0);
-        assert_eq!(diff.deleted_local.len(), 0);
     }
 
     #[test]
@@ -258,6 +248,5 @@ mod tests {
         assert_eq!(diff.added_local.len(), 0);
         assert_eq!(diff.added_cloud.len(), 0);
         assert_eq!(diff.modified_both.len(), 0);
-        assert_eq!(diff.deleted_local.len(), 0);
     }
 }

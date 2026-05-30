@@ -8,6 +8,7 @@ pub struct CoverageInfo {
     pub total_keys: usize,
     pub translated_keys: usize,
     pub missing_keys: Vec<String>,
+    pub extra_keys: Vec<String>,
     pub coverage_percent: f64,
 }
 
@@ -21,6 +22,7 @@ mod tests {
             total_keys: 100,
             translated_keys: 80,
             missing_keys: vec!["key1".to_string(), "key2".to_string()],
+            extra_keys: vec![],
             coverage_percent: 80.0,
         };
 
@@ -36,6 +38,7 @@ mod tests {
             total_keys: 50,
             translated_keys: 50,
             missing_keys: vec![],
+            extra_keys: vec![],
             coverage_percent: 100.0,
         };
 
@@ -50,6 +53,7 @@ mod tests {
             total_keys: 10,
             translated_keys: 5,
             missing_keys: vec!["test".to_string()],
+            extra_keys: vec![],
             coverage_percent: 50.0,
         };
 

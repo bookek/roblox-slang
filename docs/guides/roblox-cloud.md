@@ -293,9 +293,9 @@ roblox-slang sync --table-id your_table_id --strategy overwrite
 
 **Merge Strategies:**
 
-1. **overwrite**: Replace all cloud translations with local
+1. **overwrite**: Upload all local translations to cloud
    - Use when: Local is source of truth
-   - Effect: Cloud = Local (complete replacement)
+   - Effect: Local values overwrite matching cloud values
 
 2. **merge** (recommended): Merge local and cloud, prefer cloud for conflicts
    - Use when: Want both local and cloud changes
@@ -315,7 +315,6 @@ roblox-slang sync --table-id your_table_id --strategy overwrite
 ✓ Sync complete!
   Entries added: 25
   Entries updated: 10
-  Entries deleted: 0
   ⚠ Conflicts skipped: 3
   Duration: 3.12s
 

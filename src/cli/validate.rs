@@ -119,10 +119,10 @@ pub fn validate(
             &config.supported_locales,
         );
         println!(
-            "{:<10} {:<10} {:<12} {:<10}",
-            "Locale", "Keys", "Coverage", "Missing"
+            "{:<10} {:<10} {:<12} {:<10} {:<10}",
+            "Locale", "Keys", "Coverage", "Missing", "Extra"
         );
-        println!("{}", "-".repeat(45));
+        println!("{}", "-".repeat(56));
         for locale in &config.supported_locales {
             if let Some(info) = coverage.get(locale) {
                 let coverage_str = format!("{:.1}%", info.coverage_percent);
@@ -131,10 +131,15 @@ pub fn validate(
                 } else {
                     info.missing_keys.len().to_string()
                 };
+                let extra_str = if info.extra_keys.is_empty() {
+                    "-".to_string()
+                } else {
+                    info.extra_keys.len().to_string()
+                };
 
                 println!(
-                    "{:<10} {:<10} {:<12} {:<10}",
-                    locale, info.translated_keys, coverage_str, missing_str
+                    "{:<10} {:<10} {:<12} {:<10} {:<10}",
+                    locale, info.translated_keys, coverage_str, missing_str, extra_str
                 );
             }
         }
