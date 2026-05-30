@@ -10,7 +10,7 @@ use std::path::Path;
 #[command(
     long_about = "Roblox Slang is a CLI tool that generates type-safe Luau code from translation files.\n\
                         Write translations in JSON/YAML, generate type-safe code with autocomplete support.\n\n\
-                        For more information, visit: https://github.com/mathtechstudio/roblox-slang"
+                        For more information, visit: https://github.com/bookek/roblox-slang"
 )]
 #[command(author = "Iqbal Fauzien <iqbalfauzien@proton.me>")]
 struct Cli {
